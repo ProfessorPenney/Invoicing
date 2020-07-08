@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Joe's Invoices</title>
+</head>
+
+<body>
+    <div class="container">
+        <div id="main-grid">
+
+            <div id="dashboard">
+                <h3>Summary</h3>
+                <h5>Outstanding invoices: <span id="outstanding-invoices"></span></h5>
+                <h5>Outstanding total: <span id="outstanding-total" class="dolla-sign"></span></h5>
+                <h5>Year to Date Income: <span id="year-to-date-income" class="dolla-sign"></span></h5>
+                <h5>Last Year Income: <span id="last-year-income" class="dolla-sign"></span></h5>
+                <button id="">Create template invoice items</button>
+            </div>
+
+            <form id="create-invoice">
+                <label for="customer">Customer</label>
+                <input id="customer" type="text" list="customer-list" placeholder="Name" oninput="custInput()">
+                <datalist id="customer-list">
+                    <option value="Customers didn't load. hmmm..."></option>
+                </datalist>
+                <input id="street" type="text" placeholder="Street">
+                <input id="city-state-zip" type="text" placeholder="City, State Zipcode">
+                <label for="due">Due:</label>
+                <input id="due" type="number" placeholder="Days until due">
+                <input type="button" id="create-invoice-btn" value="CreateInvoice">
+            </form>
+
+            <table id="invoice-list">
+                <tr>
+                    <th>Invoice</th>
+                    <th>Customer</th>
+                    <th>Total Due</th>
+                    <th>Date</th>
+                    <th>Due</th>
+                    <th>Payment Status</th>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "invoice-regular",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index",
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  }
+}
