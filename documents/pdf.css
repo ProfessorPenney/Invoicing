@@ -1,0 +1,60 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  border: 1px solid #eee;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: Arial, Helvetica, sans-serif, 'Helvetica';
+  color: #555;
+}
+
+#Header {
+  display: -ms-grid;
+  display: grid;
+}
+
+.justify-center {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  text-align: right;
+  border-collapse: collapse;
+}
+
+table th {
+  background: #eee;
+  height: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+table td {
+  border-left: 1px solid #ddd;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+table tr :first-child {
+  border-left: none;
+  text-align: left;
+}
+
+table tr :nth-child(2) {
+  width: 50px;
+}
+
+table tr :nth-child(3) {
+  width: 100px;
+}
+
+table tr :nth-child(4) {
+  width: 100px;
+}
+
+table tr * {
+  border-bottom: 1px solid #ddd;
+}
+/*# sourceMappingURL=pdf.css.map */

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>PDF Result Template</title>
+		<link rel="stylesheet" href="pdf.css" />
+		<style></style>
+	</head>
+	<body>
+		<div class="container">
+			<div id="header">
+				<h3>Joe's Landscaping</h3>
+				<h5>
+					Date: ${`${today.getDate()}. ${today.getMonth() + 1}.
+					${today.getFullYear()}.`}
+				</h5>
+				<h5>
+					Customer name: ${name} Customer Address
+				</h5>
+				<h5>
+					Invoice number: ${receiptId}
+				</h5>
+				<h4>Invoice Total Up Top</h4>
+			</div>
+			<table id="">
+				<tr id="heading">
+					<th>Description</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+					<th>Total Price</th>
+				</tr>
+				<tr class="items">
+					<td>First item</td>
+					<td>First Qty</td>
+					<td>First Unit</td>
+					<td>${price1}$</td>
+				</tr>
+				<tr class="items">
+					<td>Second item</td>
+					<td>Second Qty</td>
+					<td>Second Unit</td>
+					<td>${price2}$</td>
+				</tr>
+			</table>
+			<br />
+			<h1 class="justify-center">
+				Total price: ${parseInt(price1) + parseInt(price2)}$
+			</h1>
+		</div>
+	</body>
+</html>
