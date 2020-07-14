@@ -3,7 +3,8 @@ const invoiceCust = document.querySelector('#customer')
 const invoiceAddress = document.querySelector('#address')
 const invoiceTotal = document.querySelector('#total')
 const invoiceDate = document.querySelector('#date')
-const invoiceSent = document.querySelector('#sent')
+const invoiceDueDate = document.querySelector('#due')
+// const invoiceSent = document.querySelector('#sent')
 const invoicePaid = document.querySelector('#paid')
 const itemList = document.querySelector('#line-item-list ul')
 const addBtn = document.querySelector('#add-item-btn')
@@ -48,9 +49,9 @@ function createAndDownloadPdf() {
          name: '',
          receiptId: 0,
          price1: 0,
-         price2: 0,
+         price2: 0
       }),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.blob())
       .then(data => {
@@ -108,7 +109,8 @@ function fillData(invoice) {
                                  ${invoice.customer.address.cityStateZip}`
    invoiceTotal.textContent = invoice.total.toFixed(2)
    invoiceDate.textContent = `${invoice.date.month}/${invoice.date.day}/${invoice.date.year}`
-   invoiceSent.textContent = invoice.sent === true ? 'Emailed' : 'Nope'
+   invoiceDueDate.textContent = `${invoice.dueDate.month}/${invoice.dueDate.day}/${invoice.dueDate.year}`
+   // invoiceSent.textContent = invoice.sent === true ? 'Emailed' : 'Nope'
    invoicePaid.textContent = invoice.paid === true ? 'Paid' : 'Outstanding'
 
    if (!invoice.lineItems.length) {
@@ -170,7 +172,7 @@ function getAndResetModalValues() {
       title: modalTitle.value,
       quantity: +modalQty.value,
       unitPrice: +modalPrice.value,
-      description: modalDescrip.value,
+      description: modalDescrip.value
    }
    modalTitle.value = ''
    modalQty.value = '1'
@@ -188,7 +190,7 @@ function editLineItem() {
    fetch(`/api/invoices/${invoiceId}`, {
       method: 'PUT',
       body: JSON.stringify(body),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
       .then(fillData)
@@ -201,7 +203,7 @@ function addLineItem() {
    fetch(`/api/invoices/${invoiceId}`, {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
       .then(fillData)
@@ -245,9 +247,9 @@ function saveTemplateItem() {
          title: modalTitle.value,
          qty: modalQty.value,
          unitPrice: modalPrice.value,
-         description: modalDescrip.value,
+         description: modalDescrip.value
       }),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
       .then(fillDataListOptions)
@@ -273,9 +275,9 @@ function drop(e, el) {
       method: 'PATCH',
       body: JSON.stringify({
          oldIndex,
-         newIndex,
+         newIndex
       }),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
       .then(fillData)
@@ -286,9 +288,9 @@ function deleteItem() {
    fetch(`/api/invoices/${invoiceId}`, {
       method: 'DELETE',
       body: JSON.stringify({
-         index: this.previousSibling.id,
+         index: this.previousSibling.id
       }),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
       .then(fillData)
