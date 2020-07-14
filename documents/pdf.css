@@ -1,31 +1,46 @@
 .container {
-  max-width: 900px;
+  max-width: 850px;
   margin: auto;
   padding: 30px;
-  border: 1px solid #eee;
   font-size: 16px;
   line-height: 24px;
   font-family: Arial, Helvetica, sans-serif, 'Helvetica';
   color: #555;
 }
 
-#Header {
-  display: -ms-grid;
-  display: grid;
+#header {
+  position: relative;
 }
 
-.justify-center {
-  text-align: center;
+#header #invoice-bold {
+  position: absolute;
+  margin-top: 0;
+  right: 80px;
+  top: 0;
+  letter-spacing: 0.5em;
+}
+
+#header #top-stats {
+  position: absolute;
+  left: 650px;
+  top: 100px;
+}
+
+#header #top-total {
+  position: absolute;
+  right: 400px;
+  top: 80px;
 }
 
 table {
   width: 100%;
   text-align: right;
   border-collapse: collapse;
+  font-size: large;
 }
 
 table th {
-  background: #eee;
+  background: #afafaf;
   height: 30px;
   padding-left: 5px;
   padding-right: 5px;
@@ -56,5 +71,17 @@ table tr :nth-child(4) {
 
 table tr * {
   border-bottom: 1px solid #ddd;
+}
+
+#table-total {
+  margin-left: auto;
+  text-align: right;
+  width: 220px;
+}
+
+#table-total span {
+  margin-right: 5px;
+  display: inline-block;
+  width: 100px;
 }
 /*# sourceMappingURL=pdf.css.map */

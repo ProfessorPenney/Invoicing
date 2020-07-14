@@ -1,69 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Invoice</title>
+		<link rel="stylesheet" href="../style.css" />
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
-    <link rel="stylesheet" href="../style.css">
-</head>
+	<body>
+		<div class="container">
+			<div id="invoice-info">
+				<h2>Invoice # <span id="invoice-num"></span></h2>
+				<h2>Customer: <span id="customer"></span></h2>
+				<h2>Address: <span id="address"></span></h2>
+				<h2>Total: <span id="total" class="dolla-sign"></span></h2>
+				<h2>Date: <span id="date"></span></h2>
+				<h2>Sent: <span id="sent"></span></h2>
+				<h2>Paid: <span id="paid"></span></h2>
+				<button id="add-item-btn">
+					+
+					<p>add new item</p>
+				</button>
+				<br />
+				<button id="download">Download PDF</button>
+			</div>
 
-<body>
-    <div class="container">
+			<div id="line-item-list">
+				<div>
+					<h4>Invoice Items</h4>
+					<h4>Qty</h4>
+					<h4>Unit Price</h4>
+					<h4>Total</h4>
+				</div>
+				<ul></ul>
+			</div>
 
-        <div id="invoice-info">
-            <h2>Invoice # <span id="invoice-num"></span></h2>
-            <h2>Customer: <span id="customer"></span></h2>
-            <h2>Address: <span id="address"></span></h2>
-            <h2>Total: <span id="total" class="dolla-sign"></span></h2>
-            <h2>Date: <span id="date"></span></h2>
-            <h2>Sent: <span id="sent"></span></h2>
-            <h2>Paid: <span id="paid"></span></h2>
-            <button id='add-item-btn'>+
-                <p>add new item</p>
-            </button>
-
-        </div>
-
-        <div id="line-item-list">
-            <div>
-                <h4>Invoice Items</h4>
-                <h4>Qty</h4>
-                <h4>Unit Price</h4>
-                <h4>Total</h4>
-            </div>
-            <ul>
-
-            </ul>
-        </div>
-
-        <div class="modal add-modal edit-modal display-none" id="modal-add">
-            <div class="pop-up">
-                <h2 class="edit-modal display-none">Edit line item</h2>
-                <h2 class="add-modal display-none">Add line item</h2>
-                <button class="cancel" id="cancel">x</button>
-                <input id="title" class="title" type="text" list='items' placeholder="Title" oninput="onInput()">
-                <datalist id='items'>
-                    <option value="Template Items didn't load.."></option>
-                    <option value="Frosting with Extra Sprinkles?"></option>
-                </datalist>
-                <label for="qty">Quantity:</label>
-                <input id="qty" type="number" Value="1">
-                <label for="price">Unit Price:</label><span class="input-dolla">$</span>
-                <input id="price" type="text">
-                <textarea id="description" placeholder="description"></textarea>
-                <button class="modal-add-btn modal-add-btn add-modal display-none">Add Item & Quit</button>
-                <button class="modal-add-more-btn modal-add-btn add-modal display-none">Add Item & More</button>
-                <button class="modal-edit-btn edit-modal display-none">Edit Item & Quit</button>
-                <button class="modal-add-template-btn add-modal display-none">Save as template</button>
-            </div>
-        </div>
-
-    </div>
-
-
-
-    <script src="invoice.js"></script>
-</body>
-
+			<div class="modal add-modal edit-modal display-none" id="modal-add">
+				<div class="pop-up">
+					<h2 class="edit-modal display-none">Edit line item</h2>
+					<h2 class="add-modal display-none">Add line item</h2>
+					<button class="cancel" id="cancel">x</button>
+					<input
+						id="title"
+						class="title"
+						type="text"
+						list="items"
+						placeholder="Title"
+						oninput="onInput()"
+					/>
+					<datalist id="items">
+						<option value="Template Items didn't load.."></option>
+						<option value="Frosting with Extra Sprinkles?"></option>
+					</datalist>
+					<label for="qty">Quantity:</label>
+					<input id="qty" type="number" value="1" />
+					<label for="price">Unit Price:</label
+					><span class="input-dolla">$</span>
+					<input id="price" type="text" />
+					<textarea id="description" placeholder="description"></textarea>
+					<button class="modal-add-btn modal-add-btn add-modal display-none">
+						Add Item & Quit
+					</button>
+					<button
+						class="modal-add-more-btn modal-add-btn add-modal display-none"
+					>
+						Add Item & More
+					</button>
+					<button class="modal-edit-btn edit-modal display-none">
+						Edit Item & Quit
+					</button>
+					<button class="modal-add-template-btn add-modal display-none">
+						Save as template
+					</button>
+				</div>
+			</div>
+		</div>
+		<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+		<script src="https://www.jsdelivr.com/package/npm/html-pdf"></script>
+		<script src="invoice.js"></script>
+	</body>
 </html>

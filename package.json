@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
+    "html-pdf": "^2.2.0",
     "path": "^0.12.7"
-  }
+  },
+  "devDependencies": {}
 }
