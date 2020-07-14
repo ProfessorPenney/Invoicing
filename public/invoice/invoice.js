@@ -8,6 +8,8 @@ const invoiceDueDate = document.querySelector('#due')
 const invoicePaid = document.querySelector('#paid')
 const itemList = document.querySelector('#line-item-list ul')
 const addBtn = document.querySelector('#add-item-btn')
+const downloadBtn = document.querySelector('#download')
+const PaymentBtn = document.querySelector('#payment-btn')
 
 const modal = document.querySelector('#modal-add')
 const addModals = document.querySelectorAll('.add-modal')
@@ -22,27 +24,18 @@ const modalQty = document.querySelector('#qty')
 const modalPrice = document.querySelector('#price')
 const modalDescrip = document.querySelector('#description')
 
+const paymentModal = document.querySelector('#payment-modal')
+const acceptPayment = document.querySelector('#accept-payment-btn')
+const cancelPayment = document.querySelector('#cancel-payment')
+
 const invoiceId = sessionStorage.getItem('id')
 
 let templates = []
 let itemId = null
 
-const downloadBtn = document.querySelector('#download')
-
 downloadBtn.addEventListener('click', createAndDownloadPdf)
 
 function createAndDownloadPdf() {
-   // fetch('/api/invoices/' + invoiceId)
-   // .then(res => res.json())
-   // .then(invoice => {
-   // 	fetch('/api/pdf')
-   // 		.then(res => res.blob())
-   // 		.then(data => {
-   // 			const pdfBlob = new Blob([data], { type: 'application/pdf' })
-   // 			saveAs(pdfBlob, 'tempPdf.pdf')
-   // 		})
-   // }
-
    fetch(`/api/invoices/${invoiceId}/pdf`, {
       method: 'POST',
       body: JSON.stringify({
@@ -87,6 +80,14 @@ modalTemplateBtn.addEventListener('click', saveTemplateItem)
 modalEditBtn.addEventListener('click', () => {
    editLineItem()
    cancelModal.click()
+})
+
+PaymentBtn.addEventListener('click', () => {
+   paymentModal.classList.remove('display-none')
+})
+
+cancelPayment.addEventListener('click', () => {
+   paymentModal.classList.add('display-none')
 })
 
 fetchDataListOptions()

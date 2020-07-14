@@ -231,21 +231,6 @@ app.post('/api/invoices/:id/pdf', (req, res) => {
 				</tr> `
       })
 
-      // const row = document.createElement('tr')
-      // const titleTD = document.createElement('td')
-      // titleTD.textContent = lineItems[0].title
-      // const quantityTD = document.createElement('td')
-      // quantityTD.textContent = lineItems[0].quantity
-      // const unitPriceTD = document.createElement('td')
-      // unitPriceTD.textContent = lineItems[0].unitPrice
-      // const totalPriceTD = document.createElement('td')
-      // totalPriceTD.textContent = lineItems[0].amount
-
-      // row.appendChild(titleTD)
-      // row.appendChild(quantityTD)
-      // row.appendChild(unitPriceTD)
-      // row.appendChild(totalPriceTD)
-
       const pdfData = {
          custName: customer.name,
          custStreet: customer.address.street,

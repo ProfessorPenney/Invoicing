@@ -1,298 +1,305 @@
 {
-   "numberofInvoices": 110,
-   "customers": [
-      {
-         "name": "The Callahan Family",
-         "address": {
-            "street": "123 Dono St",
-            "cityStateZip": "Tiburon, CA 94920"
-         }
-      },
-      {
-         "name": "Mrs. Old Lady",
-         "address": {
-            "street": "456 Happy Hill St",
-            "cityStateZip": "Tiburon, CA 94920"
-         }
-      },
-      {
-         "name": "Rich Lawyer Guy",
-         "address": {
-            "street": "789 Ballin' Ave",
-            "cityStateZip": "Tiburon, CA 94920"
-         }
+  "numberofInvoices": 110,
+  "customers": [
+    {
+      "name": "The Callahan Family",
+      "address": {
+        "street": "123 Dono St",
+        "cityStateZip": "Tiburon, CA 94920"
       }
-   ],
-   "templates": [
-      {
-         "title": "Joe's Labor",
-         "description": "We worked super hard, dude",
-         "quantity": 8,
-         "unitPrice": 50
-      },
-      {
-         "title": "Landscaping Crew - 3 guys",
-         "description": "",
-         "quantity": 1,
-         "unitPrice": 90
-      },
-      {
-         "title": "Purchase",
-         "description": "Item description",
-         "quantity": 1,
-         "unitPrice": 1
-      },
-      {
-         "title": "One laborer",
-         "description": "Extra Project",
-         "quantity": 1,
-         "unitPrice": 30
-      },
-      {
-         "title": "Testing Template",
-         "description": "Template test",
-         "quantity": 3,
-         "unitPrice": 20
+    },
+    {
+      "name": "Mrs. Old Lady",
+      "address": {
+        "street": "456 Happy Hill St",
+        "cityStateZip": "Tiburon, CA 94920"
       }
-   ],
-   "invoices": [
-      {
-         "id": 110,
-         "customer": {
-            "name": "Poopoo Face",
-            "address": {
-               "street": "1234567 Smash Dr",
-               "cityStateZip": "Superduper, CA 94945"
-            }
-         },
-         "total": 1850,
-         "date": {
-            "month": 6,
-            "day": 13,
-            "year": 2020
-         },
-         "dueDate": {
-            "month": 6,
-            "day": 14,
-            "year": 2020
-         },
-         "sent": false,
-         "payment": {
-            "paid": false,
-            "date": {}
-         },
-         "lineItems": [
-            {
-               "title": "Landscaping Crew - 3 guys",
-               "description": "",
-               "quantity": 3,
-               "unitPrice": 100,
-               "amount": 300
-            },
-            {
-               "title": "Joe's Labor",
-               "description": "",
-               "quantity": 1,
-               "unitPrice": 50,
-               "amount": 50
-            },
-            {
-               "title": "Joe's Labor",
-               "description": "fgj",
-               "quantity": 1,
-               "unitPrice": 500,
-               "amount": 500
-            }
-         ]
-      },
-      {
-         "id": 109,
-         "customer": {
-            "name": "The Callahan Family",
-            "address": {
-               "street": "123 Dono St",
-               "cityStateZip": "Tiburon, CA 94920"
-            }
-         },
-         "total": 760,
-         "date": {
-            "month": 5,
-            "day": 25,
-            "year": 2020
-         },
-         "dueDate": {
-            "month": 6,
-            "day": 20,
-            "year": 2020
-         },
-         "sent": true,
-         "payment": {
-            "paid": true,
-            "date": {
-               "month": 6,
-               "day": 20,
-               "year": 2020
-            }
-         },
-         "lineItems": [
-            {
-               "title": "Joe's Labor",
-               "description": "",
-               "quantity": 1,
-               "unitPrice": 80,
-               "amount": 80
-            },
-            {
-               "title": "Purchase",
-               "description": "fertilizer",
-               "quantity": 1,
-               "unitPrice": 25,
-               "amount": 25
-            },
-            {
-               "title": "Joe's Labor",
-               "description": "",
-               "quantity": 3,
-               "unitPrice": 80,
-               "amount": 240
-            },
-            {
-               "title": "Joe's Labor",
-               "description": "",
-               "quantity": 3,
-               "unitPrice": 40,
-               "amount": 120
-            },
-            {
-               "title": "Landscaping Crew - 3 guys",
-               "description": "",
-               "quantity": 1,
-               "unitPrice": 120,
-               "amount": 120
-            },
-            {
-               "title": "Purchase",
-               "description": "shovels",
-               "quantity": 3,
-               "unitPrice": 25,
-               "amount": 75
-            },
-            {
-               "title": "Testing Template",
-               "description": "changing to numbers",
-               "quantity": 5,
-               "unitPrice": 20,
-               "amount": 100
-            }
-         ]
-      },
-      {
-         "id": 108,
-         "customer": {
-            "name": "Rich Lawyer Guy",
-            "address": {
-               "street": "789 Ballin' Ave",
-               "cityStateZip": "Tiburon, CA 94920"
-            }
-         },
-         "total": 80,
-         "date": {
-            "month": 5,
-            "day": 24,
-            "year": 2020
-         },
-         "dueDate": {
-            "month": 6,
-            "day": 19,
-            "year": 2020
-         },
-         "sent": false,
-         "payment": {
-            "paid": false,
-            "date": {}
-         },
-         "lineItems": [
-            {
-               "title": "Joe's Labor",
-               "description": "",
-               "quantity": 1,
-               "unitPrice": 80,
-               "amount": 80
-            }
-         ]
-      },
-      {
-         "id": 107,
-         "customer": {
-            "name": "Mrs. Old Lady",
-            "address": {
-               "street": "456 Happy Hill St",
-               "cityStateZip": "Tiburon, CA 94920"
-            }
-         },
-         "total": 0,
-         "date": {
-            "month": 5,
-            "day": 24,
-            "year": 2020
-         },
-         "dueDate": {
-            "month": 6,
-            "day": 4,
-            "year": 2020
-         },
-         "sent": true,
-         "payment": {
-            "paid": false,
-            "date": {}
-         },
-         "lineItems": []
-      },
-      {
-         "id": 106,
-         "customer": {
-            "name": "The Callahan Family",
-            "address": {
-               "street": "123 Dono St",
-               "cityStateZip": "Tiburon, CA 94920"
-            }
-         },
-         "total": 275,
-         "date": {
-            "month": 5,
-            "day": 24,
-            "year": 2020
-         },
-         "dueDate": {
-            "month": 5,
-            "day": 29,
-            "year": 2020
-         },
-         "sent": true,
-         "payment": {
-            "paid": true,
-            "date": {
-               "month": 5,
-               "day": 29,
-               "year": 2019
-            }
-         },
-         "lineItems": [
-            {
-               "title": "Joe's Labor",
-               "description": "ghgdh",
-               "quantity": 1,
-               "unitPrice": 50,
-               "amount": 50
-            },
-            {
-               "title": "Landscaping Crew - 3 guys",
-               "description": "",
-               "quantity": 3,
-               "unitPrice": 75,
-               "amount": 225
-            }
-         ]
+    },
+    {
+      "name": "Rich Lawyer Guy",
+      "address": {
+        "street": "789 Ballin' Ave",
+        "cityStateZip": "Tiburon, CA 94920"
       }
-   ]
+    }
+  ],
+  "templates": [
+    {
+      "title": "Joe's Labor",
+      "description": "We worked super hard, dude",
+      "quantity": 8,
+      "unitPrice": 50
+    },
+    {
+      "title": "Landscaping Crew - 3 guys",
+      "description": "",
+      "quantity": 1,
+      "unitPrice": 90
+    },
+    {
+      "title": "Purchase",
+      "description": "Item description",
+      "quantity": 1,
+      "unitPrice": 1
+    },
+    {
+      "title": "One laborer",
+      "description": "Extra Project",
+      "quantity": 1,
+      "unitPrice": 30
+    },
+    {
+      "title": "Testing Template",
+      "description": "Template test",
+      "quantity": 3,
+      "unitPrice": 20
+    }
+  ],
+  "invoices": [
+    {
+      "id": 110,
+      "customer": {
+        "name": "Poopoo Face",
+        "address": {
+          "street": "1234567 Smash Dr",
+          "cityStateZip": "Superduper, CA 94945"
+        }
+      },
+      "total": 880,
+      "date": {
+        "month": 6,
+        "day": 13,
+        "year": 2020
+      },
+      "dueDate": {
+        "month": 6,
+        "day": 14,
+        "year": 2020
+      },
+      "sent": false,
+      "payment": {
+        "paid": false,
+        "date": {}
+      },
+      "lineItems": [
+        {
+          "title": "Landscaping Crew - 3 guys",
+          "description": "",
+          "quantity": 3,
+          "unitPrice": 100,
+          "amount": 300
+        },
+        {
+          "title": "Joe's Labor",
+          "description": "",
+          "quantity": 1,
+          "unitPrice": 50,
+          "amount": 50
+        },
+        {
+          "title": "Joe's Labor",
+          "description": "fgj",
+          "quantity": 1,
+          "unitPrice": 500,
+          "amount": 500
+        },
+        {
+          "title": "Purchase",
+          "description": "bag o stuff",
+          "quantity": 1,
+          "unitPrice": 30,
+          "amount": 30
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "customer": {
+        "name": "The Callahan Family",
+        "address": {
+          "street": "123 Dono St",
+          "cityStateZip": "Tiburon, CA 94920"
+        }
+      },
+      "total": 760,
+      "date": {
+        "month": 5,
+        "day": 25,
+        "year": 2020
+      },
+      "dueDate": {
+        "month": 6,
+        "day": 20,
+        "year": 2020
+      },
+      "sent": true,
+      "payment": {
+        "paid": true,
+        "date": {
+          "month": 6,
+          "day": 20,
+          "year": 2020
+        }
+      },
+      "lineItems": [
+        {
+          "title": "Joe's Labor",
+          "description": "",
+          "quantity": 1,
+          "unitPrice": 80,
+          "amount": 80
+        },
+        {
+          "title": "Purchase",
+          "description": "fertilizer",
+          "quantity": 1,
+          "unitPrice": 25,
+          "amount": 25
+        },
+        {
+          "title": "Joe's Labor",
+          "description": "",
+          "quantity": 3,
+          "unitPrice": 80,
+          "amount": 240
+        },
+        {
+          "title": "Joe's Labor",
+          "description": "",
+          "quantity": 3,
+          "unitPrice": 40,
+          "amount": 120
+        },
+        {
+          "title": "Landscaping Crew - 3 guys",
+          "description": "",
+          "quantity": 1,
+          "unitPrice": 120,
+          "amount": 120
+        },
+        {
+          "title": "Purchase",
+          "description": "shovels",
+          "quantity": 3,
+          "unitPrice": 25,
+          "amount": 75
+        },
+        {
+          "title": "Testing Template",
+          "description": "changing to numbers",
+          "quantity": 5,
+          "unitPrice": 20,
+          "amount": 100
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "customer": {
+        "name": "Rich Lawyer Guy",
+        "address": {
+          "street": "789 Ballin' Ave",
+          "cityStateZip": "Tiburon, CA 94920"
+        }
+      },
+      "total": 80,
+      "date": {
+        "month": 5,
+        "day": 24,
+        "year": 2020
+      },
+      "dueDate": {
+        "month": 6,
+        "day": 19,
+        "year": 2020
+      },
+      "sent": false,
+      "payment": {
+        "paid": false,
+        "date": {}
+      },
+      "lineItems": [
+        {
+          "title": "Joe's Labor",
+          "description": "",
+          "quantity": 1,
+          "unitPrice": 80,
+          "amount": 80
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "customer": {
+        "name": "Mrs. Old Lady",
+        "address": {
+          "street": "456 Happy Hill St",
+          "cityStateZip": "Tiburon, CA 94920"
+        }
+      },
+      "total": 0,
+      "date": {
+        "month": 5,
+        "day": 24,
+        "year": 2020
+      },
+      "dueDate": {
+        "month": 6,
+        "day": 4,
+        "year": 2020
+      },
+      "sent": true,
+      "payment": {
+        "paid": false,
+        "date": {}
+      },
+      "lineItems": []
+    },
+    {
+      "id": 106,
+      "customer": {
+        "name": "The Callahan Family",
+        "address": {
+          "street": "123 Dono St",
+          "cityStateZip": "Tiburon, CA 94920"
+        }
+      },
+      "total": 275,
+      "date": {
+        "month": 5,
+        "day": 24,
+        "year": 2020
+      },
+      "dueDate": {
+        "month": 5,
+        "day": 29,
+        "year": 2020
+      },
+      "sent": true,
+      "payment": {
+        "paid": true,
+        "date": {
+          "month": 5,
+          "day": 29,
+          "year": 2019
+        }
+      },
+      "lineItems": [
+        {
+          "title": "Joe's Labor",
+          "description": "ghgdh",
+          "quantity": 1,
+          "unitPrice": 50,
+          "amount": 50
+        },
+        {
+          "title": "Landscaping Crew - 3 guys",
+          "description": "",
+          "quantity": 3,
+          "unitPrice": 75,
+          "amount": 225
+        }
+      ]
+    }
+  ]
 }

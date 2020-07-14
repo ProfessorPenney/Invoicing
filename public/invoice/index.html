@@ -24,6 +24,7 @@
             </button>
             <br />
             <button id="download">Download PDF</button>
+            <button id="payment-btn">Add Payment</button>
          </div>
 
          <div id="line-item-list">
@@ -34,6 +35,21 @@
                <h4>Total</h4>
             </div>
             <ul></ul>
+         </div>
+
+         <div id="payment-modal" class="modal display-none">
+            <div id="payment-window" class="pop-up">
+               <form>
+                  <h2>Add payment</h2>
+                  <button class="cancel" id="cancel-payment">x</button>
+                  <label for="payment-amount">Amount $</label>
+                  <input type="text" id="payment-amount" />
+                  <label for="payment-date">Date</label>
+                  <input type="date" id="payment-date" />
+                  <textarea id="note" placeholder="notes"></textarea>
+                  <input type="button" id="accept-payment-btn" value="Add Payment" />
+               </form>
+            </div>
          </div>
 
          <div class="modal add-modal edit-modal display-none" id="modal-add">
