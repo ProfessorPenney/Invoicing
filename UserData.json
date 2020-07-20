@@ -1,5 +1,14 @@
 {
-  "numberofInvoices": 110,
+  "companyInfo": {
+    "name": "Joe's Gardens",
+    "address": {
+      "street": "21 Merrydale",
+      "cityStateZip": "San Rafael, CA 94903"
+    },
+    "phone": "415-415-4115",
+    "email": "joe@sexygardens.com"
+  },
+  "numberofInvoices": 111,
   "customers": [
     {
       "name": "The Callahan Family",
@@ -53,9 +62,72 @@
       "description": "Template test",
       "quantity": 3,
       "unitPrice": 20
+    },
+    {
+      "title": "New Template",
+      "description": "Great!??",
+      "quantity": 5,
+      "unitPrice": 20
     }
   ],
   "invoices": [
+    {
+      "id": 111,
+      "customer": {
+        "name": "Rich Lawyer Guy",
+        "address": {
+          "street": "789 Ballin' Ave",
+          "cityStateZip": "Tiburon, CA 94920"
+        }
+      },
+      "total": 600,
+      "date": {
+        "month": 6,
+        "day": 18,
+        "year": 2020
+      },
+      "dueDate": {
+        "month": 7,
+        "day": 2,
+        "year": 2020
+      },
+      "sent": false,
+      "payment": [
+        {
+          "amount": 150,
+          "date": {
+            "month": 7,
+            "day": 20,
+            "year": 2020
+          },
+          "note": "asdfas"
+        }
+      ],
+      "lineItems": [
+        {
+          "title": "Joe's Labor",
+          "description": "the usual\n",
+          "quantity": 5,
+          "unitPrice": 80,
+          "amount": 400
+        },
+        {
+          "title": "New Item",
+          "description": "Best item ever!",
+          "quantity": 2,
+          "unitPrice": 50,
+          "amount": 100
+        },
+        {
+          "title": "New Template",
+          "description": "Great!??",
+          "quantity": 5,
+          "unitPrice": 20,
+          "amount": 100
+        }
+      ],
+      "owed": 400
+    },
     {
       "id": 110,
       "customer": {
@@ -65,22 +137,20 @@
           "cityStateZip": "Superduper, CA 94945"
         }
       },
-      "total": 880,
+      "total": 1380,
       "date": {
         "month": 6,
         "day": 13,
         "year": 2020
       },
+      "owed": 1380,
       "dueDate": {
         "month": 6,
         "day": 14,
         "year": 2020
       },
       "sent": false,
-      "payment": {
-        "paid": false,
-        "date": {}
-      },
+      "payment": [],
       "lineItems": [
         {
           "title": "Landscaping Crew - 3 guys",
@@ -109,6 +179,13 @@
           "quantity": 1,
           "unitPrice": 30,
           "amount": 30
+        },
+        {
+          "title": "Purchase",
+          "description": "test",
+          "quantity": 1,
+          "unitPrice": 500,
+          "amount": 500
         }
       ]
     },
@@ -127,20 +204,14 @@
         "day": 25,
         "year": 2020
       },
+      "owed": 760,
       "dueDate": {
         "month": 6,
         "day": 20,
         "year": 2020
       },
       "sent": true,
-      "payment": {
-        "paid": true,
-        "date": {
-          "month": 6,
-          "day": 20,
-          "year": 2020
-        }
-      },
+      "payment": [],
       "lineItems": [
         {
           "title": "Joe's Labor",
@@ -208,16 +279,14 @@
         "day": 24,
         "year": 2020
       },
+      "owed": 80,
       "dueDate": {
         "month": 6,
         "day": 19,
         "year": 2020
       },
       "sent": false,
-      "payment": {
-        "paid": false,
-        "date": {}
-      },
+      "payment": [],
       "lineItems": [
         {
           "title": "Joe's Labor",
@@ -243,16 +312,14 @@
         "day": 24,
         "year": 2020
       },
+      "owed": 0,
       "dueDate": {
         "month": 6,
         "day": 4,
         "year": 2020
       },
       "sent": true,
-      "payment": {
-        "paid": false,
-        "date": {}
-      },
+      "payment": [],
       "lineItems": []
     },
     {
@@ -270,20 +337,14 @@
         "day": 24,
         "year": 2020
       },
+      "owed": 275,
       "dueDate": {
         "month": 5,
         "day": 29,
         "year": 2020
       },
       "sent": true,
-      "payment": {
-        "paid": true,
-        "date": {
-          "month": 5,
-          "day": 29,
-          "year": 2019
-        }
-      },
+      "payment": [],
       "lineItems": [
         {
           "title": "Joe's Labor",

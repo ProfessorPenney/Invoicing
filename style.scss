@@ -20,6 +20,21 @@ button:focus {
    outline: none;
 }
 
+// Header
+
+#company-header {
+   display: flex;
+   border: 2px solid black;
+   padding: 10px 20px 10px 20px;
+
+   #company-name {
+      flex-basis: 800px;
+   }
+   button {
+      flex-basis: 100px;
+   }
+}
+
 // Home screen
 
 #main-grid {
@@ -104,9 +119,59 @@ button:focus {
    td {
       vertical-align: middle;
    }
+
+   td:nth-child(5) {
+      color: red;
+   }
 }
 
 // One Invoice Screen
+
+#invoice-info {
+   #payments {
+      margin-top: 20px;
+      padding: 0 10px 0 10px;
+      border: 1px solid black;
+      border-radius: 10px;
+      width: 200px;
+      padding-bottom: 20px;
+
+      h2 {
+         text-align: center;
+      }
+
+      p {
+         margin-top: 0;
+         margin-bottom: 0px;
+         height: 24px;
+      }
+      #payments-div div {
+         display: flex;
+         flex-direction: row;
+         height: 24px;
+         margin-top: 16px;
+         p {
+            display: inline-block;
+         }
+         :first-child {
+            flex-basis: 70px;
+            flex-shrink: 0;
+         }
+         :nth-child(2) {
+            flex-basis: 100px;
+            flex-shrink: 0;
+         }
+         :nth-child(3) {
+            flex-basis: 20px;
+         }
+         button {
+            background-color: red;
+            color: white;
+            height: 20px;
+         }
+      }
+   }
+}
 
 #add-item-btn {
    position: relative;

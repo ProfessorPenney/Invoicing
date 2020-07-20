@@ -20,6 +20,24 @@ button:focus {
   outline: none;
 }
 
+#company-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 2px solid black;
+  padding: 10px 20px 10px 20px;
+}
+
+#company-header #company-name {
+  -ms-flex-preferred-size: 800px;
+      flex-basis: 800px;
+}
+
+#company-header button {
+  -ms-flex-preferred-size: 100px;
+      flex-basis: 100px;
+}
+
 #main-grid {
   display: -ms-grid;
   display: grid;
@@ -118,6 +136,70 @@ button:focus {
 
 #invoice-list td {
   vertical-align: middle;
+}
+
+#invoice-list td:nth-child(5) {
+  color: red;
+}
+
+#invoice-info #payments {
+  margin-top: 20px;
+  padding: 0 10px 0 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 200px;
+  padding-bottom: 20px;
+}
+
+#invoice-info #payments h2 {
+  text-align: center;
+}
+
+#invoice-info #payments p {
+  margin-top: 0;
+  margin-bottom: 0px;
+  height: 24px;
+}
+
+#invoice-info #payments #payments-div div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  height: 24px;
+  margin-top: 16px;
+}
+
+#invoice-info #payments #payments-div div p {
+  display: inline-block;
+}
+
+#invoice-info #payments #payments-div div :first-child {
+  -ms-flex-preferred-size: 70px;
+      flex-basis: 70px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+#invoice-info #payments #payments-div div :nth-child(2) {
+  -ms-flex-preferred-size: 100px;
+      flex-basis: 100px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+#invoice-info #payments #payments-div div :nth-child(3) {
+  -ms-flex-preferred-size: 20px;
+      flex-basis: 20px;
+}
+
+#invoice-info #payments #payments-div div button {
+  background-color: red;
+  color: white;
+  height: 20px;
 }
 
 #add-item-btn {

@@ -107,7 +107,7 @@ app.post('/api/invoices/:id', (req, res) => {
       }
       lineItems.push(newLineItem)
 
-      oneInvoice.total = lineItems.reduce((total, item) => +total + item.amount, 0)
+      oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
@@ -136,16 +136,14 @@ app.post('/api/invoices', (req, res) => {
             day: today.getDate(),
             year: today.getFullYear()
          },
+         owed: 0,
          dueDate: {
             month: dueDate.getMonth(),
             day: dueDate.getDate(),
             year: dueDate.getFullYear()
          },
          sent: false,
-         payment: {
-            paid: false,
-            date: {}
-         },
+         payment: [],
          lineItems: []
       }
       data.invoices.unshift(newInvoice)
@@ -175,7 +173,7 @@ app.put('/api/invoices/:id', (req, res) => {
       }
       lineItems[id] = newLineItem
 
-      oneInvoice.total = lineItems.reduce((total, item) => +total + item.amount, 0)
+      oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
@@ -194,7 +192,7 @@ app.delete('/api/invoices/:id', (req, res) => {
 
       lineItems.splice(req.body.index, 1)
 
-      oneInvoice.total = lineItems.reduce((total, item) => +total + item.amount, 0)
+      oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
@@ -203,14 +201,65 @@ app.delete('/api/invoices/:id', (req, res) => {
    })
 })
 
-app.get('/api/pdf', (req, res) => {
-   res.sendFile(`${__dirname}/result.pdf`)
+// POST - Add payment
+app.post('/api/invoices/:id/payment', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+
+      const { payAmount, payDate, payNote } = req.body
+
+      const newPayment = {
+         amount: +payAmount,
+         date: {
+            month: +payDate.split('-')[1],
+            day: +payDate.split('-')[2],
+            year: +payDate.split('-')[0]
+         },
+         note: payNote
+      }
+
+      oneInvoice.payment.push(newPayment)
+
+      let totalPayments = 0
+      oneInvoice.payment.forEach(pay => {
+         totalPayments += pay.amount
+      })
+      oneInvoice.owed = oneInvoice.total - totalPayments
+
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+         if (err) throw err
+         res.json(oneInvoice)
+      })
+   })
+})
+
+// DELETE payment
+app.delete('/api/invoices/:id/payment', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const { payment } = oneInvoice
+
+      payment.splice(req.body.index, 1)
+
+      let totalPayments = 0
+      oneInvoice.payment.forEach(pay => {
+         totalPayments += pay.amount
+      })
+      oneInvoice.owed = oneInvoice.total - totalPayments
+
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+         if (err) throw err
+         res.json(oneInvoice)
+      })
+   })
 })
 
 // POST - PDF generation and fetching of dat
 app.post('/api/invoices/:id/pdf', (req, res) => {
-   const id = req.params.id
-
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)

@@ -1,15 +1,18 @@
+const companyName = document.querySelector('#company-name')
+
 const invoiceNum = document.querySelector('#invoice-num')
 const invoiceCust = document.querySelector('#customer')
 const invoiceAddress = document.querySelector('#address')
 const invoiceTotal = document.querySelector('#total')
 const invoiceDate = document.querySelector('#date')
 const invoiceDueDate = document.querySelector('#due')
-// const invoiceSent = document.querySelector('#sent')
-const invoicePaid = document.querySelector('#paid')
+const invoiceOwed = document.querySelector('#owed')
+const invoiceTotalPayments = document.querySelector('#total-payments')
 const itemList = document.querySelector('#line-item-list ul')
 const addBtn = document.querySelector('#add-item-btn')
 const downloadBtn = document.querySelector('#download')
 const PaymentBtn = document.querySelector('#payment-btn')
+const invoicePayments = document.querySelector('#payments-div')
 
 const modal = document.querySelector('#modal-add')
 const addModals = document.querySelectorAll('.add-modal')
@@ -27,31 +30,16 @@ const modalDescrip = document.querySelector('#description')
 const paymentModal = document.querySelector('#payment-modal')
 const acceptPayment = document.querySelector('#accept-payment-btn')
 const cancelPayment = document.querySelector('#cancel-payment')
+const paymentAmount = document.querySelector('#payment-amount')
+const paymentDate = document.querySelector('#payment-date')
+const paymentNote = document.querySelector('#payment-note')
 
 const invoiceId = sessionStorage.getItem('id')
 
-let templates = []
+let itemTemplates = []
 let itemId = null
 
-downloadBtn.addEventListener('click', createAndDownloadPdf)
-
-function createAndDownloadPdf() {
-   fetch(`/api/invoices/${invoiceId}/pdf`, {
-      method: 'POST',
-      body: JSON.stringify({
-         name: '',
-         receiptId: 0,
-         price1: 0,
-         price2: 0
-      }),
-      headers: { 'Content-type': 'application/json' }
-   })
-      .then(res => res.blob())
-      .then(data => {
-         const pdfBlob = new Blob([data], { type: 'application/pdf' })
-         saveAs(pdfBlob, 'newPdf.pdf')
-      })
-}
+acceptPayment.addEventListener('click', addPayment)
 
 // Get invoice items and call fillData
 fetch('/api/invoices/' + invoiceId)
@@ -90,6 +78,8 @@ cancelPayment.addEventListener('click', () => {
    paymentModal.classList.add('display-none')
 })
 
+downloadBtn.addEventListener('click', createAndDownloadPdf)
+
 fetchDataListOptions()
 
 // Open modal to edit a line item
@@ -107,12 +97,38 @@ function fillData(invoice) {
    invoiceNum.textContent = invoiceId
    invoiceCust.textContent = invoice.customer.name
    invoiceAddress.textContent = `${invoice.customer.address.street}
-                                 ${invoice.customer.address.cityStateZip}`
+   ${invoice.customer.address.cityStateZip}`
    invoiceTotal.textContent = invoice.total.toFixed(2)
    invoiceDate.textContent = `${invoice.date.month}/${invoice.date.day}/${invoice.date.year}`
    invoiceDueDate.textContent = `${invoice.dueDate.month}/${invoice.dueDate.day}/${invoice.dueDate.year}`
-   // invoiceSent.textContent = invoice.sent === true ? 'Emailed' : 'Nope'
-   invoicePaid.textContent = invoice.paid === true ? 'Paid' : 'Outstanding'
+   invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}`
+   invoiceTotalPayments.textContent = `$` + (invoice.total - invoice.owed).toFixed(2)
+
+   invoicePayments.innerHTML = ''
+   invoice.payment.forEach((payment, index) => {
+      const divEl = document.createElement('div')
+      divEl.id = `payment${index}`
+      const paymentEl = document.createElement('p')
+      paymentEl.textContent = `$${payment.amount}`
+      divEl.appendChild(paymentEl)
+
+      const dateEl = document.createElement('p')
+      dateEl.textContent = `${payment.date.month}/${payment.date.day}/${payment.date.year}`
+      divEl.appendChild(dateEl)
+
+      const deleteBtnEl = document.createElement('button')
+      deleteBtnEl.textContent = 'x'
+      divEl.appendChild(deleteBtnEl)
+      divEl.addEventListener('click', deletePayment)
+
+      invoicePayments.appendChild(divEl)
+
+      if (payment.note != undefined && payment.note != '') {
+         const paymentNoteEl = document.createElement('p')
+         paymentNoteEl.textContent = ` -  ${payment.note}`
+         invoicePayments.appendChild(paymentNoteEl)
+      }
+   })
 
    if (!invoice.lineItems.length) {
       itemList.innerHTML = '<p style="text-align: center; margin-top: 60px;" >Empty invoice</p>'
@@ -218,6 +234,7 @@ function fetchDataListOptions() {
 }
 
 function fillDataListOptions(templates) {
+   itemTemplates = templates
    const dataList = document.querySelector('#items')
    dataList.innerHTML = ''
    templates.forEach(template => {
@@ -230,7 +247,7 @@ function fillDataListOptions(templates) {
 // Fills template info into form inputs
 function onInput() {
    const value = document.querySelector('#title').value
-   const template = templates.forEach(template => {
+   itemTemplates.forEach(template => {
       if (template.title === value) {
          modalTitle.value = template.title
          modalQty.value = template.quantity
@@ -246,8 +263,8 @@ function saveTemplateItem() {
       method: 'POST',
       body: JSON.stringify({
          title: modalTitle.value,
-         qty: modalQty.value,
-         unitPrice: modalPrice.value,
+         quantity: +modalQty.value,
+         unitPrice: +modalPrice.value,
          description: modalDescrip.value
       }),
       headers: { 'Content-type': 'application/json' }
@@ -295,4 +312,49 @@ function deleteItem() {
    })
       .then(res => res.json())
       .then(fillData)
+}
+
+function addPayment() {
+   cancelPayment.click()
+   fetch(`/api/invoices/${invoiceId}/payment`, {
+      method: 'POST',
+      body: JSON.stringify({
+         payAmount: paymentAmount.value,
+         payDate: paymentDate.value,
+         payNote: paymentNote.value
+      }),
+      headers: { 'Content-type': 'application/json' }
+   })
+}
+
+// delete a payment
+function deletePayment() {
+   fetch(`/api/invoices/${invoiceId}/payment`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+         index: +this.id.substring(7)
+      }),
+      headers: { 'Content-type': 'application/json' }
+   })
+      .then(res => res.json())
+      .then(fillData)
+}
+
+// Creates PDF for download
+function createAndDownloadPdf() {
+   fetch(`/api/invoices/${invoiceId}/pdf`, {
+      method: 'POST',
+      body: JSON.stringify({
+         name: '',
+         receiptId: 0,
+         price1: 0,
+         price2: 0
+      }),
+      headers: { 'Content-type': 'application/json' }
+   })
+      .then(res => res.blob())
+      .then(data => {
+         const pdfBlob = new Blob([data], { type: 'application/pdf' })
+         saveAs(pdfBlob, 'newPdf.pdf')
+      })
 }

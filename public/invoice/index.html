@@ -9,15 +9,19 @@
 
    <body>
       <div class="container">
+         <div id="company-header">
+            <h1 id="company-name">Test Company Name</h1>
+            <button id="edit-company-info-btn">Edit Company Info</button>
+         </div>
          <div id="invoice-info">
+            <a href="../index.html"><button id="">Return to invoice List</button></a>
             <h2>Invoice # <span id="invoice-num"></span></h2>
             <h2>Customer: <span id="customer"></span></h2>
             <h2>Address: <span id="address"></span></h2>
             <h2>Total: <span id="total" class="dolla-sign"></span></h2>
             <h2>Date: <span id="date"></span></h2>
             <h2>Due: <span id="due"></span></h2>
-            <!-- <h2>Sent: <span id="sent"></span></h2> -->
-            <h2>Paid: <span id="paid"></span></h2>
+            <h2>Owed: <span id="owed"></span></h2>
             <button id="add-item-btn">
                +
                <p>add new item</p>
@@ -25,6 +29,10 @@
             <br />
             <button id="download">Download PDF</button>
             <button id="payment-btn">Add Payment</button>
+            <div id="payments">
+               <h2>Total Payments: <span id="total-payments"></span></h2>
+               <div id="payments-div"></div>
+            </div>
          </div>
 
          <div id="line-item-list">
@@ -46,7 +54,7 @@
                   <input type="text" id="payment-amount" />
                   <label for="payment-date">Date</label>
                   <input type="date" id="payment-date" />
-                  <textarea id="note" placeholder="notes"></textarea>
+                  <textarea id="payment-note" placeholder="notes"></textarea>
                   <input type="button" id="accept-payment-btn" value="Add Payment" />
                </form>
             </div>
