@@ -46,6 +46,12 @@ fetch('/api/invoices/' + invoiceId)
    .then(res => res.json())
    .then(fillData)
 
+fetch('/api/companyinfo')
+   .then(res => res.json())
+   .then(data => {
+      companyName.textContent = data.name
+   })
+
 // Button listeners
 addBtn.addEventListener('click', () =>
    addModals.forEach(addModal => addModal.classList.remove('display-none'))

@@ -1,3 +1,14 @@
+const companyName = document.querySelector('#company')
+const companyModal = document.querySelector('#company-modal')
+const infoBtn = document.querySelector('#edit-company-info-btn')
+const companyCancelBtn = document.querySelector('#company-cancel')
+const saveCompanyBtn = document.querySelector('#save-company-btn')
+const companyNameInput = document.querySelector('#company-name')
+const companyAddress1Input = document.querySelector('#company-address1')
+const companyAddress2Input = document.querySelector('#company-address2')
+const companyPhoneInput = document.querySelector('#company-phone')
+const companyEmailInput = document.querySelector('#company-email')
+
 const invoiceTable = document.querySelector('#invoice-list tbody')
 const customerDataList = document.querySelector('#customer-list')
 const streetInput = document.querySelector('#street')
@@ -13,6 +24,12 @@ const lastYtdIncome = document.querySelector('#last-year-income')
 let invoiceList = null
 let customerList = null
 
+fetch('/api/companyinfo')
+   .then(res => res.json())
+   .then(data => {
+      companyName.textContent = data.name
+   })
+
 fetch('/api/invoices')
    .then(res => res.json())
    .then(fillData)
@@ -20,6 +37,41 @@ fetch('/api/invoices')
 fetch('/api/customers')
    .then(res => res.json())
    .then(fillcustomerDataList)
+
+infoBtn.addEventListener('click', () => {
+   companyModal.classList.remove('display-none')
+   fetch('/api/companyinfo')
+      .then(res => res.json())
+      .then(data => {
+         companyNameInput.value = data.name
+         companyAddress1Input.value = data.address.street
+         companyAddress2Input.value = data.address.cityStateZip
+         companyPhoneInput.value = data.phone
+         companyEmailInput.value = data.email
+      })
+})
+
+companyCancelBtn.addEventListener('click', () => {
+   companyModal.classList.add('display-none')
+})
+
+saveCompanyBtn.addEventListener('click', e => {
+   companyCancelBtn.click()
+   e.preventDefault()
+   fetch('api/companyinfo', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+         name: companyNameInput.value,
+         address: {
+            street: companyAddress1Input.value,
+            cityStateZip: companyAddress2Input.value
+         },
+         phone: companyPhoneInput.value,
+         email: companyEmailInput.value
+      })
+   })
+})
 
 createInvoiceBtn.addEventListener('click', createInvoice)
 
@@ -75,7 +127,7 @@ function fillData(invoiceList) {
    const today = new Date()
 
    invoiceList.forEach(invoice => {
-      if (invoice.payment.paid === false) {
+      if (invoice.owed > 0) {
          outstandingTotalCount++
          outstandingTotalAmount += invoice.total
       }
@@ -83,7 +135,7 @@ function fillData(invoiceList) {
          if (pay.date.year == today.getFullYear()) {
             ytdIncomeAmount += pay.amount
          } else if (pay.date.year == today.getFullYear() - 1) {
-            ytdIncomeAmount += pay.amount
+            lastYtdIncomeAmount += pay.amount
          }
       })
 

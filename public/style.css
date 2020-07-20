@@ -28,14 +28,17 @@ button:focus {
   padding: 10px 20px 10px 20px;
 }
 
-#company-header #company-name {
+#company-header #company {
   -ms-flex-preferred-size: 800px;
       flex-basis: 800px;
 }
 
 #company-header button {
-  -ms-flex-preferred-size: 100px;
-      flex-basis: 100px;
+  -ms-flex-preferred-size: 60px;
+      flex-basis: 60px;
+  height: 60px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 #main-grid {
@@ -103,7 +106,6 @@ button:focus {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: list;
-  position: relative;
   border: 1px black solid;
   border-collapse: collapse;
   width: 100%;
@@ -492,6 +494,25 @@ button:focus {
 .modal .modal-add-template-btn {
   display: block;
   margin: 10px auto 0 auto;
+}
+
+.modal #company-window h5 {
+  text-align: center;
+}
+
+.modal #company-window input {
+  width: 340px;
+}
+
+.modal #company-window #save-company-btn {
+  display: inline-block;
+  background-color: #d8d8d8;
+  border: none;
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  margin-left: 50px;
+  padding-right: 10px;
 }
 
 .modal .display-none {

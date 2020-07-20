@@ -4,11 +4,16 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" href="style.css" />
-      <title>Joe's Invoices</title>
+      <title>Invoices</title>
    </head>
 
    <body>
       <div class="container">
+         <div id="company-header">
+            <h1 id="company"></h1>
+            <button id="edit-company-info-btn">Edit Company Info</button>
+         </div>
+
          <div id="main-grid">
             <div id="dashboard">
                <h3>Summary</h3>
@@ -50,6 +55,33 @@
                   <th>Due Date</th>
                </tr>
             </table>
+         </div>
+
+         <div id="company-modal" class="modal display-none">
+            <div id="company-window" class="pop-up">
+               <form>
+                  <h2>Edit Company Info</h2>
+                  <h5>
+                     Enter info as you want it displayed on the invoice <br />
+                     Leave it blank info if you don't want it displayed
+                  </h5>
+                  <button class="cancel" id="company-cancel">x</button>
+                  <label for="company-name">Name</label>
+                  <input
+                     type="text"
+                     id="company-name"
+                     placeholder="(required) The Great Idea Company"
+                  />
+                  <label for="company-address1">Address</label>
+                  <input type="text" id="company-address1" placeholder="1 Fancy Pants Blvd" />
+                  <input type="text" id="company-address2" placeholder="San Francisco, CA 94110" />
+                  <label for="company-phone">Phone #</label>
+                  <input type="text" id="company-phone" placeholder="format it how you like it" />
+                  <label for="company-email">Email</label>
+                  <input type="text" id="company-email" placeholder="Service@TheGreatIdeaCo.com" />
+                  <input type="submit" id="save-company-btn" value="Save Info" />
+               </form>
+            </div>
          </div>
       </div>
 

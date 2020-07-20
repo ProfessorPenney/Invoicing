@@ -37,6 +37,30 @@ app.get('/api/invoices/:id', (req, res) => {
    })
 })
 
+// get company info
+app.get('/api/companyinfo', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+      res.json(data.companyInfo)
+   })
+})
+
+// POST - edit company info
+app.post('/api/companyinfo', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+
+      data.companyInfo = req.body
+
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+         if (err) throw err
+         res.json(data.templates)
+      })
+   })
+})
+
 // get templates
 app.get('/api/templates', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
@@ -108,6 +132,11 @@ app.post('/api/invoices/:id', (req, res) => {
       lineItems.push(newLineItem)
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
+      let totalPayments = 0
+      oneInvoice.payment.forEach(pay => {
+         totalPayments += pay.amount
+      })
+      oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
@@ -174,6 +203,11 @@ app.put('/api/invoices/:id', (req, res) => {
       lineItems[id] = newLineItem
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
+      let totalPayments = 0
+      oneInvoice.payment.forEach(pay => {
+         totalPayments += pay.amount
+      })
+      oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
@@ -193,6 +227,11 @@ app.delete('/api/invoices/:id', (req, res) => {
       lineItems.splice(req.body.index, 1)
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
+      let totalPayments = 0
+      oneInvoice.payment.forEach(pay => {
+         totalPayments += pay.amount
+      })
+      oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err

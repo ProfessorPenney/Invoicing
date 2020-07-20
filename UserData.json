@@ -5,7 +5,7 @@
       "street": "21 Merrydale",
       "cityStateZip": "San Rafael, CA 94903"
     },
-    "phone": "415-415-4115",
+    "phone": "412",
     "email": "joe@sexygardens.com"
   },
   "numberofInvoices": 111,
@@ -80,7 +80,7 @@
           "cityStateZip": "Tiburon, CA 94920"
         }
       },
-      "total": 600,
+      "total": 923,
       "date": {
         "month": 6,
         "day": 18,
@@ -112,21 +112,28 @@
           "amount": 400
         },
         {
-          "title": "New Item",
-          "description": "Best item ever!",
-          "quantity": 2,
-          "unitPrice": 50,
-          "amount": 100
-        },
-        {
           "title": "New Template",
           "description": "Great!??",
           "quantity": 5,
           "unitPrice": 20,
           "amount": 100
+        },
+        {
+          "title": "stuff",
+          "description": "",
+          "quantity": 1,
+          "unitPrice": 23,
+          "amount": 23
+        },
+        {
+          "title": "Joe's Labor",
+          "description": "We worked super hard, dude",
+          "quantity": 8,
+          "unitPrice": 50,
+          "amount": 400
         }
       ],
-      "owed": 400
+      "owed": 773
     },
     {
       "id": 110,
@@ -204,14 +211,24 @@
         "day": 25,
         "year": 2020
       },
-      "owed": 760,
+      "owed": 0,
       "dueDate": {
         "month": 6,
         "day": 20,
         "year": 2020
       },
       "sent": true,
-      "payment": [],
+      "payment": [
+        {
+          "amount": 760,
+          "date": {
+            "month": 7,
+            "day": 20,
+            "year": 2020
+          },
+          "note": ""
+        }
+      ],
       "lineItems": [
         {
           "title": "Joe's Labor",
@@ -279,14 +296,24 @@
         "day": 24,
         "year": 2020
       },
-      "owed": 80,
+      "owed": 0,
       "dueDate": {
         "month": 6,
         "day": 19,
         "year": 2020
       },
       "sent": false,
-      "payment": [],
+      "payment": [
+        {
+          "amount": 80,
+          "date": {
+            "month": 7,
+            "day": 20,
+            "year": 2020
+          },
+          "note": "check 532"
+        }
+      ],
       "lineItems": [
         {
           "title": "Joe's Labor",
@@ -337,14 +364,24 @@
         "day": 24,
         "year": 2020
       },
-      "owed": 275,
+      "owed": 0,
       "dueDate": {
         "month": 5,
         "day": 29,
         "year": 2020
       },
       "sent": true,
-      "payment": [],
+      "payment": [
+        {
+          "amount": 275,
+          "date": {
+            "month": 12,
+            "day": 1,
+            "year": 2019
+          },
+          "note": ""
+        }
+      ],
       "lineItems": [
         {
           "title": "Joe's Labor",

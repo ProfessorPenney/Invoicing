@@ -27,11 +27,14 @@ button:focus {
    border: 2px solid black;
    padding: 10px 20px 10px 20px;
 
-   #company-name {
+   #company {
       flex-basis: 800px;
    }
    button {
-      flex-basis: 100px;
+      flex-basis: 60px;
+      height: 60px;
+      margin-top: auto;
+      margin-bottom: auto;
    }
 }
 
@@ -86,7 +89,7 @@ button:focus {
 
 #invoice-list {
    grid-area: list;
-   position: relative;
+   // position: relative;
    border: 1px black solid;
    border-collapse: collapse;
    width: 100%;
@@ -437,6 +440,25 @@ button:focus {
    .modal-add-template-btn {
       display: block;
       margin: 10px auto 0 auto;
+   }
+
+   #company-window {
+      h5 {
+         text-align: center;
+      }
+      input {
+         width: 340px;
+      }
+      #save-company-btn {
+         display: inline-block;
+         background-color: rgb(216, 216, 216);
+         border: none;
+         width: 250px;
+         height: 30px;
+         border-radius: 5px;
+         margin-left: 50px;
+         padding-right: 10px;
+      }
    }
 
    // Must be below modal. Overwriting display class
