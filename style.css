@@ -1,5 +1,7 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
+  color: #270606;
+  margin: 0;
 }
 
 .container {
@@ -21,43 +23,91 @@ button:focus {
 }
 
 #company-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  border: 2px solid black;
+  color: #f2f7f2;
+  background: #1488cc;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#2b32b2), to(#1488cc));
+  background: linear-gradient(to bottom, #2b32b2, #1488cc);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   padding: 10px 20px 10px 20px;
 }
 
 #company-header #company {
-  -ms-flex-preferred-size: 800px;
-      flex-basis: 800px;
+  text-align: center;
 }
 
-#company-header button {
-  -ms-flex-preferred-size: 60px;
-      flex-basis: 60px;
-  height: 60px;
-  margin-top: auto;
-  margin-bottom: auto;
+#company-header #burger:hover {
+  cursor: pointer;
+}
+
+#company-header #burger {
+  position: absolute;
+  height: 20px;
+  right: 50px;
+  top: 35px;
+}
+
+#company-header #burger div {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+}
+
+#company-header #burger #burger1 {
+  position: relative;
+  top: 0px;
+}
+
+#company-header #burger #burger2 {
+  position: relative;
+  top: 4px;
+}
+
+#company-header #burger #burger3 {
+  position: relative;
+  top: 8px;
 }
 
 #main-grid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 70% 30%;
-      grid-template-columns: 70% 30%;
+  -ms-grid-columns: 33% 67%;
+      grid-template-columns: 33% 67%;
       grid-template-areas: 'dash invoice' 'list list';
 }
 
-#dashboard {
-  background-color: lightblue;
+#main-grid h3 {
+  text-align: center;
+}
+
+#main-grid #dashboard {
+  position: relative;
   -ms-grid-row: 1;
   -ms-grid-column: 1;
   grid-area: dash;
+  padding: 20px 30px 20px 30px;
 }
 
-#create-invoice {
-  background-color: lightgreen;
+#main-grid #dashboard #border {
+  border-right: #1488cc solid 2px;
+  height: 200px;
+  width: 260px;
+  position: absolute;
+  top: 100px;
+}
+
+#main-grid hr {
+  width: 80%;
+}
+
+#main-grid #to-do {
+  grid-area: todo;
+  padding: 10px;
+  border-left: black 1px solid;
+}
+
+#main-grid #create-invoice {
   -ms-grid-row: 1;
   -ms-grid-column: 2;
   grid-area: invoice;
@@ -71,16 +121,17 @@ button:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 10px;
-  border-left: black 1px solid;
+  padding: 20px 30px 20px 30px;
 }
 
-#create-invoice label {
+#main-grid #create-invoice label {
   text-align: center;
   margin-bottom: 10px;
 }
 
-#create-invoice input {
+#main-grid #create-invoice input {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin-bottom: 10px;
   height: 30px;
   width: 100%;
@@ -88,11 +139,11 @@ button:focus {
   padding: 0 0 0 5px;
 }
 
-#create-invoice #due {
-  width: 30%;
+#main-grid #create-invoice #due {
+  width: 120px;
 }
 
-#create-invoice #create-invoice-btn {
+#main-grid #create-invoice #create-invoice-btn {
   background-color: #d8d8d8;
   border: 1px black solid;
   width: 150px;
@@ -106,29 +157,27 @@ button:focus {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: list;
-  border: 1px black solid;
   border-collapse: collapse;
   width: 100%;
 }
 
+#invoice-list th {
+  background-color: #1488cc;
+  color: white;
+}
+
 #invoice-list tr:nth-child(even) {
-  background-color: #f5f5f5;
+  background-color: #3c374431;
 }
 
 #invoice-list tr:hover {
-  background-color: #dadada;
+  background-color: #1489cc38;
   cursor: pointer;
-}
-
-#invoice-list tr:first-child {
-  background-color: white;
-  border: 1px black solid;
-  cursor: auto;
 }
 
 #invoice-list th,
 #invoice-list td {
-  padding: 5px;
+  padding: 10px;
 }
 
 #invoice-list th {

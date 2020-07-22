@@ -8,25 +8,37 @@
    </head>
 
    <body>
-      <div class="container">
-         <div id="company-header">
-            <h1 id="company"></h1>
-            <button id="edit-company-info-btn">Edit Company Info</button>
+      <div id="company-header">
+         <h1 id="company"></h1>
+         <div id="burger">
+            <div id="burger1"></div>
+            <div id="burger2"></div>
+            <div id="burger3"></div>
          </div>
-
+      </div>
+      <div class="container">
          <div id="main-grid">
             <div id="dashboard">
+               <div id="border"></div>
                <h3>Summary</h3>
-               <h5>Outstanding invoices: <span id="outstanding-invoices"></span></h5>
-               <h5>Outstanding total: <span id="outstanding-total" class="dolla-sign"></span></h5>
-               <h5>
+               <h4>Outstanding invoices: <span id="outstanding-invoices"></span></h4>
+               <h4>Outstanding total: <span id="outstanding-total" class="dolla-sign"></span></h4>
+               <hr />
+               <h4>
                   Year to Date Income: <span id="year-to-date-income" class="dolla-sign"></span>
-               </h5>
-               <h5>Last Year Income: <span id="last-year-income" class="dolla-sign"></span></h5>
-               <button id="">Create template invoice items</button>
+               </h4>
+               <h4>Last Year Income: <span id="last-year-income" class="dolla-sign"></span></h4>
+            </div>
+
+            <div id="to-do">
+               <h3>To be implemented soon</h3>
+               <button id="">Edit template invoice items</button>
+               <button>Edit Customers</button>
+               <button>Do more.. stuff?</button>
             </div>
 
             <form id="create-invoice">
+               <h3>Create New Invoice</h3>
                <label for="customer">Customer</label>
                <input
                   id="customer"
@@ -40,8 +52,8 @@
                </datalist>
                <input id="street" type="text" placeholder="Street" />
                <input id="city-state-zip" type="text" placeholder="City, State Zipcode" />
-               <label for="due">Due:</label>
-               <input id="due" type="number" placeholder="Days until due" />
+               <label for="due">Days Until Due</label>
+               <input id="due" type="number" value="0" />
                <input type="button" id="create-invoice-btn" value="CreateInvoice" />
             </form>
 

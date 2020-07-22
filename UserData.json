@@ -8,7 +8,7 @@
     "phone": "412",
     "email": "joe@sexygardens.com"
   },
-  "numberofInvoices": 111,
+  "numberofInvoices": 112,
   "customers": [
     {
       "name": "The Callahan Family",
@@ -71,6 +71,31 @@
     }
   ],
   "invoices": [
+    {
+      "id": 112,
+      "customer": {
+        "name": "",
+        "address": {
+          "street": "",
+          "cityStateZip": ""
+        }
+      },
+      "total": 0,
+      "date": {
+        "month": 6,
+        "day": 20,
+        "year": 2020
+      },
+      "owed": 0,
+      "dueDate": {
+        "month": 6,
+        "day": 20,
+        "year": 2020
+      },
+      "sent": false,
+      "payment": [],
+      "lineItems": []
+    },
     {
       "id": 111,
       "customer": {
