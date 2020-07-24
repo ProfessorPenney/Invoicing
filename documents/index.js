@@ -1,23 +1,27 @@
 module.exports = ({
+   companyName,
+   companyInfo,
    custName,
    custStreet,
    custCityStateZip,
    id,
    date,
    dueDate,
+   owed,
+   payments,
    total,
-   lineItemsHTML,
+   lineItemsHTML
 }) => {
    return `
    <!DOCTYPE html>
    <html>
       <head>
          <meta charset="utf-8" />
-         <title>PDF Result Template</title>
+         <title>Invoice</title>
          <style>
          .container {
             max-width: 750px;
-            margin: 40px auto auto auto;
+            margin: 60px auto auto auto;
             padding: 30px;
             font-size: 16px;
             line-height: 24px;
@@ -27,29 +31,43 @@ module.exports = ({
           
           #header {
             position: relative;
+            min-height: 200px;
           }
           
           #header #invoice-bold {
             position: absolute;
             margin-top: 0;
-            right: 60px;
+            right: 0px;
             top: 0;
             letter-spacing: 0.5em;
+            color: rgb(20, 136, 230);
           }
           
           #header #top-stats {
             position: absolute;
             left: 550px;
-            top: 90px;
+            top: 30px;
+            font-size: large;
           }
-          
-          #header #top-total {
+          #header #top-stats #left {
+             position: relative;
+             top: 0;
+             right: 60px;
+             text-align: right;
+          }
+
+          #header #top-stats #right {
             position: absolute;
-            right: 300px;
-            top: 80px;
+            top: 0;
+            left: 60px;
+          }
+
+          .total-due {
+            font-size: x-large;
           }
           
           table {
+            position: relative;
             width: 100%;
             text-align: right;
             border-collapse: collapse;
@@ -62,7 +80,8 @@ module.exports = ({
           }
           
           table th {
-            background: rgb(175, 175, 175);
+            background: rgb(20, 136, 230);
+            color: white;
             height: 30px;
             padding-left: 5px;
             padding-right: 5px;
@@ -99,9 +118,11 @@ module.exports = ({
             margin-left: auto;
             text-align: right;
             width: 220px;
+            font-size: large;
           }
           
           #table-total span {
+            margin-top: 10px;
             margin-right: 5px;
             display: inline-block;
             width: 100px;
@@ -111,10 +132,9 @@ module.exports = ({
       <body>
       <div class="container">
          <div id="header">
-            <h1 id="company-name">Joe's Landscaping <br /></h1>
+            <h1 id="company-name">${companyName}<br /></h1>
             <p id="company-address">
-               Joe's Address <br />
-               2nd Address line
+               ${companyInfo}
             </p>
             <h3 id="customer">
                Bill to: <br />
@@ -126,15 +146,39 @@ module.exports = ({
             </p>
             <h1 id="invoice-bold">INVOICE</h1>
             <div id="top-stats">
-               <p>
-                  Invoice: ${id} <br />
-                  Date: ${date} <br />
-                  Due: ${dueDate}
-               </p>
+               <div id="left">
+                  <p>
+                     Invoice: <br />
+                  </p>
+                  <p>
+                     Date: <br />
+                  </p>
+                  <p>
+                     Due: <br />
+                  </p>
+                  <p class="total-due">
+                     Total Due: 
+                  </p>
+               </div>
+               <div id="right">
+                  <p>
+                     ${id} <br />
+                  </p>
+                  <p>
+                     ${date} <br />
+                  </p>
+                  <p>
+                     ${dueDate} <br />
+                  </p>
+                  <p class="total-due">
+                     $${owed}
+                  </p>
+               </div>
+               
             </div>
-            <h2 id="top-total">Total Due: $${total}</h2>
+
          </div>
-         <table id="">
+         <table>
             <tr id="heading">
                <th>Description</th>
                <th>Quantity</th>
@@ -142,22 +186,14 @@ module.exports = ({
                <th>Total Price</th>
             </tr>
             ${lineItemsHTML}
-            <!-- <tr class="items">
-               <td>Test Item</td>
-               <td>1</td>
-               <td>$50.00</td>
-               <td>$50.00</td>
-            </tr>
-            <tr class="items">
-               <td>Second item</td>
-               <td>3</td>
-               <td>$100.00</td>
-               <td>$300.00</td>
-            </tr> -->
          </table>
          <div id="table-total">
             <span>Total:</span>
             <span>$${total}</span>
+            <span>Payments:</span>
+            <span>-$${payments}</span>
+            <span>Due:</span>
+            <span>$${owed}</span>
          </div>
       </div>
       </body>

@@ -285,9 +285,7 @@ app.delete('/api/invoices/:id/payment', (req, res) => {
       payment.splice(req.body.index, 1)
 
       let totalPayments = 0
-      oneInvoice.payment.forEach(pay => {
-         totalPayments += pay.amount
-      })
+      oneInvoice.payment.forEach(pay => (totalPayments += pay.amount))
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -297,14 +295,22 @@ app.delete('/api/invoices/:id/payment', (req, res) => {
    })
 })
 
-// POST - PDF generation and fetching of dat
-app.post('/api/invoices/:id/pdf', (req, res) => {
+// GET - PDF generation and fetching of dat
+app.get('/api/invoices/:id/pdf', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
 
-      const { id, customer, total, date, dueDate, lineItems } = oneInvoice
+      const { name, address, phone, email } = data.companyInfo
+
+      let companyInfo = ''
+      if (address.street != '') companyInfo += `${address.street} <br />`
+      if (address.cityStateZip != '') companyInfo += `${address.cityStateZip} <br />`
+      if (phone != '') companyInfo += `${phone} <br />`
+      if (email != '') companyInfo += `${email} <br />`
+
+      const { id, customer, total, date, owed, dueDate, payment, lineItems } = oneInvoice
       let tableItems = ''
       lineItems.forEach(item => {
          tableItems += `<tr class="items">`
@@ -318,14 +324,20 @@ app.post('/api/invoices/:id/pdf', (req, res) => {
 				<td>$${item.amount.toFixed(2)}</td>
 				</tr> `
       })
+      let payments = 0
+      payment.forEach(pay => (payments += pay.amount))
 
       const pdfData = {
+         companyName: name,
+         companyInfo,
          custName: customer.name,
          custStreet: customer.address.street,
          custCityStateZip: customer.address.cityStateZip,
          id,
          date: `${date.month}/${date.day}/${date.year}`,
+         owed: owed.toFixed(2),
          dueDate: `${dueDate.month}/${dueDate.day}/${dueDate.year}`,
+         payments: payments.toFixed(2),
          total: total.toFixed(2),
          lineItemsHTML: tableItems
       }

@@ -1,6 +1,6 @@
 const companyName = document.querySelector('#company')
 const companyModal = document.querySelector('#company-modal')
-const infoBtn = document.querySelector('#edit-company-info-btn')
+// const infoBtn = document.querySelector('#edit-company-info-btn')
 const companyCancelBtn = document.querySelector('#company-cancel')
 const saveCompanyBtn = document.querySelector('#save-company-btn')
 const companyNameInput = document.querySelector('#company-name')
@@ -38,18 +38,18 @@ fetch('/api/customers')
    .then(res => res.json())
    .then(fillcustomerDataList)
 
-infoBtn.addEventListener('click', () => {
-   companyModal.classList.remove('display-none')
-   fetch('/api/companyinfo')
-      .then(res => res.json())
-      .then(data => {
-         companyNameInput.value = data.name
-         companyAddress1Input.value = data.address.street
-         companyAddress2Input.value = data.address.cityStateZip
-         companyPhoneInput.value = data.phone
-         companyEmailInput.value = data.email
-      })
-})
+// infoBtn.addEventListener('click', () => {
+//    companyModal.classList.remove('display-none')
+//    fetch('/api/companyinfo')
+//       .then(res => res.json())
+//       .then(data => {
+//          companyNameInput.value = data.name
+//          companyAddress1Input.value = data.address.street
+//          companyAddress2Input.value = data.address.cityStateZip
+//          companyPhoneInput.value = data.phone
+//          companyEmailInput.value = data.email
+//       })
+// })
 
 companyCancelBtn.addEventListener('click', () => {
    companyModal.classList.add('display-none')

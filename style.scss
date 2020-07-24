@@ -1,29 +1,56 @@
 $font-color: #270606;
 $accent-color: #1488cc;
+$table-hover: #1489cc38;
+$button-hover: #1489cce5;
+$white: #f7f7f7;
 
 body {
    font-family: Arial, Helvetica, sans-serif;
-   // background-color: $background-color;
+   background-color: $white;
    color: $font-color;
    margin: 0;
-}
+   .container {
+      margin: auto;
+      width: 900px;
+      text-align: r;
+   }
 
-.container {
-   margin: auto;
-   width: 900px;
-}
+   .dolla-sign:before {
+      content: '$';
+   }
 
-.dolla-sign:before {
-   content: '$';
-}
+   a {
+      text-decoration: none;
+      color: inherit;
+   }
 
-a {
-   text-decoration: none;
-   color: inherit;
-}
+   button:focus {
+      outline: none;
+   }
 
-button:focus {
-   outline: none;
+   button:hover {
+      cursor: pointer;
+   }
+   .blue-button-style {
+      background-color: $accent-color;
+      color: $white;
+      padding: auto;
+      border: none;
+      width: 150px;
+      height: 30px;
+      border-radius: 5px;
+   }
+   .blue-button-style:hover {
+      background-color: $button-hover;
+   }
+   input {
+      background-color: $white;
+      border: 1px rgb(119, 119, 119) solid;
+   }
+   textarea {
+      background-color: $white;
+      border: 1px rgb(119, 119, 119) solid;
+   }
 }
 
 // Header
@@ -58,7 +85,7 @@ button:focus {
       div {
          width: 30px;
          height: 3px;
-         background-color: white;
+         background-color: $white;
       }
       #burger1 {
          position: relative;
@@ -72,6 +99,48 @@ button:focus {
          position: relative;
          top: 8px;
       }
+   }
+   #header-flex {
+      display: flex;
+      justify-content: center;
+      button {
+         display: inline-block;
+         background-color: transparent;
+         color: $white;
+         padding: auto;
+         border: 1px solid $white;
+         width: 150px;
+         height: 30px;
+         border-radius: 5px;
+         margin-left: 10px;
+         margin-right: 10px;
+      }
+      button:hover {
+         background-color: $button-hover;
+      }
+   }
+}
+
+// Footer
+
+#footer {
+   // background-color: $accent-color;
+   background: #1488cc; /* fallback for old browsers */
+   background: -webkit-linear-gradient(to top, #2b32b2, #1488cc); /* Chrome 10-25, Safari 5.1-6 */
+   background: linear-gradient(
+      to top,
+      #2b32b2,
+      #1488cc
+   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+   color: $white;
+   height: 120px;
+   margin-top: 200px;
+   text-align: center;
+   padding: 40px 20px 40px 20px;
+   p {
+      padding-top: auto;
+      padding-bottom: auto;
    }
 }
 
@@ -103,13 +172,6 @@ button:focus {
       width: 80%;
    }
 
-   #to-do {
-      // remove me
-      grid-area: todo;
-      padding: 10px;
-      border-left: black 1px solid;
-   }
-
    #create-invoice {
       grid-area: invoice;
       display: flex;
@@ -136,12 +198,17 @@ button:focus {
       }
 
       #create-invoice-btn {
-         background-color: rgb(216, 216, 216);
-         border: 1px black solid;
+         background-color: $accent-color;
+         color: $white;
+         padding: auto;
+         border: none;
          width: 150px;
+         height: 30px;
          border-radius: 5px;
-         padding: 0;
          margin-bottom: 0;
+      }
+      #create-invoice-btn:hover {
+         background-color: $button-hover;
       }
    }
 }
@@ -152,7 +219,7 @@ button:focus {
    width: 100%;
    th {
       background-color: $accent-color;
-      color: white;
+      color: $white;
    }
 
    tr:nth-child(even) {
@@ -160,7 +227,7 @@ button:focus {
    }
 
    tr:hover {
-      background-color: #1489cc38;
+      background-color: $table-hover;
       cursor: pointer;
    }
 
@@ -186,22 +253,38 @@ button:focus {
 // One Invoice Screen
 
 #invoice-info {
+   display: grid;
+   grid-template-columns: 550px 3px 347px;
+   grid-template-areas: 'left border right' 'items items items';
+   #left {
+      grid-area: left;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding: 20px 30px 20px 30px;
+   }
+   #right {
+      grid-area: right;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding: 20px 30px 20px 30px;
+   }
+   #invoice-border {
+      grid-area: border;
+      background-color: $accent-color;
+      width: 3px;
+      height: 200px;
+      margin-top: auto;
+      margin-bottom: auto;
+   }
+
    #payments {
       margin-top: 20px;
-      padding: 0 10px 0 10px;
-      border: 1px solid black;
       border-radius: 10px;
-      width: 200px;
       padding-bottom: 20px;
-
-      h2 {
-         text-align: center;
-      }
 
       p {
          margin-top: 0;
-         margin-bottom: 0px;
-         height: 24px;
+         margin-bottom: 0;
       }
       #payments-div div {
          display: flex;
@@ -212,87 +295,88 @@ button:focus {
             display: inline-block;
          }
          :first-child {
-            flex-basis: 70px;
-            flex-shrink: 0;
-         }
-         :nth-child(2) {
             flex-basis: 100px;
             flex-shrink: 0;
          }
+         :nth-child(2) {
+            flex-basis: 140px;
+            flex-shrink: 0;
+         }
          :nth-child(3) {
-            flex-basis: 20px;
+            flex-basis: 30px;
          }
          button {
             background-color: red;
-            color: white;
-            height: 20px;
+            width: 30px;
+            height: 30px;
+            border: none;
+            color: $white;
+            font-size: 15px;
+            padding: auto;
+            border-radius: 5px;
+         }
+         button:hover {
+            color: rgb(29, 29, 29);
          }
       }
    }
 }
 
 #add-item-btn {
-   position: relative;
-   border-radius: 50%;
-   padding: 0 11px;
-   background-color: rgb(139, 139, 139);
-   color: white;
-   font-size: 40px;
-   border: 1px lightgray solid;
-}
-
-#add-item-btn p {
-   opacity: 0;
    position: absolute;
-   left: 55px;
-   top: -10px;
-   font-size: small;
-   color: rgb(139, 139, 139);
-   font-weight: lighter;
+   border-radius: 5px;
+   background-color: $accent-color;
+   color: $white;
+   font-size: large;
+   border: none;
+   top: -70px;
+   left: 400px;
+   margin-left: -100px;
+   padding: 10px;
+   width: 180px;
 }
 
 #add-item-btn:hover {
-   background-color: rgb(124, 124, 124);
-   cursor: pointer;
-}
-
-#add-item-btn:hover p {
-   transition-delay: 0.5s;
-   transition-duration: 0.2s;
-   opacity: 1;
+   background-color: $button-hover;
 }
 
 #line-item-list {
+   grid-area: items;
+   position: relative;
    div {
+      background-color: $accent-color;
+      color: $white;
       display: flex;
-      h4 {
-         margin-bottom: 0;
+      border-radius: 5px;
+      box-shadow: 2px 2px 2px #1489cc91;
+      padding: 5px 0 5px 0;
+      h3 {
+         margin: 10px;
       }
-      h4:first-of-type {
-         flex-basis: 600px;
-         padding-left: 10px;
+      h3:first-of-type {
+         flex-basis: 575px;
       }
-      h4:nth-child(2) {
+      h3:nth-child(2) {
+         flex-basis: 60px;
+      }
+      h3:nth-child(3) {
+         flex-basis: 95px;
+      }
+      h3:nth-child(4) {
          flex-basis: 80px;
-      }
-      h4:nth-child(3) {
-         flex-basis: 120px;
-      }
-      h4:nth-child(4) {
-         flex-basis: 100px;
       }
    }
 
    ul {
       position: relative;
       list-style: none;
-      margin-top: 8px;
+      margin-top: 0;
       padding: 0;
       margin-bottom: 80px;
    }
 
    li:hover {
-      background-color: lightgray;
+      background-color: #1489cc38;
    }
 
    li:hover + button {
@@ -344,7 +428,7 @@ button:focus {
       }
    }
 
-   button {
+   .red-button {
       opacity: 0;
       position: absolute;
       background-color: red;
@@ -352,19 +436,17 @@ button:focus {
       height: 30px;
       right: 0;
       border: none;
-      color: white;
+      color: $white;
       font-size: 15px;
       padding: auto;
       border-radius: 5px;
-      cursor: pointer;
    }
 
-   button:hover {
-      border: 2px solid rgb(29, 29, 29);
+   .red-button:hover {
       color: rgb(29, 29, 29);
    }
 
-   button:hover .delete-tooltip {
+   .red-button:hover .delete-tooltip {
       transition-delay: 0.5s;
       transition-duration: 0.2s;
       visibility: visible;
@@ -399,17 +481,16 @@ button:focus {
       left: 50%;
       top: 40%;
       margin: -150px 0 0 -200px;
-      background-color: white;
+      background-color: $white;
       border-radius: 15px;
       border: 2px solid black;
       padding: 20px;
       box-shadow: 3px 3px 10px rgb(54, 54, 54), -3px -3px 10px rgb(54, 54, 54);
-   }
-
-   .pop-up h2 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      text-align: center;
+      h2 {
+         margin-top: 0;
+         margin-bottom: 10px;
+         text-align: center;
+      }
    }
 
    .cancel {
@@ -423,9 +504,8 @@ button:focus {
       color: rgb(185, 185, 185);
       font-size: 40px;
       border: none;
-      background-color: white;
+      background-color: $white;
       line-height: 70%;
-      cursor: pointer;
    }
 
    .cancel:hover {
@@ -463,22 +543,10 @@ button:focus {
       margin: 0 auto 10px auto;
    }
 
-   button {
-      background-color: rgb(216, 216, 216);
-      border: none;
-      width: 150px;
-      height: 30px;
-      border-radius: 5px;
-   }
-
    .modal-add-btn {
       position: relative;
       display: inline-block;
       left: 22px;
-   }
-
-   button:hover {
-      background-color: rgb(196, 196, 196);
    }
 
    .modal-add-more-btn {
@@ -528,11 +596,8 @@ button:focus {
 
 #payment-modal {
    #accept-payment-btn {
-      background-color: rgb(216, 216, 216);
-      border: none;
-      width: 150px;
-      height: 30px;
-      border-radius: 5px;
-      margin-left: 103px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
    }
 }

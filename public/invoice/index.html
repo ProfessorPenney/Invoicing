@@ -8,38 +8,42 @@
    </head>
 
    <body>
-      <div class="container">
-         <div id="company-header">
-            <h1 id="company-name">Test Company Name</h1>
-         </div>
-         <div id="invoice-info">
+      <div id="company-header">
+         <h1 id="company"></h1>
+         <div id="header-flex">
             <a href="../index.html"><button id="">Return to invoice List</button></a>
-            <h2>Invoice # <span id="invoice-num"></span></h2>
-            <h2>Customer: <span id="customer"></span></h2>
-            <h2>Address: <span id="address"></span></h2>
-            <h2>Total: <span id="total" class="dolla-sign"></span></h2>
-            <h2>Date: <span id="date"></span></h2>
-            <h2>Due: <span id="due"></span></h2>
-            <h2>Owed: <span id="owed"></span></h2>
-            <button id="add-item-btn">
-               +
-               <p>add new item</p>
-            </button>
-            <br />
             <button id="download">Download PDF</button>
-            <button id="payment-btn">Add Payment</button>
-            <div id="payments">
-               <h2>Total Payments: <span id="total-payments"></span></h2>
-               <div id="payments-div"></div>
+         </div>
+      </div>
+      <div class="container">
+         <div id="invoice-info">
+            <div id="left">
+               <h2>Invoice # <span id="invoice-num"></span></h2>
+               <h3>Customer: <span id="customer"></span></h3>
+               <h3>Address: <span id="address"></span></h3>
+               <h3>Date: <span id="date"></span></h3>
+               <h3>Total: <span id="total" class="dolla-sign"></span></h3>
+            </div>
+            <div id="invoice-border"></div>
+
+            <div id="right">
+               <h3>Due: <span id="due"></span></h3>
+               <h3>Owed: <span id="owed"></span></h3>
+               <button id="payment-btn" class="blue-button-style">Add Payment</button>
+               <div id="payments">
+                  <h3>Total Payments: <span id="total-payments"></span></h3>
+                  <div id="payments-div"></div>
+               </div>
             </div>
          </div>
 
          <div id="line-item-list">
+            <button id="add-item-btn">Add New Line Item</button>
             <div>
-               <h4>Invoice Items</h4>
-               <h4>Qty</h4>
-               <h4>Unit Price</h4>
-               <h4>Total</h4>
+               <h3>Invoice Items</h3>
+               <h3>Qty</h3>
+               <h3>Unit Price</h3>
+               <h3>Total</h3>
             </div>
             <ul></ul>
          </div>
@@ -54,7 +58,12 @@
                   <label for="payment-date">Date</label>
                   <input type="date" id="payment-date" />
                   <textarea id="payment-note" placeholder="notes"></textarea>
-                  <input type="button" id="accept-payment-btn" value="Add Payment" />
+                  <input
+                     type="button"
+                     id="accept-payment-btn"
+                     class="blue-button-style"
+                     value="Add Payment"
+                  />
                </form>
             </div>
          </div>
@@ -81,20 +90,25 @@
                <label for="price">Unit Price:</label><span class="input-dolla">$</span>
                <input id="price" type="text" />
                <textarea id="description" placeholder="description"></textarea>
-               <button class="modal-add-btn modal-add-btn add-modal display-none">
+               <button class="modal-add-btn modal-add-btn add-modal display-none blue-button-style">
                   Add Item & Quit
                </button>
-               <button class="modal-add-more-btn modal-add-btn add-modal display-none">
+               <button
+                  class="modal-add-more-btn modal-add-btn add-modal display-none blue-button-style"
+               >
                   Add Item & More
                </button>
-               <button class="modal-edit-btn edit-modal display-none">
+               <button class="modal-edit-btn edit-modal display-none blue-button-style">
                   Edit Item & Quit
                </button>
-               <button class="modal-add-template-btn add-modal display-none">
+               <button class="modal-add-template-btn add-modal display-none blue-button-style">
                   Save as template
                </button>
             </div>
          </div>
+      </div>
+      <div id="footer">
+         <p>Copyright &copy; 2020 Kevin Penney. All Rights Reserved</p>
       </div>
       <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
       <script src="invoice.js"></script>

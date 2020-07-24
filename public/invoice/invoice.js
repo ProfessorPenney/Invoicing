@@ -1,4 +1,4 @@
-const companyName = document.querySelector('#company-name')
+const companyName = document.querySelector('#company')
 
 const invoiceNum = document.querySelector('#invoice-num')
 const invoiceCust = document.querySelector('#customer')
@@ -38,6 +38,7 @@ const invoiceId = sessionStorage.getItem('id')
 
 let itemTemplates = []
 let itemId = null
+const today = new Date()
 
 acceptPayment.addEventListener('click', addPayment)
 
@@ -48,9 +49,7 @@ fetch('/api/invoices/' + invoiceId)
 
 fetch('/api/companyinfo')
    .then(res => res.json())
-   .then(data => {
-      companyName.textContent = data.name
-   })
+   .then(data => (companyName.textContent = data.name))
 
 // Button listeners
 addBtn.addEventListener('click', () =>
@@ -110,6 +109,11 @@ function fillData(invoice) {
    invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}`
    invoiceTotalPayments.textContent = `$` + (invoice.total - invoice.owed).toFixed(2)
 
+   const todaysMonth =
+      today.getMonth() + 1 > 9 ? today.getMonth() + 1 : '0' + (today.getMonth() + 1)
+   const todaysDate = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
+   paymentDate.value = `${today.getFullYear()}-${todaysMonth}-${todaysDate}`
+
    invoicePayments.innerHTML = ''
    invoice.payment.forEach((payment, index) => {
       const divEl = document.createElement('div')
@@ -125,7 +129,7 @@ function fillData(invoice) {
       const deleteBtnEl = document.createElement('button')
       deleteBtnEl.textContent = 'x'
       divEl.appendChild(deleteBtnEl)
-      divEl.addEventListener('click', deletePayment)
+      deleteBtnEl.addEventListener('click', deletePayment)
 
       invoicePayments.appendChild(divEl)
 
@@ -163,6 +167,7 @@ function fillData(invoice) {
       quitBtn = document.createElement('button')
       quitBtn.textContent = 'x'
       quitBtn.addEventListener('click', deleteItem)
+      quitBtn.classList.add('red-button')
       quitBtn.style.top = index * 55.8 + 'px'
 
       deleteTip = document.createElement('p')
@@ -338,7 +343,7 @@ function deletePayment() {
    fetch(`/api/invoices/${invoiceId}/payment`, {
       method: 'DELETE',
       body: JSON.stringify({
-         index: +this.id.substring(7)
+         index: +this.parentNode.id.substring(7)
       }),
       headers: { 'Content-type': 'application/json' }
    })
@@ -348,19 +353,10 @@ function deletePayment() {
 
 // Creates PDF for download
 function createAndDownloadPdf() {
-   fetch(`/api/invoices/${invoiceId}/pdf`, {
-      method: 'POST',
-      body: JSON.stringify({
-         name: '',
-         receiptId: 0,
-         price1: 0,
-         price2: 0
-      }),
-      headers: { 'Content-type': 'application/json' }
-   })
+   fetch(`/api/invoices/${invoiceId}/pdf`)
       .then(res => res.blob())
       .then(data => {
          const pdfBlob = new Blob([data], { type: 'application/pdf' })
-         saveAs(pdfBlob, 'newPdf.pdf')
+         saveAs(pdfBlob, `Invoice${invoiceId}.pdf`)
       })
 }

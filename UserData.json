@@ -8,7 +8,7 @@
     "phone": "412",
     "email": "joe@sexygardens.com"
   },
-  "numberofInvoices": 112,
+  "numberofInvoices": 113,
   "customers": [
     {
       "name": "The Callahan Family",
@@ -72,6 +72,65 @@
   ],
   "invoices": [
     {
+      "id": 113,
+      "customer": {
+        "name": "The Callahan Family",
+        "address": {
+          "street": "123 Dono St",
+          "cityStateZip": "Tiburon, CA 94920"
+        }
+      },
+      "total": 350,
+      "date": {
+        "month": 6,
+        "day": 23,
+        "year": 2020
+      },
+      "owed": -100,
+      "dueDate": {
+        "month": 7,
+        "day": 2,
+        "year": 2020
+      },
+      "sent": false,
+      "payment": [
+        {
+          "amount": 350,
+          "date": {
+            "month": 7,
+            "day": 23,
+            "year": 2020
+          },
+          "note": "check 3245"
+        },
+        {
+          "amount": 100,
+          "date": {
+            "month": 7,
+            "day": 23,
+            "year": 2020
+          },
+          "note": ""
+        }
+      ],
+      "lineItems": [
+        {
+          "title": "Joe's Labor",
+          "description": "We worked super hard, dude",
+          "quantity": 6,
+          "unitPrice": 50,
+          "amount": 300
+        },
+        {
+          "title": "Purchase",
+          "description": "Stuff",
+          "quantity": 1,
+          "unitPrice": 50,
+          "amount": 50
+        }
+      ]
+    },
+    {
       "id": 112,
       "customer": {
         "name": "",
@@ -105,7 +164,7 @@
           "cityStateZip": "Tiburon, CA 94920"
         }
       },
-      "total": 923,
+      "total": 1593,
       "date": {
         "month": 6,
         "day": 18,
@@ -119,13 +178,13 @@
       "sent": false,
       "payment": [
         {
-          "amount": 150,
+          "amount": 500,
           "date": {
             "month": 7,
-            "day": 20,
+            "day": 23,
             "year": 2020
           },
-          "note": "asdfas"
+          "note": "check"
         }
       ],
       "lineItems": [
@@ -156,9 +215,30 @@
           "quantity": 8,
           "unitPrice": 50,
           "amount": 400
+        },
+        {
+          "title": "Purchase",
+          "description": "asdfsdfasdfas",
+          "quantity": 1,
+          "unitPrice": 100,
+          "amount": 100
+        },
+        {
+          "title": "Joe's Labor",
+          "description": "the usual\n",
+          "quantity": 6,
+          "unitPrice": 80,
+          "amount": 480
+        },
+        {
+          "title": "Landscaping Crew - 3 guys",
+          "description": "",
+          "quantity": 1,
+          "unitPrice": 90,
+          "amount": 90
         }
       ],
-      "owed": 773
+      "owed": 1093
     },
     {
       "id": 110,
