@@ -73,9 +73,9 @@ body textarea {
 
 #company-header #burger {
   position: absolute;
-  height: 20px;
   right: 50px;
   top: 35px;
+  padding: 5px;
 }
 
 #company-header #burger div {
@@ -84,19 +84,41 @@ body textarea {
   background-color: #f7f7f7;
 }
 
-#company-header #burger #burger1 {
-  position: relative;
-  top: 0px;
-}
-
 #company-header #burger #burger2 {
-  position: relative;
-  top: 4px;
+  margin-top: 5px;
 }
 
 #company-header #burger #burger3 {
-  position: relative;
-  top: 8px;
+  margin-top: 5px;
+}
+
+#company-header #menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 70px;
+  border-top: 1px solid #270606;
+  border-right: 1px solid #270606;
+  border-left: 1px solid #270606;
+  background-color: #f7f7f7;
+  color: #270606;
+  cursor: pointer;
+}
+
+#company-header #menu p {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #270606;
+}
+
+#company-header #menu-blanket {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
 }
 
 #company-header #header-flex {
@@ -221,6 +243,7 @@ body textarea {
   height: 30px;
   border-radius: 5px;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 #main-grid #create-invoice #create-invoice-btn:hover {
@@ -649,15 +672,11 @@ body textarea {
   width: 340px;
 }
 
-.modal #company-window #save-company-btn {
+.modal #company-window input#save-company-btn {
   display: inline-block;
-  background-color: #d8d8d8;
-  border: none;
-  width: 250px;
-  height: 30px;
-  border-radius: 5px;
-  margin-left: 50px;
-  padding-right: 10px;
+  width: 150px;
+  margin-left: 100px;
+  margin-right: auto;
 }
 
 .modal .display-none {

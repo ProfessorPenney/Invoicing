@@ -1,6 +1,9 @@
 const companyName = document.querySelector('#company')
 const companyModal = document.querySelector('#company-modal')
-// const infoBtn = document.querySelector('#edit-company-info-btn')
+const burger = document.querySelector('#burger')
+const menuBlanket = document.querySelector('#menu-blanket')
+const menu = document.querySelector('#menu')
+const menuInfo = document.querySelector('#edit-company-info')
 const companyCancelBtn = document.querySelector('#company-cancel')
 const saveCompanyBtn = document.querySelector('#save-company-btn')
 const companyNameInput = document.querySelector('#company-name')
@@ -38,18 +41,29 @@ fetch('/api/customers')
    .then(res => res.json())
    .then(fillcustomerDataList)
 
-// infoBtn.addEventListener('click', () => {
-//    companyModal.classList.remove('display-none')
-//    fetch('/api/companyinfo')
-//       .then(res => res.json())
-//       .then(data => {
-//          companyNameInput.value = data.name
-//          companyAddress1Input.value = data.address.street
-//          companyAddress2Input.value = data.address.cityStateZip
-//          companyPhoneInput.value = data.phone
-//          companyEmailInput.value = data.email
-//       })
-// })
+burger.addEventListener('click', () => {
+   menuBlanket.style.display = 'block'
+   menu.style.display = 'block'
+})
+
+menuBlanket.addEventListener('click', () => {
+   menu.style.display = 'none'
+   menuBlanket.style.display = 'none'
+})
+
+menuInfo.addEventListener('click', () => {
+   menuBlanket.click()
+   companyModal.classList.remove('display-none')
+   fetch('/api/companyinfo')
+      .then(res => res.json())
+      .then(data => {
+         companyNameInput.value = data.name
+         companyAddress1Input.value = data.address.street
+         companyAddress2Input.value = data.address.cityStateZip
+         companyPhoneInput.value = data.phone
+         companyEmailInput.value = data.email
+      })
+})
 
 companyCancelBtn.addEventListener('click', () => {
    companyModal.classList.add('display-none')
