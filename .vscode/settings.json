@@ -4,11 +4,11 @@
          "format": "expanded",
          "extensionName": ".css",
          "savePath": "/public"
-      },
-      {
-         "format": "expanded",
-         "extensionName": ".css",
-         "savePath": null
       }
+      // {
+      //    "format": "expanded",
+      //    "extensionName": ".css",
+      //    "savePath": null
+      // }
    ]
 }

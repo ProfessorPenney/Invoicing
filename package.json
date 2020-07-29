@@ -1,19 +1,22 @@
 {
-  "name": "invoice-regular",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon index",
-    "start": "node index"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "express": "^4.17.1",
-    "html-pdf": "^2.2.0",
-    "path": "^0.12.7"
-  },
-  "devDependencies": {}
+   "name": "invoice-regular",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "dev": "nodemon index",
+      "start": "node index"
+   },
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "connect-flash": "^0.1.1",
+      "express": "^4.17.1",
+      "express-session": "^1.17.1",
+      "html-pdf": "^2.2.0",
+      "passport": "^0.4.1",
+      "passport-local": "^1.0.0"
+   },
+   "devDependencies": {}
 }

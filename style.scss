@@ -12,7 +12,6 @@ body {
    .container {
       margin: auto;
       width: 900px;
-      text-align: r;
    }
 
    .dolla-sign:before {
@@ -619,5 +618,53 @@ body {
       display: block;
       margin-left: auto;
       margin-right: auto;
+   }
+}
+
+#login-background {
+   position: fixed;
+   left: 0;
+   top: 0;
+   height: 100%;
+   width: 100%;
+   background: #1488cc; /* fallback for old browsers */
+   background: -webkit-linear-gradient(
+      to bottom,
+      #2b32b2,
+      #1488cc
+   ); /* Chrome 10-25, Safari 5.1-6 */
+   background: linear-gradient(
+      to bottom,
+      #2b32b2,
+      #1488cc
+   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.login {
+   width: 400px;
+   margin: 10% auto 0 auto;
+   background-color: $white;
+   border-radius: 15px;
+   border: 2px solid black;
+   padding: 20px;
+   #messages {
+      color: red;
+   }
+   h2 {
+      text-align: center;
+   }
+   div {
+      width: 100%;
+      margin-top: 20px;
+   }
+   input {
+      box-sizing: border-box;
+      display: block;
+      height: 30px;
+      padding-left: 10px;
+      width: 100%;
+   }
+   button {
+      display: block;
+      margin: 10px auto 0 auto;
    }
 }

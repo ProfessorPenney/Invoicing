@@ -1,5 +1,8 @@
 const express = require('express')
 const fs = require('fs')
+const session = require('express-session')
+const passport = require('passport')
+const flash = require('connect-flash')
 const pdf = require('html-pdf')
 
 const pdfTemplate = require('./documents')
@@ -8,6 +11,28 @@ const app = express()
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+
+// Passport config
+require('./config/passport')(passport)
+
+// Express Session Middleware
+app.use(
+   session({
+      secret: 'special sauce',
+      resave: true,
+      saveUninitialized: true
+   })
+)
+
+// Passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
+
+// Connect flash Middleware
+app.use(flash())
+
+// Route
+app.use('/users', require('./routes/users'))
 
 // get invoice list
 app.get('/api/invoices', (req, res) => {
