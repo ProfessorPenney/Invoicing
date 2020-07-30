@@ -5,7 +5,7 @@ const menuBlanket = document.querySelector('#menu-blanket')
 const menu = document.querySelector('#menu')
 const menuInfo = document.querySelector('#edit-company-info')
 const companyCancelBtn = document.querySelector('#company-cancel')
-const saveCompanyBtn = document.querySelector('#save-company-btn')
+const companyForm = document.querySelector('#company-form')
 const companyNameInput = document.querySelector('#company-name')
 const companyAddress1Input = document.querySelector('#company-address1')
 const companyAddress2Input = document.querySelector('#company-address2')
@@ -69,7 +69,7 @@ companyCancelBtn.addEventListener('click', () => {
    companyModal.classList.add('display-none')
 })
 
-saveCompanyBtn.addEventListener('click', e => {
+companyForm.addEventListener('submit', e => {
    companyCancelBtn.click()
    e.preventDefault()
    fetch('api/companyinfo', {
@@ -85,6 +85,8 @@ saveCompanyBtn.addEventListener('click', e => {
          email: companyEmailInput.value
       })
    })
+      .then(res => res.json())
+      .then(data => (companyName.textContent = data))
 })
 
 createInvoiceBtn.addEventListener('click', createInvoice)
@@ -143,7 +145,7 @@ function fillData(invoiceList) {
    invoiceList.forEach(invoice => {
       if (invoice.owed > 0) {
          outstandingTotalCount++
-         outstandingTotalAmount += invoice.total
+         outstandingTotalAmount += invoice.owed
       }
       invoice.payment.forEach(pay => {
          if (pay.date.year == today.getFullYear()) {

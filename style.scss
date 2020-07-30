@@ -75,6 +75,20 @@ body {
       cursor: pointer;
    }
 
+   #logout-btn {
+      position: absolute;
+      right: 110px;
+      top: 35px;
+      display: inline-block;
+      background-color: transparent;
+      color: $white;
+      padding: auto;
+      border: 1px solid $white;
+      width: 80px;
+      height: 25px;
+      border-radius: 5px;
+   }
+
    #burger {
       position: absolute;
       right: 50px;

@@ -70,6 +70,20 @@ body textarea {
   cursor: pointer;
 }
 
+#company-header #logout-btn {
+  position: absolute;
+  right: 110px;
+  top: 35px;
+  display: inline-block;
+  background-color: transparent;
+  color: #f7f7f7;
+  padding: auto;
+  border: 1px solid #f7f7f7;
+  width: 80px;
+  height: 25px;
+  border-radius: 5px;
+}
+
 #company-header #burger {
   position: absolute;
   right: 50px;

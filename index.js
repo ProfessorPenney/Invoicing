@@ -20,7 +20,8 @@ app.use(
    session({
       secret: 'special sauce',
       resave: true,
-      saveUninitialized: true
+      saveUninitialized: true,
+      cookie: { maxAge: 80000000 }
    })
 )
 
@@ -36,39 +37,23 @@ app.use('/users', require('./routes/users'))
 
 // get invoice list
 app.get('/api/invoices', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      stuff = JSON.parse(data)
-      res.json(stuff.invoices)
-   })
+   res.json(req.user.invoices)
 })
 
 // get customer list
 app.get('/api/customers', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      stuff = JSON.parse(data)
-      res.json(stuff.customers)
-   })
+   res.json(req.user.customers)
 })
 
 // get single invoice
 app.get('/api/invoices/:id', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))
-      res.json(oneInvoice[0])
-   })
+   const oneInvoice = req.user.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+   res.json(oneInvoice)
 })
 
 // get company info
 app.get('/api/companyinfo', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      res.json(data.companyInfo)
-   })
+   res.json(req.user.companyInfo)
 })
 
 // POST - edit company info
@@ -77,22 +62,19 @@ app.post('/api/companyinfo', (req, res) => {
       if (err) throw err
       data = JSON.parse(data)
 
-      data.companyInfo = req.body
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      oneCompany.companyInfo = req.body
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
-         res.json(data.templates)
+         res.json(req.user.companyInfo.name)
       })
    })
 })
 
 // get templates
 app.get('/api/templates', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      res.json(data.templates)
-   })
+   res.json(req.user.templates)
 })
 
 // drag and drop reorder line items
@@ -100,18 +82,21 @@ app.patch('/api/invoices/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))
-      lineItems = oneInvoice[0].lineItems
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
+      const lineItems = oneInvoice.lineItems
 
       const { oldIndex, newIndex } = req.body
 
-      draggedItem = lineItems.slice(oldIndex, oldIndex + 1)[0]
+      const draggedItem = lineItems.slice(oldIndex, oldIndex + 1)[0]
       lineItems.splice(oldIndex, 1)
       lineItems.splice(newIndex, 0, draggedItem)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
-         res.json(oneInvoice[0])
+         res.json(oneInvoice)
       })
    })
 })
@@ -121,6 +106,7 @@ app.post('/api/templates', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
 
       const { title, description, quantity, unitPrice } = req.body
       const newTemplateItem = {
@@ -129,11 +115,11 @@ app.post('/api/templates', (req, res) => {
          quantity,
          unitPrice
       }
-      data.templates.push(newTemplateItem)
+      oneCompany.templates.push(newTemplateItem)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
-         res.json(data.templates)
+         res.json(oneCompany.templates)
       })
    })
 })
@@ -143,7 +129,10 @@ app.post('/api/invoices/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
       const { lineItems } = oneInvoice
       const { title, description, quantity, unitPrice, amount } = req.body
 
@@ -176,13 +165,15 @@ app.post('/api/invoices', (req, res) => {
       if (err) throw err
       data = JSON.parse(data)
 
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+
       const { customer, daysUntilDue } = req.body
       var dueDate = new Date()
       const today = new Date()
       dueDate.setDate(dueDate.getDate() + +daysUntilDue)
 
       const newInvoice = {
-         id: ++data.numberofInvoices,
+         id: ++oneCompany.numberofInvoices,
          customer,
          total: 0,
          date: {
@@ -200,11 +191,11 @@ app.post('/api/invoices', (req, res) => {
          payment: [],
          lineItems: []
       }
-      data.invoices.unshift(newInvoice)
+      oneCompany.invoices.unshift(newInvoice)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
-         res.json(data.numberofInvoices)
+         res.json(oneCompany.numberofInvoices)
       })
    })
 })
@@ -214,7 +205,10 @@ app.put('/api/invoices/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
       const { lineItems } = oneInvoice
       const { id, title, description, unitPrice, quantity } = req.body
 
@@ -246,7 +240,10 @@ app.delete('/api/invoices/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
       const { lineItems } = oneInvoice
 
       lineItems.splice(req.body.index, 1)
@@ -270,7 +267,10 @@ app.post('/api/invoices/:id/payment', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
 
       const { payAmount, payDate, payNote } = req.body
 
@@ -304,7 +304,10 @@ app.delete('/api/invoices/:id/payment', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
       const { payment } = oneInvoice
 
       payment.splice(req.body.index, 1)
@@ -325,9 +328,12 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneInvoice = data.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
 
-      const { name, address, phone, email } = data.companyInfo
+      const { name, address, phone, email } = oneCompany.companyInfo
 
       let companyInfo = ''
       if (address.street != '') companyInfo += `${address.street} <br />`

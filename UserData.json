@@ -2,18 +2,19 @@
   {
     "id": {
       "id": 0,
-      "email": "joe@sexygardens.com"
+      "email": "joe@sexygardens.com",
+      "password": "$2a$10$WmAHniBolLVhV5hyOma71.uuvkUx6AFeBlbBIdBUygh.x9BUlE2OG"
     },
     "companyInfo": {
-      "name": "Joe's Gardens",
+      "name": "Joe's Amazing Gardens",
       "address": {
-        "street": "21 Merrydale",
+        "street": "21 Merrydale Dr",
         "cityStateZip": "San Rafael, CA 94903"
       },
       "phone": "555-555-5555",
       "email": "joe@sexygardens.com"
     },
-    "numberofInvoices": 113,
+    "numberofInvoices": 114,
     "customers": [
       {
         "name": "The Callahan Family",
@@ -73,9 +74,81 @@
         "description": "Great!??",
         "quantity": 5,
         "unitPrice": 20
+      },
+      {
+        "title": "New Sexy Template",
+        "description": "great template!",
+        "quantity": 1,
+        "unitPrice": 50
       }
     ],
     "invoices": [
+      {
+        "id": 114,
+        "customer": {
+          "name": "Rich Lawyer Guy",
+          "address": {
+            "street": "789 Ballin' Ave",
+            "cityStateZip": "Tiburon, CA 94920"
+          }
+        },
+        "total": 190,
+        "date": {
+          "month": 6,
+          "day": 29,
+          "year": 2020
+        },
+        "owed": 50,
+        "dueDate": {
+          "month": 7,
+          "day": 3,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [
+          {
+            "amount": 100,
+            "date": {
+              "month": 7,
+              "day": 29,
+              "year": 2020
+            },
+            "note": "fgh"
+          },
+          {
+            "amount": 40,
+            "date": {
+              "month": 7,
+              "day": 15,
+              "year": 2020
+            },
+            "note": "more notes"
+          }
+        ],
+        "lineItems": [
+          {
+            "title": "Purchase",
+            "description": "sac o stuff",
+            "quantity": 1,
+            "unitPrice": 50,
+            "amount": 50
+          },
+          {
+            "title": "Landscaping Crew - 3 guys",
+            "description": "",
+            "quantity": 1,
+            "unitPrice": 90,
+            "amount": 90
+          },
+          {
+            "title": "New Sexy Template",
+            "description": "great template!",
+            "quantity": 1,
+            "unitPrice": 50,
+            "amount": 50
+          }
+        ]
+      },
       {
         "id": 113,
         "customer": {
@@ -194,18 +267,18 @@
         ],
         "lineItems": [
           {
-            "title": "Joe's Labor",
-            "description": "the usual\n",
-            "quantity": 5,
-            "unitPrice": 80,
-            "amount": 400
-          },
-          {
             "title": "New Template",
             "description": "Great!??",
             "quantity": 5,
             "unitPrice": 20,
             "amount": 100
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "the usual\n",
+            "quantity": 5,
+            "unitPrice": 80,
+            "amount": 400
           },
           {
             "title": "stuff",

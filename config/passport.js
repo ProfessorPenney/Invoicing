@@ -11,19 +11,15 @@ module.exports = function (passport) {
             data = JSON.parse(data)
 
             const user = data.find(company => company.id.email === email)
-            console.log(user)
 
             if (!user) {
                return done(null, false, { message: 'That email is not registered' })
             }
             // Match password
             bcrypt.compare(password, user.id.password, (err, isMatch) => {
-               console.log(`isMatch ${isMatch}`)
-               console.log(`password ${password}`)
-               console.log(`hash ${user.id.password}`)
                if (err) throw err
                if (isMatch) {
-                  return done(null, user)
+                  return done(null, user.id)
                } else {
                   return done(null, false, { message: 'Password incorrect' })
                }
@@ -33,7 +29,7 @@ module.exports = function (passport) {
    )
 
    passport.serializeUser((user, done) => {
-      done(null, user.id.id)
+      done(null, user.id)
    })
 
    passport.deserializeUser((id, done) => {
