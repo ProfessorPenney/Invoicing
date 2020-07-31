@@ -242,7 +242,7 @@
             "cityStateZip": "Tiburon, CA 94920"
           }
         },
-        "total": 1593,
+        "total": 2605,
         "date": {
           "month": 6,
           "day": 18,
@@ -314,9 +314,65 @@
             "quantity": 1,
             "unitPrice": 90,
             "amount": 90
+          },
+          {
+            "title": "Landscaping Crew - 3 guys",
+            "description": "Great guys they are",
+            "quantity": 1,
+            "unitPrice": 90,
+            "amount": 90
+          },
+          {
+            "title": "",
+            "description": "",
+            "quantity": 1,
+            "unitPrice": 0,
+            "amount": 0
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
+            "unitPrice": 50,
+            "amount": 400
+          },
+          {
+            "title": "Purchase",
+            "description": "Item description",
+            "quantity": 1,
+            "unitPrice": 1,
+            "amount": 1
+          },
+          {
+            "title": "Testing Template",
+            "description": "Template test",
+            "quantity": 3,
+            "unitPrice": 20,
+            "amount": 60
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
+            "unitPrice": 50,
+            "amount": 400
+          },
+          {
+            "title": "Purchase",
+            "description": "Item description",
+            "quantity": 1,
+            "unitPrice": 1,
+            "amount": 1
+          },
+          {
+            "title": "Testing Template",
+            "description": "Template test",
+            "quantity": 3,
+            "unitPrice": 20,
+            "amount": 60
           }
         ],
-        "owed": 1093
+        "owed": 2105
       },
       {
         "id": 110,
