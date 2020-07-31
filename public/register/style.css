@@ -1,0 +1,92 @@
+body {
+   font-family: Arial, Helvetica, sans-serif;
+   background-color: #f7f7f7;
+   color: #270606;
+   margin: 0;
+}
+
+body a {
+   text-decoration: none;
+   color: #1488cc;
+}
+
+a:hover {
+   color: #1489cce5;
+}
+
+body button:focus {
+   outline: none;
+}
+
+body button:hover {
+   cursor: pointer;
+}
+
+body .blue-button-style {
+   background-color: #1488cc;
+   color: #f7f7f7;
+   padding: auto;
+   border: none;
+   width: 150px;
+   height: 30px;
+   border-radius: 5px;
+}
+
+body .blue-button-style:hover {
+   background-color: #1489cce5;
+}
+
+body input {
+   background-color: #f7f7f7;
+   border: 1px #777777 solid;
+}
+
+#login-background {
+   position: fixed;
+   left: 0;
+   top: 0;
+   height: 100%;
+   width: 100%;
+   background: #1488cc;
+   /* fallback for old browsers */
+   /* Chrome 10-25, Safari 5.1-6 */
+   background: -webkit-gradient(linear, left top, left bottom, from(#2b32b2), to(#1488cc));
+   background: linear-gradient(to bottom, #2b32b2, #1488cc);
+   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.login {
+   width: 400px;
+   margin: 10% auto 0 auto;
+   background-color: #f7f7f7;
+   border-radius: 15px;
+   border: 2px solid black;
+   padding: 20px;
+}
+
+.login #messages {
+   color: red;
+}
+
+.login h2 {
+   text-align: center;
+}
+
+.login div {
+   width: 100%;
+   margin-top: 20px;
+}
+
+.login input {
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+   display: block;
+   height: 30px;
+   padding-left: 10px;
+   width: 100%;
+}
+
+.login button {
+   display: block;
+   margin: 20px auto 0 auto;
+}

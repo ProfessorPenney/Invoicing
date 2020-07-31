@@ -1,7 +1,7 @@
 [
   {
     "id": {
-      "id": 0,
+      "id": "91cd173a-2d61-411a-8684-e3718fb29663",
       "email": "joe@sexygardens.com",
       "password": "$2a$10$WmAHniBolLVhV5hyOma71.uuvkUx6AFeBlbBIdBUygh.x9BUlE2OG"
     },
@@ -645,5 +645,192 @@
       "name": "kelley",
       "email": "kelley@gmail.com"
     }
+  },
+  {
+    "id": {
+      "id": 5,
+      "email": "newguys@gmail.com",
+      "password": "$2a$10$XzrJ2252JSLVfxZXEnsOQubdybHpnVC0NZ65s7iIJ5HM20b4EsMW2"
+    },
+    "companyInfo": {
+      "name": "the new guys",
+      "email": "newguys@gmail.com"
+    }
+  },
+  {
+    "id": {
+      "id": "91cd173a-2d61-411a-8684-e3718fb293",
+      "email": "gc@gmail.com",
+      "password": "$2a$10$se02GkuVrjP/ESzVZRyZKeFkRnTwyplmMupGRwZZhYSCbYvd9Q0fG"
+    },
+    "companyInfo": {
+      "name": "great company",
+      "email": "gc@gmail.com"
+    },
+    "numberofInvoices": 100,
+    "customers": [],
+    "templates": [
+      {
+        "title": "Great stuff",
+        "description": "the best",
+        "quantity": 5,
+        "unitPrice": 50
+      }
+    ],
+    "invoices": [
+      {
+        "id": 1,
+        "customer": {
+          "name": "",
+          "address": {
+            "street": "",
+            "cityStateZip": ""
+          }
+        },
+        "total": 750,
+        "date": {
+          "month": 6,
+          "day": 30,
+          "year": 2020
+        },
+        "owed": 0,
+        "dueDate": {
+          "month": 6,
+          "day": 30,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [
+          {
+            "amount": 100,
+            "date": {
+              "month": 7,
+              "day": 30,
+              "year": 2020
+            },
+            "note": ""
+          },
+          {
+            "amount": 550,
+            "date": {
+              "month": 7,
+              "day": 30,
+              "year": 2020
+            },
+            "note": ""
+          },
+          {
+            "amount": 100,
+            "date": {
+              "month": 7,
+              "day": 30,
+              "year": 2020
+            },
+            "note": "the sky is falling"
+          }
+        ],
+        "lineItems": [
+          {
+            "title": "Great stuff",
+            "description": "the best",
+            "quantity": 5,
+            "unitPrice": 50,
+            "amount": 250
+          },
+          {
+            "title": "Great stuff",
+            "description": "the best",
+            "quantity": 5,
+            "unitPrice": 50,
+            "amount": 250
+          },
+          {
+            "title": "Great stuff",
+            "description": "the best",
+            "quantity": 5,
+            "unitPrice": 50,
+            "amount": 250
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": {
+      "id": "80899abf-5319-43c7-9861-dc8b1618cde6",
+      "email": "nc@gmail.com",
+      "password": "$2a$10$sAIgCIKZXrFOhE3rU6RnVOUajXfBqKLTPs4CzPCw2AlodNeUmbp3S"
+    },
+    "companyInfo": {
+      "name": "nc",
+      "address": {
+        "street": "",
+        "cityStateZip": ""
+      },
+      "phone": "",
+      "email": "nc@gmail.com"
+    },
+    "numberofInvoices": 101,
+    "customers": [],
+    "templates": [
+      {
+        "title": "Great stuff",
+        "description": "the best",
+        "quantity": 1,
+        "unitPrice": 20
+      }
+    ],
+    "invoices": [
+      {
+        "id": 101,
+        "customer": {
+          "name": "New Guy",
+          "address": {
+            "street": "123456 Great St",
+            "cityStateZip": "Novato, CA 94947"
+          }
+        },
+        "total": 40,
+        "date": {
+          "month": 6,
+          "day": 30,
+          "year": 2020
+        },
+        "owed": 20,
+        "dueDate": {
+          "month": 7,
+          "day": 9,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [
+          {
+            "amount": 20,
+            "date": {
+              "month": 7,
+              "day": 30,
+              "year": 2020
+            },
+            "note": ""
+          }
+        ],
+        "lineItems": [
+          {
+            "title": "Great stuff",
+            "description": "the best",
+            "quantity": 1,
+            "unitPrice": 20,
+            "amount": 20
+          },
+          {
+            "title": "Great stuff",
+            "description": "the best",
+            "quantity": 1,
+            "unitPrice": 20,
+            "amount": 20
+          }
+        ]
+      }
+    ]
   }
 ]

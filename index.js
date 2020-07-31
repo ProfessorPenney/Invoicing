@@ -4,10 +4,15 @@ const session = require('express-session')
 const passport = require('passport')
 const flash = require('connect-flash')
 const pdf = require('html-pdf')
+const compression = require('compression')
+const helmet = require('helmet')
+const { ensureAuthenticated } = require('./config/auth')
 
 const pdfTemplate = require('./documents')
 
 const app = express()
+
+app.use(helmet())
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
@@ -18,7 +23,7 @@ require('./config/passport')(passport)
 // Express Session Middleware
 app.use(
    session({
-      secret: 'special sauce',
+      secret: 'special sauce 15 B357',
       resave: true,
       saveUninitialized: true,
       cookie: { maxAge: 80000000 }
@@ -31,6 +36,9 @@ app.use(passport.session())
 
 // Connect flash Middleware
 app.use(flash())
+
+// Compression
+app.use(compression())
 
 // Route
 app.use('/users', require('./routes/users'))
@@ -381,7 +389,11 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
    })
 })
 
-app.use('/', express.static(`${__dirname}/public`))
+app.use('/login', express.static(`${__dirname}/public/login`))
+
+app.use('/register', express.static(`${__dirname}/public/register`))
+
+app.use('/', ensureAuthenticated, express.static(`${__dirname}/public`))
 
 const PORT = process.env.PORT || 5000
 

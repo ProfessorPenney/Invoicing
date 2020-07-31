@@ -3,6 +3,7 @@ const router = express.Router()
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const { v4: uuid } = require('uuid')
 
 // Validation passed
 router.post('/register', (req, res) => {
@@ -21,14 +22,23 @@ router.post('/register', (req, res) => {
       } else {
          let newUser = {
             id: {
-               id: data.length + 1,
+               id: uuid(),
                email,
                password
             },
             companyInfo: {
                name,
+               address: {
+                  street: '',
+                  cityStateZip: ''
+               },
+               phone: '',
                email
-            }
+            },
+            numberofInvoices: 100,
+            customers: [],
+            templates: [],
+            invoices: []
          }
 
          // Hash Password
@@ -47,15 +57,14 @@ router.post('/register', (req, res) => {
    })
 })
 
-// Login Handle
-router.post(
-   '/login',
+//Login Handle
+router.post('/login', (req, res, next) => {
    passport.authenticate('local', {
       successRedirect: '/',
       failureRedirect: '/login',
       failureFlash: true
-   })
-)
+   })(req, res, next)
+})
 
 // Logout Handle
 router.get('/logout', (req, res) => {

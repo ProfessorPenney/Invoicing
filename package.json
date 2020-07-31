@@ -11,12 +11,15 @@
    "license": "ISC",
    "dependencies": {
       "bcryptjs": "^2.4.3",
+      "compression": "^1.7.4",
       "connect-flash": "^0.1.1",
       "express": "^4.17.1",
       "express-session": "^1.17.1",
+      "helmet": "^3.23.3",
       "html-pdf": "^2.2.0",
       "passport": "^0.4.1",
-      "passport-local": "^1.0.0"
+      "passport-local": "^1.0.0",
+      "uuid": "^8.3.0"
    },
    "devDependencies": {}
 }
