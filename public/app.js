@@ -176,8 +176,10 @@ function fillData(invoiceList) {
 
       const due = document.createElement('td')
       due.textContent = invoice.owed.toFixed(2)
-      if (due.textContent >= 0) {
-         due.color = 'red' // fix this color
+      if (due.textContent > 0) {
+         due.style.color = 'red'
+      } else if (due.textContent < 0) {
+         due.style.color = 'green'
       }
       invoiceRow.appendChild(due)
 

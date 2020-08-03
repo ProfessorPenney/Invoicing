@@ -375,23 +375,29 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
       const iTotal = total.toFixed(2)
       const lineItemsHTML = tableItems
 
-      // } // puppeteer pdf
+      // puppeteer pdf
       ;(async function () {
          try {
+            // Switch between values for development(top) and production(bottom)
+            // Development
             const browser = await puppeteer.launch()
-            const page = await browser.newPage()
 
+            // Production
+            // const browser = await puppeteer.launch({
+            //    executablePath: '/usr/bin/chromium-browser',
+            //    args: ['--no-sandbox']
+            // })
+            const page = await browser.newPage()
             await page.setContent(`
    <!DOCTYPE html>
    <html>
       <head>
          <meta charset="utf-8" />
-         <title>Invoice</title>
          <style>
          .container {
             max-width: 750px;
-            margin: 60px auto auto auto;
-            padding: 30px;
+            margin: auto auto auto auto;
+            padding: 0 30px 30px 30px;
             font-size: 16px;
             line-height: 24px;
             font-family: Arial, Helvetica, sans-serif, 'Helvetica';
@@ -402,14 +408,22 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
             position: relative;
             min-height: 200px;
           }
+
+          #header h1 {
+             margin-top: 0;
+             padding-top: 0;
+             width: 410px;
+             line-height: 1.2;
+          }
           
           #header #invoice-bold {
             position: absolute;
             margin-top: 0;
             right: 0px;
-            top: 0;
+            top: 0px;
             letter-spacing: 0.5em;
             color: rgb(20, 136, 230);
+            width: auto;
           }
           
           #header #top-stats {
@@ -421,14 +435,14 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
           #header #top-stats #left {
              position: relative;
              top: 0;
-             right: 60px;
+             right: 80px;
              text-align: right;
           }
 
           #header #top-stats #right {
             position: absolute;
             top: 0;
-            left: 60px;
+            left: 40px;
           }
 
           .total-due {
@@ -440,12 +454,13 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
             width: 100%;
             text-align: right;
             border-collapse: collapse;
-            font-size: large;
+            font-size: medium;
             margin-top: 40px;
           }
 
           table tr {
              height: 40px;
+             page-break-inside: avoid;
           }
           
           table th {
@@ -488,6 +503,7 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
             text-align: right;
             width: 220px;
             font-size: large;
+            page-break-inside: avoid;
           }
           
           #table-total span {
@@ -568,13 +584,16 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
       </body>
    </html>
     `)
-            await page.emulateMediaFeatures('screen')
             const newPDF = await page.pdf({
-               // format: 'letter',
-               printBackground: true
+               printBackground: true,
+               displayHeaderFooter: true,
+               footerTemplate: `<div style="font-size: 12px; text-align: center; margin: auto; width: 750px;">
+                  <span class="pageNumber"></span><span>/</span><span class="totalPages"></span>
+                  </div>`,
+               headerTemplate: `<div>`,
+               margin: { bottom: 100, top: 80, right: 20, left: 20 }
             })
 
-            console.log('done')
             await browser.close()
             res.type('pdf')
             res.end(newPDF, 'binary')
@@ -591,6 +610,6 @@ app.use('/register', express.static(`${__dirname}/public/register`))
 
 app.use('/', ensureAuthenticated, express.static(`${__dirname}/public`))
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 6357
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

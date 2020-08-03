@@ -64,6 +64,8 @@ body textarea {
 
 #company-header #company {
   text-align: center;
+  padding-right: 200px;
+  padding-left: 200px;
 }
 
 #company-header #burger:hover {
@@ -298,10 +300,6 @@ body textarea {
 
 #invoice-list td {
   vertical-align: middle;
-}
-
-#invoice-list td:nth-child(5) {
-  color: red;
 }
 
 #invoice-info {

@@ -70,6 +70,8 @@ body {
    padding: 10px 20px 10px 20px;
    #company {
       text-align: center;
+      padding-right: 200px;
+      padding-left: 200px;
    }
    #burger:hover {
       cursor: pointer;
@@ -280,10 +282,6 @@ body {
 
    td {
       vertical-align: middle;
-   }
-
-   td:nth-child(5) {
-      color: red;
    }
 }
 
