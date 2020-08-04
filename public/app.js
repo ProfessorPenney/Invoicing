@@ -4,6 +4,7 @@ const burger = document.querySelector('#burger')
 const menuBlanket = document.querySelector('#menu-blanket')
 const menu = document.querySelector('#menu')
 const menuInfo = document.querySelector('#edit-company-info')
+const menuCustomers = document.querySelector('#edit-customers')
 const companyCancelBtn = document.querySelector('#company-cancel')
 const companyForm = document.querySelector('#company-form')
 const companyNameInput = document.querySelector('#company-name')
@@ -17,7 +18,7 @@ const customerDataList = document.querySelector('#customer-list')
 const streetInput = document.querySelector('#street')
 const cityStateZipInput = document.querySelector('#city-state-zip')
 const customerInput = document.querySelector('#customer')
-const createInvoiceBtn = document.querySelector('#create-invoice-btn')
+const createInvoiceForm = document.querySelector('#create-invoice')
 const dueInput = document.querySelector('#due')
 const outstandingInvoices = document.querySelector('#outstanding-invoices')
 const outstandingTotal = document.querySelector('#outstanding-total')
@@ -65,6 +66,11 @@ menuInfo.addEventListener('click', () => {
       })
 })
 
+// menuCustomers.addEventListener('click', () => {
+//    menuBlanket.click()
+//    // customerModal.classList.remove('display-none')
+// })
+
 companyCancelBtn.addEventListener('click', () => {
    companyModal.classList.add('display-none')
 })
@@ -89,7 +95,7 @@ companyForm.addEventListener('submit', e => {
       .then(data => (companyName.textContent = data))
 })
 
-createInvoiceBtn.addEventListener('click', createInvoice)
+createInvoiceForm.addEventListener('submit', createInvoice)
 
 function createInvoice(e) {
    e.preventDefault()
@@ -98,6 +104,7 @@ function createInvoice(e) {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
          customer: {
+            id: null,
             name: customerInput.value,
             address: {
                street: streetInput.value,

@@ -6,7 +6,7 @@
       "password": "$2a$10$WmAHniBolLVhV5hyOma71.uuvkUx6AFeBlbBIdBUygh.x9BUlE2OG"
     },
     "companyInfo": {
-      "name": "Joe's Amazing Gardens a a a a a a a a a a a a a a a a a a",
+      "name": "Joe's Amazing Gardens",
       "address": {
         "street": "21 Merrydale Dr",
         "cityStateZip": "San Rafael, CA 94903"
@@ -14,9 +14,26 @@
       "phone": "555-555-5555",
       "email": "joe@sexygardens.com"
     },
-    "numberofInvoices": 114,
+    "numberofInvoices": 116,
     "customers": [
       {
+        "id": 5,
+        "name": "2nd customer",
+        "address": {
+          "street": "3215 asdf asdf",
+          "cityStateZip": "asdfasdfasd"
+        }
+      },
+      {
+        "name": "New Customer",
+        "address": {
+          "street": "12 Stuff St",
+          "cityStateZip": "Place, State Zip"
+        },
+        "id": 4
+      },
+      {
+        "id": 3,
         "name": "The Callahan Family",
         "address": {
           "street": "123 Dono St",
@@ -24,6 +41,7 @@
         }
       },
       {
+        "id": 2,
         "name": "Mrs. Old Lady",
         "address": {
           "street": "456 Happy Hill St",
@@ -31,6 +49,7 @@
         }
       },
       {
+        "id": 1,
         "name": "Rich Lawyer Guy",
         "address": {
           "street": "789 Ballin' Ave",
@@ -83,6 +102,91 @@
       }
     ],
     "invoices": [
+      {
+        "id": 116,
+        "customer": 5,
+        "total": 460,
+        "date": {
+          "month": 7,
+          "day": 4,
+          "year": 2020
+        },
+        "owed": 360,
+        "dueDate": {
+          "month": 7,
+          "day": 24,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [
+          {
+            "amount": 100,
+            "date": {
+              "month": 8,
+              "day": 4,
+              "year": 2020
+            },
+            "note": ""
+          }
+        ],
+        "lineItems": [
+          {
+            "title": "Purchase",
+            "description": "Item description",
+            "quantity": 1,
+            "unitPrice": 100,
+            "amount": 100
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 6,
+            "unitPrice": 50,
+            "amount": 300
+          },
+          {
+            "title": "One laborer",
+            "description": "Extra Project",
+            "quantity": 1,
+            "unitPrice": 30,
+            "amount": 30
+          },
+          {
+            "title": "Testing Template",
+            "description": "Template test",
+            "quantity": 3,
+            "unitPrice": 10,
+            "amount": 30
+          }
+        ]
+      },
+      {
+        "id": 115,
+        "customer": 4,
+        "total": 400,
+        "date": {
+          "month": 7,
+          "day": 4,
+          "year": 2020
+        },
+        "owed": 400,
+        "dueDate": {
+          "month": 7,
+          "day": 9,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [],
+        "lineItems": [
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
+            "unitPrice": 50,
+            "amount": 400
+          }
+        ]
+      },
       {
         "id": 114,
         "customer": {
@@ -151,13 +255,7 @@
       },
       {
         "id": 113,
-        "customer": {
-          "name": "The Callahan Family",
-          "address": {
-            "street": "123 Dono St",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
+        "customer": 1,
         "total": 350,
         "date": {
           "month": 6,
@@ -210,13 +308,7 @@
       },
       {
         "id": 112,
-        "customer": {
-          "name": "",
-          "address": {
-            "street": "",
-            "cityStateZip": ""
-          }
-        },
+        "customer": 2,
         "total": 0,
         "date": {
           "month": 6,
@@ -235,13 +327,7 @@
       },
       {
         "id": 111,
-        "customer": {
-          "name": "Rich Lawyer Guy",
-          "address": {
-            "street": "789 Ballin' Ave",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
+        "customer": 2,
         "total": 2605,
         "date": {
           "month": 6,
@@ -376,13 +462,7 @@
       },
       {
         "id": 110,
-        "customer": {
-          "name": "Poopoo Face",
-          "address": {
-            "street": "1234567 Smash Dr",
-            "cityStateZip": "Superduper, CA 94945"
-          }
-        },
+        "customer": 3,
         "total": 1380,
         "date": {
           "month": 6,

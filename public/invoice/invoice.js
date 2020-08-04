@@ -103,10 +103,10 @@ function fillData(invoice) {
    invoiceCust.textContent = invoice.customer.name
    invoiceAddress.textContent = `${invoice.customer.address.street}
    ${invoice.customer.address.cityStateZip}`
-   invoiceTotal.textContent = invoice.total.toFixed(2)
+   // invoiceTotal.textContent = invoice.total.toFixed(2)   Moved to fillInvoiceItems
    invoiceDate.textContent = `${invoice.date.month}/${invoice.date.day}/${invoice.date.year}`
    invoiceDueDate.textContent = `${invoice.dueDate.month}/${invoice.dueDate.day}/${invoice.dueDate.year}`
-   invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}`
+   // invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}` Moved to fillInvoiceItems
    invoiceTotalPayments.textContent = `$` + (invoice.total - invoice.owed).toFixed(2)
 
    const todaysMonth =
@@ -139,6 +139,12 @@ function fillData(invoice) {
          invoicePayments.appendChild(paymentNoteEl)
       }
    })
+   fillInvoiceItems(invoice)
+}
+
+function fillInvoiceItems(invoice) {
+   invoiceTotal.textContent = invoice.total.toFixed(2)
+   invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}`
 
    if (!invoice.lineItems.length) {
       itemList.innerHTML = '<p style="text-align: center; margin-top: 60px;" >Empty invoice</p>'
@@ -221,7 +227,7 @@ function editLineItem() {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillData)
+      .then(fillInvoiceItems)
 }
 
 // Add a line item
@@ -234,7 +240,7 @@ function addLineItem() {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillData)
+      .then(fillInvoiceItems)
 }
 
 // Fill in template invoice items for the datalist object

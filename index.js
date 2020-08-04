@@ -21,7 +21,7 @@ require('./config/passport')(passport)
 // Express Session Middleware
 app.use(
    session({
-      secret: 'special sauce 15 B357',
+      secret: 'special sauce is the best sauce',
       resave: true,
       saveUninitialized: true,
       cookie: { maxAge: 80000000 }
@@ -43,7 +43,16 @@ app.use('/users', require('./routes/users'))
 
 // get invoice list
 app.get('/api/invoices', (req, res) => {
-   res.json(req.user.invoices)
+   const customerList = req.user.customers
+   let invoiceList = req.user.invoices
+   invoiceList.forEach(invoice => {
+      customerList.forEach(customer => {
+         if (invoice.customer === customer.id) {
+            invoice.customer = customer
+         }
+      })
+   })
+   res.json(invoiceList)
 })
 
 // get customer list
@@ -54,6 +63,11 @@ app.get('/api/customers', (req, res) => {
 // get single invoice
 app.get('/api/invoices/:id', (req, res) => {
    const oneInvoice = req.user.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+   req.user.customers.forEach(customer => {
+      if (oneInvoice.customer === customer.id) {
+         oneInvoice.customer = customer
+      }
+   })
    res.json(oneInvoice)
 })
 
@@ -172,15 +186,35 @@ app.post('/api/invoices', (req, res) => {
       data = JSON.parse(data)
 
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-
+      const customerList = oneCompany.customers
       const { customer, daysUntilDue } = req.body
+
+      // Add new customer if new
+      let customerIndex = -1
+      if (customerList.length === 0) {
+         // if first customer ever
+         customerList.unshift(customer)
+         customer.id = 1
+      } else {
+         customerList.forEach(customerFromList => {
+            if (customerFromList.name == customer.name) {
+               customer.id = customerFromList.id
+            }
+         })
+         if (!customer.id) {
+            // if New Customer
+            customer.id = +customerList[0].id + 1
+            customerList.unshift(customer)
+         }
+      }
+
       var dueDate = new Date()
       const today = new Date()
       dueDate.setDate(dueDate.getDate() + +daysUntilDue)
 
       const newInvoice = {
          id: ++oneCompany.numberofInvoices,
-         customer,
+         customer: customer.id,
          total: 0,
          date: {
             month: today.getMonth(),
@@ -201,7 +235,7 @@ app.post('/api/invoices', (req, res) => {
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
-         res.json(oneCompany.numberofInvoices)
+         res.json(newInvoice.id)
       })
    })
 })
@@ -341,6 +375,12 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
 
       const { name, address, phone, email } = oneCompany.companyInfo
 
+      req.user.customers.forEach(customer => {
+         if (oneInvoice.customer === customer.id) {
+            oneInvoice.customer = customer
+         }
+      })
+
       let companyInfo = ''
       if (address.street != '') companyInfo += `${address.street} <br />`
       if (address.cityStateZip != '') companyInfo += `${address.cityStateZip} <br />`
@@ -379,6 +419,7 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
       ;(async function () {
          try {
             // Switch between values for development(top) and production(bottom)
+
             // Development
             const browser = await puppeteer.launch()
 
