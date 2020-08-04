@@ -14,7 +14,7 @@
       "phone": "555-555-5555",
       "email": "joe@sexygardens.com"
     },
-    "numberofInvoices": 116,
+    "numberofInvoices": 117,
     "customers": [
       {
         "id": 5,
@@ -102,6 +102,25 @@
       }
     ],
     "invoices": [
+      {
+        "id": 117,
+        "customer": 5,
+        "total": 0,
+        "date": {
+          "month": 7,
+          "day": 4,
+          "year": 2020
+        },
+        "owed": 0,
+        "dueDate": {
+          "month": 7,
+          "day": 9,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [],
+        "lineItems": []
+      },
       {
         "id": 116,
         "customer": 5,
@@ -349,6 +368,15 @@
               "year": 2020
             },
             "note": "check"
+          },
+          {
+            "amount": 500,
+            "date": {
+              "month": 8,
+              "day": 4,
+              "year": 2020
+            },
+            "note": "checking what happens if i add a long note with the new format! Hopefully it's amazing and I'm just wasting my time being thorough"
           }
         ],
         "lineItems": [
@@ -458,7 +486,7 @@
             "amount": 60
           }
         ],
-        "owed": 2105
+        "owed": 1605
       },
       {
         "id": 110,

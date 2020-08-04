@@ -9,7 +9,12 @@ body {
    background-color: $white;
    color: $font-color;
    margin: 0;
+   #overflow-wrapper {
+      position: relative;
+      overflow-x: hidden;
+   }
    .container {
+      box-sizing: border-box;
       margin: auto;
       width: 900px;
    }
@@ -50,11 +55,19 @@ body {
       background-color: $white;
       border: 1px rgb(119, 119, 119) solid;
    }
+   hr#phone-only-border {
+      width: 70%;
+      display: none;
+      grid-area: border;
+      border-color: $accent-color;
+   }
 }
 
 // Header
 
 #company-header {
+   box-sizing: border-box;
+   width: 100%;
    color: #f2f7f2;
    background: #1488cc; /* fallback for old browsers */
    background: -webkit-linear-gradient(
@@ -111,6 +124,7 @@ body {
    }
 
    #menu {
+      z-index: 10;
       display: none;
       position: absolute;
       right: 0;
@@ -129,6 +143,7 @@ body {
       }
    }
    #menu-blanket {
+      z-index: 9;
       display: none;
       position: absolute;
       top: 0;
@@ -147,7 +162,7 @@ body {
          color: $white;
          padding: auto;
          border: 1px solid $white;
-         width: 150px;
+         flex-basis: 150px;
          height: 30px;
          border-radius: 5px;
          margin-left: 10px;
@@ -162,7 +177,8 @@ body {
 // Footer
 
 #footer {
-   // background-color: $accent-color;
+   box-sizing: border-box;
+   width: 100%;
    background: #1488cc; /* fallback for old browsers */
    background: -webkit-linear-gradient(to top, #2b32b2, #1488cc); /* Chrome 10-25, Safari 5.1-6 */
    background: linear-gradient(
@@ -206,7 +222,7 @@ body {
       }
    }
 
-   hr {
+   hr#summary-border {
       width: 80%;
    }
 
@@ -253,6 +269,7 @@ body {
 }
 
 #invoice-list {
+   box-sizing: border-box;
    grid-area: list;
    border-collapse: collapse;
    width: 100%;
@@ -289,8 +306,10 @@ body {
 
 #invoice-info {
    display: grid;
-   grid-template-columns: 550px 3px 347px;
-   grid-template-areas: 'left border right' 'items items items';
+   grid-template-columns: 550px 3px 347px 0;
+   grid-template-areas:
+      'left border right phoneBorder'
+      'items items items items';
    #left {
       grid-area: left;
       margin-top: auto;
@@ -311,6 +330,9 @@ body {
       margin-top: auto;
       margin-bottom: auto;
    }
+   #phone-only-border {
+      grid-area: phoneBorder;
+   }
 
    #payments {
       margin-top: 20px;
@@ -320,6 +342,7 @@ body {
       p {
          margin-top: 0;
          margin-bottom: 0;
+         width: 240px;
       }
       #payments-div div {
          display: flex;
@@ -630,5 +653,139 @@ body {
       display: block;
       margin-left: auto;
       margin-right: auto;
+   }
+}
+
+@media only screen and (max-width: 900px) {
+   body {
+      #company-header {
+         #company {
+            padding-left: 10px;
+            padding-right: 10px;
+         }
+
+         #mobile-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 200px;
+            margin: 0 auto 0 auto;
+
+            #logout-btn {
+               position: static;
+            }
+            #burger {
+               position: static;
+               display: inline-block;
+            }
+         }
+      }
+      .container {
+         padding: 0 10px;
+         width: 100%;
+         #phone-only-border {
+            display: block;
+         }
+
+         #main-grid {
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-areas: 'dash' 'border' 'invoice' 'list';
+
+            #dashboard {
+               text-align: center;
+               #border {
+                  display: none;
+               }
+            }
+
+            #create-invoice {
+               padding: 20px 10% 20px 10%;
+            }
+
+            hr#summary-border {
+               display: none;
+            }
+
+            #invoice-list {
+               tr th:nth-child(3),
+               tr td:nth-child(3),
+               tr th:nth-child(4),
+               tr td:nth-child(4) {
+                  display: none;
+               }
+            }
+         }
+         #invoice-info {
+            grid-template-columns: 100%;
+            grid-template-areas: 'left' 'phoneBorder' 'right' 'items' 'border';
+            text-align: center;
+            #invoice-border {
+               display: none;
+            }
+            #left {
+               padding-bottom: 0;
+            }
+            #right {
+               padding-top: 0;
+
+               #payments-div {
+                  div {
+                     width: 280px;
+                     margin-left: auto;
+                     margin-right: auto;
+                     p {
+                        margin-left: auto;
+                        width: auto;
+                     }
+                  }
+                  p {
+                     text-align: left;
+                     position: relative;
+                     margin: 0 auto;
+                     width: 220px;
+                  }
+               }
+            }
+         }
+
+         #line-item-list {
+            margin-top: 60px;
+
+            #add-item-btn {
+               left: 50%;
+               margin-left: -90px;
+            }
+            div {
+               h3:first-of-type {
+                  flex-basis: 450px;
+               }
+               h3:nth-child(2) {
+                  flex-basis: 80px;
+               }
+               h3:nth-child(3) {
+                  flex-basis: 180px;
+               }
+               h3:nth-child(4) {
+                  flex-basis: 190px;
+               }
+            }
+            li {
+               max-width: 900px;
+               grid-template-columns: 50% 11% 20% 19%;
+            }
+         }
+      }
+      #company-header {
+         #header-flex {
+            #logout-btn {
+               position: static;
+            }
+            button {
+               height: 40px;
+               width: 120px;
+            }
+         }
+      }
    }
 }

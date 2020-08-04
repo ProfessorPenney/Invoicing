@@ -8,102 +8,120 @@
    </head>
 
    <body>
-      <div id="company-header">
-         <h1 id="company"></h1>
-         <a href="/users/logout"><button id="logout-btn">Logout</button></a>
-         <div id="burger">
-            <div id="burger1"></div>
-            <div id="burger2"></div>
-            <div id="burger3"></div>
-         </div>
-
-         <div id="menu-blanket"></div>
-         <div id="menu">
-            <p id="edit-company-info">Edit Company Info</p>
-            <p id="edit_customers">Edit Customer List (coming soon)</p>
-            <p>Edit Template Items (coming soon)</p>
-         </div>
-      </div>
-      <div class="container">
-         <div id="main-grid">
-            <div id="dashboard">
-               <div id="border"></div>
-               <h3>Summary</h3>
-               <h4>Outstanding Invoices: <span id="outstanding-invoices"></span></h4>
-               <h4>Outstanding Due: <span id="outstanding-total" class="dolla-sign"></span></h4>
-               <hr />
-               <h4>Current Income: <span id="year-to-date-income" class="dolla-sign"></span></h4>
-               <h4>Last Year: <span id="last-year-income" class="dolla-sign"></span></h4>
+      <div id="overflow-wrapper">
+         <div id="company-header">
+            <h1 id="company"></h1>
+            <div id="mobile-buttons">
+               <a href="/users/logout"><button id="logout-btn">Logout</button></a>
+               <div id="burger">
+                  <div id="burger1"></div>
+                  <div id="burger2"></div>
+                  <div id="burger3"></div>
+               </div>
             </div>
 
-            <form id="create-invoice">
-               <h3>Create New Invoice</h3>
-               <label for="customer">Customer</label>
-               <input
-                  id="customer"
-                  type="text"
-                  list="customer-list"
-                  placeholder="Name"
-                  oninput="custInput()"
-               />
-               <datalist id="customer-list">
-                  <option value="Customers didn't load. hmmm..."></option>
-               </datalist>
-               <input id="street" type="text" placeholder="Street" />
-               <input id="city-state-zip" type="text" placeholder="City, State Zipcode" />
-               <label for="due">Days Until Due</label>
-               <input id="due" type="number" value="0" />
-               <input type="submit" id="create-invoice-btn" value="CreateInvoice" />
-            </form>
-
-            <table id="invoice-list">
-               <tr>
-                  <th>Invoice</th>
-                  <th>Customer</th>
-                  <th>Date</th>
-                  <th>Total</th>
-                  <th>Due</th>
-                  <th>Due Date</th>
-               </tr>
-            </table>
+            <div id="menu-blanket"></div>
+            <div id="menu">
+               <p id="edit-company-info">Edit Company Info</p>
+               <p id="edit_customers">Edit Customer List (coming soon)</p>
+               <p>Edit Template Items (coming soon)</p>
+            </div>
          </div>
+         <div class="container">
+            <div id="main-grid">
+               <div id="dashboard">
+                  <div id="border"></div>
+                  <h3>Summary</h3>
+                  <h4>Outstanding Invoices: <span id="outstanding-invoices"></span></h4>
+                  <h4>Outstanding Due: <span id="outstanding-total" class="dolla-sign"></span></h4>
+                  <hr id="summary-border" />
+                  <h4>Current Income: <span id="year-to-date-income" class="dolla-sign"></span></h4>
+                  <h4>Last Year: <span id="last-year-income" class="dolla-sign"></span></h4>
+               </div>
 
-         <div id="company-modal" class="modal display-none">
-            <div id="company-window" class="pop-up">
-               <form id="company-form">
-                  <h2>Edit Company Info</h2>
-                  <h5>
-                     Enter info as you want it displayed on the invoice <br />
-                     Leave it blank info if you don't want it displayed
-                  </h5>
-                  <button class="cancel" id="company-cancel">x</button>
-                  <label for="company-name">Name</label>
+               <hr id="phone-only-border" />
+
+               <form id="create-invoice">
+                  <h3>Create New Invoice</h3>
+                  <label for="customer">Customer</label>
                   <input
+                     id="customer"
                      type="text"
-                     id="company-name"
-                     placeholder="(required) The Great Idea Company"
+                     list="customer-list"
+                     placeholder="Name"
+                     oninput="custInput()"
                   />
-                  <label for="company-address1">Address</label>
-                  <input type="text" id="company-address1" placeholder="1 Fancy Pants Blvd" />
-                  <input type="text" id="company-address2" placeholder="San Francisco, CA 94110" />
-                  <label for="company-phone">Phone #</label>
-                  <input type="text" id="company-phone" placeholder="format it how you like it" />
-                  <label for="company-email">Email</label>
-                  <input type="text" id="company-email" placeholder="Service@TheGreatIdeaCo.com" />
-                  <input
-                     type="submit"
-                     id="save-company-btn"
-                     class="blue-button-style"
-                     value="Save"
-                  />
+                  <datalist id="customer-list">
+                     <option value="Customers didn't load. hmmm..."></option>
+                  </datalist>
+                  <input id="street" type="text" placeholder="Street" />
+                  <input id="city-state-zip" type="text" placeholder="City, State Zipcode" />
+                  <label for="due">Days Until Due</label>
+                  <input id="due" type="number" value="0" />
+                  <input type="submit" id="create-invoice-btn" value="CreateInvoice" />
                </form>
+
+               <table id="invoice-list">
+                  <tr>
+                     <th>Invoice</th>
+                     <th>Customer</th>
+                     <th>Date</th>
+                     <th>Total</th>
+                     <th>Due</th>
+                     <th>Due Date</th>
+                  </tr>
+               </table>
+            </div>
+
+            <div id="company-modal" class="modal display-none">
+               <div id="company-window" class="pop-up">
+                  <form id="company-form">
+                     <h2>Edit Company Info</h2>
+                     <h5>
+                        Enter info as you want it displayed on the invoice <br />
+                        Leave it blank info if you don't want it displayed
+                     </h5>
+                     <button class="cancel" id="company-cancel">x</button>
+                     <label for="company-name">Name</label>
+                     <input
+                        type="text"
+                        id="company-name"
+                        placeholder="(required) The Great Idea Company"
+                     />
+                     <label for="company-address1">Address</label>
+                     <input type="text" id="company-address1" placeholder="1 Fancy Pants Blvd" />
+                     <input
+                        type="text"
+                        id="company-address2"
+                        placeholder="San Francisco, CA 94110"
+                     />
+                     <label for="company-phone">Phone #</label>
+                     <input
+                        type="text"
+                        id="company-phone"
+                        placeholder="format it how you like it"
+                     />
+                     <label for="company-email">Email</label>
+                     <input
+                        type="text"
+                        id="company-email"
+                        placeholder="Service@TheGreatIdeaCo.com"
+                     />
+                     <input
+                        type="submit"
+                        id="save-company-btn"
+                        class="blue-button-style"
+                        value="Save"
+                     />
+                  </form>
+               </div>
             </div>
          </div>
-      </div>
-      <div id="footer">
-         <p>Copyright &copy; 2020 Kevin Penney. All Rights Reserved</p>
-      </div>
+         <div id="footer">
+            <p>Copyright &copy; 2020 Kevin Penney. All Rights Reserved</p>
+         </div>
 
-      <script src="app.js"></script>
+         <script src="app.js"></script>
+      </div>
    </body>
 </html>

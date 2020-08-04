@@ -42,11 +42,8 @@ body input {
 }
 
 #login-background {
-   position: fixed;
-   left: 0;
-   top: 0;
-   height: 100%;
-   width: 100%;
+   padding-top: 10vh;
+   height: 150vh;
    background: #1488cc;
    /* fallback for old browsers */
    /* Chrome 10-25, Safari 5.1-6 */
@@ -57,7 +54,7 @@ body input {
 
 .login {
    width: 400px;
-   margin: 10% auto 0 auto;
+   margin: 0 auto 0 auto;
    background-color: #f7f7f7;
    border-radius: 15px;
    border: 2px solid black;
@@ -89,4 +86,13 @@ body input {
 .login button {
    display: block;
    margin: 20px auto 0 auto;
+}
+
+@media only screen and (max-width: 510px) {
+   #login-background {
+      padding-top: 50px;
+   }
+   .login {
+      width: 80%;
+   }
 }

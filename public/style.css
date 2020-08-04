@@ -5,7 +5,14 @@ body {
   margin: 0;
 }
 
+body #overflow-wrapper {
+  position: relative;
+  overflow-x: hidden;
+}
+
 body .container {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin: auto;
   width: 900px;
 }
@@ -51,7 +58,19 @@ body textarea {
   border: 1px #777777 solid;
 }
 
+body hr#phone-only-border {
+  width: 70%;
+  display: none;
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: border;
+  border-color: #1488cc;
+}
+
 #company-header {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
   color: #f2f7f2;
   background: #1488cc;
   /* fallback for old browsers */
@@ -108,6 +127,7 @@ body textarea {
 }
 
 #company-header #menu {
+  z-index: 10;
   display: none;
   position: absolute;
   right: 0;
@@ -127,6 +147,7 @@ body textarea {
 }
 
 #company-header #menu-blanket {
+  z-index: 9;
   display: none;
   position: absolute;
   top: 0;
@@ -151,7 +172,8 @@ body textarea {
   color: #f7f7f7;
   padding: auto;
   border: 1px solid #f7f7f7;
-  width: 150px;
+  -ms-flex-preferred-size: 150px;
+      flex-basis: 150px;
   height: 30px;
   border-radius: 5px;
   margin-left: 10px;
@@ -163,6 +185,9 @@ body textarea {
 }
 
 #footer {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
   background: #1488cc;
   /* fallback for old browsers */
   /* Chrome 10-25, Safari 5.1-6 */
@@ -209,7 +234,7 @@ body textarea {
   top: 100px;
 }
 
-#main-grid hr {
+#main-grid hr#summary-border {
   width: 80%;
 }
 
@@ -266,6 +291,8 @@ body textarea {
 }
 
 #invoice-list {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   -ms-grid-row: 2;
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
@@ -305,9 +332,9 @@ body textarea {
 #invoice-info {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 550px 3px 347px;
-      grid-template-columns: 550px 3px 347px;
-      grid-template-areas: 'left border right' 'items items items';
+  -ms-grid-columns: 550px 3px 347px 0;
+      grid-template-columns: 550px 3px 347px 0;
+      grid-template-areas: 'left border right phoneBorder' 'items items items items';
 }
 
 #invoice-info #left {
@@ -339,6 +366,12 @@ body textarea {
   margin-bottom: auto;
 }
 
+#invoice-info #phone-only-border {
+  -ms-grid-row: 1;
+  -ms-grid-column: 4;
+  grid-area: phoneBorder;
+}
+
 #invoice-info #payments {
   margin-top: 20px;
   border-radius: 10px;
@@ -348,6 +381,7 @@ body textarea {
 #invoice-info #payments p {
   margin-top: 0;
   margin-bottom: 0;
+  width: 240px;
 }
 
 #invoice-info #payments #payments-div div {
@@ -421,7 +455,7 @@ body textarea {
 #line-item-list {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
-  -ms-grid-column-span: 3;
+  -ms-grid-column-span: 4;
   grid-area: items;
   position: relative;
 }
@@ -702,5 +736,128 @@ body textarea {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media only screen and (max-width: 900px) {
+  body #company-header #company {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  body #company-header #mobile-buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    width: 200px;
+    margin: 0 auto 0 auto;
+  }
+  body #company-header #mobile-buttons #logout-btn {
+    position: static;
+  }
+  body #company-header #mobile-buttons #burger {
+    position: static;
+    display: inline-block;
+  }
+  body .container {
+    padding: 0 10px;
+    width: 100%;
+  }
+  body .container #phone-only-border {
+    display: block;
+  }
+  body .container #main-grid {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 100%;
+        grid-template-columns: 100%;
+        grid-template-areas: 'dash' 'border' 'invoice' 'list';
+  }
+  body .container #main-grid #dashboard {
+    text-align: center;
+  }
+  body .container #main-grid #dashboard #border {
+    display: none;
+  }
+  body .container #main-grid #create-invoice {
+    padding: 20px 10% 20px 10%;
+  }
+  body .container #main-grid hr#summary-border {
+    display: none;
+  }
+  body .container #main-grid #invoice-list tr th:nth-child(3),
+  body .container #main-grid #invoice-list tr td:nth-child(3),
+  body .container #main-grid #invoice-list tr th:nth-child(4),
+  body .container #main-grid #invoice-list tr td:nth-child(4) {
+    display: none;
+  }
+  body .container #invoice-info {
+    -ms-grid-columns: 100%;
+        grid-template-columns: 100%;
+        grid-template-areas: 'left' 'phoneBorder' 'right' 'items' 'border';
+    text-align: center;
+  }
+  body .container #invoice-info #invoice-border {
+    display: none;
+  }
+  body .container #invoice-info #left {
+    padding-bottom: 0;
+  }
+  body .container #invoice-info #right {
+    padding-top: 0;
+  }
+  body .container #invoice-info #right #payments-div div {
+    width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  body .container #invoice-info #right #payments-div div p {
+    margin-left: auto;
+    width: auto;
+  }
+  body .container #invoice-info #right #payments-div p {
+    text-align: left;
+    position: relative;
+    margin: 0 auto;
+    width: 220px;
+  }
+  body .container #line-item-list {
+    margin-top: 60px;
+  }
+  body .container #line-item-list #add-item-btn {
+    left: 50%;
+    margin-left: -90px;
+  }
+  body .container #line-item-list div h3:first-of-type {
+    -ms-flex-preferred-size: 450px;
+        flex-basis: 450px;
+  }
+  body .container #line-item-list div h3:nth-child(2) {
+    -ms-flex-preferred-size: 80px;
+        flex-basis: 80px;
+  }
+  body .container #line-item-list div h3:nth-child(3) {
+    -ms-flex-preferred-size: 180px;
+        flex-basis: 180px;
+  }
+  body .container #line-item-list div h3:nth-child(4) {
+    -ms-flex-preferred-size: 190px;
+        flex-basis: 190px;
+  }
+  body .container #line-item-list li {
+    max-width: 900px;
+    -ms-grid-columns: 50% 11% 20% 19%;
+        grid-template-columns: 50% 11% 20% 19%;
+  }
+  body #company-header #header-flex #logout-btn {
+    position: static;
+  }
+  body #company-header #header-flex button {
+    height: 40px;
+    width: 120px;
+  }
 }
 /*# sourceMappingURL=style.css.map */
