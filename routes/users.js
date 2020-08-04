@@ -16,9 +16,7 @@ router.post('/register', (req, res) => {
       let companyData = data.find(company => company.id.email === email)
 
       if (companyData) {
-         res.json({
-            error: 'Email is already registered'
-         })
+         res.end()
       } else {
          let newUser = {
             id: {
@@ -49,7 +47,7 @@ router.post('/register', (req, res) => {
                data.push(newUser)
                fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
                   if (err) throw err
-                  res.json({ success: true })
+                  res.end()
                })
             })
          })

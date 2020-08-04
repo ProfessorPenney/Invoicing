@@ -42,15 +42,16 @@ registerForm.addEventListener('submit', e => {
             password
          }),
          headers: { 'Content-type': 'application/json' }
+      }).then(() => {
+         // res => res.json())
+         // .then(data => {
+         //    if (data.error) {
+         //       messageOutput.textContent = data.error
+         //    } else {
+         window.location.href = '/login'
+         sessionStorage.setItem('msg', 'Please log in')
+         //    }
+         // }
       })
-         .then(res => res.json())
-         .then(data => {
-            if (data.error) {
-               messageOutput.textContent = data.error
-            } else {
-               window.location.href = '/login'
-               sessionStorage.setItem('msg', 'Registration Successful. Please log in')
-            }
-         })
    }
 })
