@@ -87,7 +87,7 @@ app.post('/api/companyinfo', (req, res) => {
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
-         res.json(req.user.companyInfo.name)
+         res.end()
       })
    })
 })

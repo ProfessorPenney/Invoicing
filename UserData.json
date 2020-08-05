@@ -915,16 +915,25 @@
       "password": "$2a$10$sAIgCIKZXrFOhE3rU6RnVOUajXfBqKLTPs4CzPCw2AlodNeUmbp3S"
     },
     "companyInfo": {
-      "name": "nc",
+      "name": "Cool Guys",
       "address": {
-        "street": "",
+        "street": "Great Things Ln",
         "cityStateZip": ""
       },
       "phone": "",
       "email": "nc@gmail.com"
     },
-    "numberofInvoices": 101,
-    "customers": [],
+    "numberofInvoices": 102,
+    "customers": [
+      {
+        "id": 1,
+        "name": "New Customers",
+        "address": {
+          "street": "123 Great St",
+          "cityStateZip": "Novato, CA 94945"
+        }
+      }
+    ],
     "templates": [
       {
         "title": "Great stuff",
@@ -934,6 +943,25 @@
       }
     ],
     "invoices": [
+      {
+        "id": 102,
+        "customer": 1,
+        "total": 0,
+        "date": {
+          "month": 7,
+          "day": 5,
+          "year": 2020
+        },
+        "owed": 0,
+        "dueDate": {
+          "month": 7,
+          "day": 15,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [],
+        "lineItems": []
+      },
       {
         "id": 101,
         "customer": {

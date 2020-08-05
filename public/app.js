@@ -78,6 +78,8 @@ companyCancelBtn.addEventListener('click', () => {
 companyForm.addEventListener('submit', e => {
    companyCancelBtn.click()
    e.preventDefault()
+   companyName.textContent = companyNameInput.value
+
    fetch('api/companyinfo', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -91,8 +93,6 @@ companyForm.addEventListener('submit', e => {
          email: companyEmailInput.value
       })
    })
-      .then(res => res.json())
-      .then(data => (companyName.textContent = data))
 })
 
 createInvoiceForm.addEventListener('submit', createInvoice)
