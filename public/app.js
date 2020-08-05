@@ -117,7 +117,7 @@ function createInvoice(e) {
       .then(res => res.json())
       .then(data => {
          sessionStorage.setItem('id', data)
-         window.location = './invoice'
+         window.location = '/invoice'
       })
 }
 

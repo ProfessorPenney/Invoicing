@@ -1,4 +1,15 @@
 const companyName = document.querySelector('#company')
+const burger = document.querySelector('#burger')
+const menuBlanket = document.querySelector('#menu-blanket')
+const menu = document.querySelector('#menu')
+const menuDeleteInvoice = document.querySelector('#delete-invoice')
+const deleteInvoiceBtn = document.querySelector('#delete-invoice-btn')
+const cancelDeleteInvoiceBtn = document.querySelector('#cancel-delete-btn')
+const menuEditInvoice = document.querySelector('#edit-invoice')
+const menuInfo = document.querySelector('#edit-company-info')
+const menuCustomers = document.querySelector('#edit-customers')
+
+const modalDeleteInvoice = document.querySelector('#delete-invoice-modal')
 
 const invoiceNum = document.querySelector('#invoice-num')
 const invoiceCust = document.querySelector('#customer')
@@ -52,6 +63,36 @@ fetch('/api/companyinfo')
    .then(data => (companyName.textContent = data.name))
 
 // Button listeners
+burger.addEventListener('click', () => {
+   menuBlanket.style.display = 'block'
+   menu.style.display = 'block'
+})
+
+menuBlanket.addEventListener('click', () => {
+   menu.style.display = 'none'
+   menuBlanket.style.display = 'none'
+})
+
+menuDeleteInvoice.addEventListener('click', () => {
+   menuBlanket.click()
+   modalDeleteInvoice.classList.remove('display-none')
+})
+
+deleteInvoiceBtn.addEventListener('click', () => {
+   fetch(`/api/invoices/${invoiceId}`, { method: 'DELETE' }).then(() => (window.location = '/'))
+
+   modalDeleteInvoice.classList.add('display-none')
+})
+
+cancelDeleteInvoiceBtn.addEventListener('click', () => {
+   modalDeleteInvoice.classList.add('display-none')
+})
+
+menuEditInvoice.addEventListener('click', () => {
+   // modal to display invoice info for editing
+   // customer, date, due date
+})
+
 addBtn.addEventListener('click', () =>
    addModals.forEach(addModal => addModal.classList.remove('display-none'))
 )
@@ -320,7 +361,7 @@ function drop(e, el) {
 
 // Delete Line Item
 function deleteItem() {
-   fetch(`/api/invoices/${invoiceId}`, {
+   fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'DELETE',
       body: JSON.stringify({
          index: this.previousSibling.id

@@ -16,6 +16,20 @@
                <button id="download">Download PDF</button>
                <a href="/users/logout"><button id="logout-btn">Logout</button></a>
             </div>
+            <div id="burger">
+               <div id="burger1"></div>
+               <div id="burger2"></div>
+               <div id="burger3"></div>
+            </div>
+
+            <div id="menu-blanket"></div>
+            <div id="menu">
+               <p id="delete-invoice">Delete Invoice</p>
+               <p id="edit-invoice">Edit Invoice Info</p>
+               <!-- <p id="edit-company-info">Edit Company Info</p> -->
+               <p id="edit-customers">Edit Customer List (coming soon)</p>
+               <p>Edit Template Items (coming soon)</p>
+            </div>
          </div>
          <div class="container">
             <div id="invoice-info">
@@ -52,7 +66,7 @@
             </div>
 
             <div id="payment-modal" class="modal display-none">
-               <div id="payment-window" class="pop-up">
+               <div class="pop-up">
                   <form>
                      <h2>Add payment</h2>
                      <button class="cancel" id="cancel-payment">x</button>
@@ -68,6 +82,16 @@
                         value="Add Payment"
                      />
                   </form>
+               </div>
+            </div>
+
+            <div id="delete-invoice-modal" class="modal display-none">
+               <div class="pop-up">
+                  <h2>Are you sure you would like to delete this invoice?</h2>
+                  <div id="invoice-delete-buttons">
+                     <button id="delete-invoice-btn" class="blue-button-style">Yes</button>
+                     <button id="cancel-delete-btn" class="blue-button-style">No</button>
+                  </div>
                </div>
             </div>
 

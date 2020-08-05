@@ -14,7 +14,7 @@
       "phone": "555-555-5555",
       "email": "joe@sexygardens.com"
     },
-    "numberofInvoices": 117,
+    "numberofInvoices": 118,
     "customers": [
       {
         "id": 5,
@@ -102,25 +102,6 @@
       }
     ],
     "invoices": [
-      {
-        "id": 117,
-        "customer": 5,
-        "total": 0,
-        "date": {
-          "month": 7,
-          "day": 4,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 7,
-          "day": 9,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [],
-        "lineItems": []
-      },
       {
         "id": 116,
         "customer": 5,
@@ -324,25 +305,6 @@
             "amount": 50
           }
         ]
-      },
-      {
-        "id": 112,
-        "customer": 2,
-        "total": 0,
-        "date": {
-          "month": 6,
-          "day": 20,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 6,
-          "day": 20,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [],
-        "lineItems": []
       },
       {
         "id": 111,

@@ -15,6 +15,7 @@ body .container {
           box-sizing: border-box;
   margin: auto;
   width: 900px;
+  min-height: 90vh;
 }
 
 body .dolla-sign:before {
@@ -196,7 +197,7 @@ body hr#phone-only-border {
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: #f7f7f7;
   height: 120px;
-  margin-top: 200px;
+  margin-top: -120px;
   text-align: center;
   padding: 40px 20px 40px 20px;
 }
@@ -299,6 +300,7 @@ body hr#phone-only-border {
   grid-area: list;
   border-collapse: collapse;
   width: 100%;
+  margin-bottom: 200px;
 }
 
 #invoice-list th {
@@ -458,6 +460,7 @@ body hr#phone-only-border {
   -ms-grid-column-span: 4;
   grid-area: items;
   position: relative;
+  margin-bottom: 200px;
 }
 
 #line-item-list div {
@@ -722,6 +725,14 @@ body hr#phone-only-border {
   width: 150px;
   margin-left: 100px;
   margin-right: auto;
+}
+
+.modal #invoice-delete-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 .modal .display-none {

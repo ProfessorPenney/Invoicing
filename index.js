@@ -110,7 +110,7 @@ app.patch('/api/invoices/:id', (req, res) => {
 
       const { oldIndex, newIndex } = req.body
 
-      const draggedItem = lineItems.slice(oldIndex, oldIndex + 1)[0]
+      const draggedItem = lineItems.slice(oldIndex, oldIndex + 1)[0] // unnecessary? dragged item = first splice?
       lineItems.splice(oldIndex, 1)
       lineItems.splice(newIndex, 0, draggedItem)
 
@@ -240,6 +240,26 @@ app.post('/api/invoices', (req, res) => {
    })
 })
 
+// DELETE invoice
+app.delete('/api/invoices/:id', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+
+      const oneInvoice = oneCompany.invoices.forEach((invoice, index) => {
+         if (invoice.id === +req.params.id) {
+            oneCompany.invoices.splice(index, 1)
+         }
+      })
+
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+         if (err) throw err
+         res.end()
+      })
+   })
+})
+
 // Edit line item
 app.put('/api/invoices/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
@@ -276,7 +296,7 @@ app.put('/api/invoices/:id', (req, res) => {
 })
 
 // delete line item
-app.delete('/api/invoices/:id', (req, res) => {
+app.delete('/api/invoices/:id/item', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
