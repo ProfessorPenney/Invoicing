@@ -12,12 +12,12 @@ body {
    #overflow-wrapper {
       position: relative;
       overflow-x: hidden;
+      min-height: 100vh;
    }
    .container {
       box-sizing: border-box;
       margin: auto;
       width: 900px;
-      min-height: 90vh;
    }
 
    .dolla-sign:before {
@@ -644,6 +644,13 @@ body {
    #invoice-delete-buttons {
       display: flex;
       justify-content: space-around;
+   }
+
+   #edit-invoice {
+      text-align: center;
+      input {
+         width: 80%;
+      }
    }
 
    // Must be below modal. Overwriting display class

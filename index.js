@@ -98,7 +98,7 @@ app.get('/api/templates', (req, res) => {
 })
 
 // drag and drop reorder line items
-app.patch('/api/invoices/:id', (req, res) => {
+app.patch('/api/invoices/:id/item', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
@@ -190,7 +190,6 @@ app.post('/api/invoices', (req, res) => {
       const { customer, daysUntilDue } = req.body
 
       // Add new customer if new
-      let customerIndex = -1
       if (customerList.length === 0) {
          // if first customer ever
          customerList.unshift(customer)
@@ -199,6 +198,8 @@ app.post('/api/invoices', (req, res) => {
          customerList.forEach(customerFromList => {
             if (customerFromList.name == customer.name) {
                customer.id = customerFromList.id
+               customerFromList.address.street = customer.address.street
+               customerFromList.address.cityStateZip = customer.address.cityStateZip
             }
          })
          if (!customer.id) {
@@ -260,8 +261,62 @@ app.delete('/api/invoices/:id', (req, res) => {
    })
 })
 
+// Edit Invoice Info
+app.patch('/api/invoices/:id', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
+      if (err) throw err
+      data = JSON.parse(data)
+      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneInvoice = oneCompany.invoices.filter(
+         invoice => invoice.id === parseInt(req.params.id)
+      )[0]
+      const { name, address1, address2, date, dueDate } = req.body
+      const customerList = oneCompany.customers
+
+      // Add new customer if new
+      customerId = null
+      customerList.forEach(customerFromList => {
+         if (customerFromList.name == name) {
+            customerId = customerFromList.id
+            customerFromList.address.street = address1
+            customerFromList.address.cityStateZip = address2
+         }
+      })
+      if (customerId === null) {
+         // if New Customer
+         customerId = +customerList[0].id + 1
+         const customer = {
+            id: customerId,
+            name,
+            address: {
+               street: address1,
+               cityStateZip: address2
+            }
+         }
+         customerList.unshift(customer)
+      }
+
+      oneInvoice.customer = customerId
+      oneInvoice.date = {
+         month: +date.split('-')[1],
+         day: +date.split('-')[2],
+         year: +date.split('-')[0]
+      }
+      oneInvoice.dueDate = {
+         month: +dueDate.split('-')[1],
+         day: +dueDate.split('-')[2],
+         year: +dueDate.split('-')[0]
+      }
+
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+         if (err) throw err
+         res.json(oneInvoice)
+      })
+   })
+})
+
 // Edit line item
-app.put('/api/invoices/:id', (req, res) => {
+app.put('/api/invoices/:id/item', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)

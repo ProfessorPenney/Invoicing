@@ -65,6 +65,54 @@
                <ul></ul>
             </div>
 
+            <div id="edit-invoice-modal" class="modal display-none">
+               <div class="pop-up">
+                  <form id="edit-invoice">
+                     <h2>Edit Invoice Info</h2>
+                     <button class="cancel" id="cancel-edit-invoice">x</button>
+                     <div>
+                        <label for="edit-customer">Customer</label>
+                     </div>
+                     <div>
+                        <input
+                           id="edit-customer"
+                           type="text"
+                           list="customer-list"
+                           placeholder="Name"
+                           oninput="custInput()"
+                        />
+                        <datalist id="customer-list">
+                           <option value="Customers didn't load. hmmm..."></option>
+                        </datalist>
+                     </div>
+                     <div>
+                        <input id="edit-street" type="text" placeholder="Street" />
+                     </div>
+                     <div>
+                        <input
+                           id="edit-city-state-zip"
+                           type="text"
+                           placeholder="City, State Zipcode"
+                        />
+                     </div>
+                     <div>
+                        <label for="edit-date">Invoice Date</label>
+                        <input id="edit-date" type="date" />
+                     </div>
+                     <div>
+                        <label for="edit-due">Due Date</label>
+                        <input id="edit-due" type="date" />
+                     </div>
+                     <input
+                        type="submit"
+                        id="edit-invoice-btn"
+                        value="Accept Info"
+                        class="blue-button-style"
+                     />
+                  </form>
+               </div>
+            </div>
+
             <div id="payment-modal" class="modal display-none">
                <div class="pop-up">
                   <form>
@@ -136,11 +184,11 @@
                </div>
             </div>
          </div>
-         <div id="footer">
-            <p>Copyright &copy; 2020 Kevin Penney. All Rights Reserved</p>
-         </div>
-         <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
-         <script src="invoice.js"></script>
       </div>
+      <div id="footer">
+         <p>Copyright &copy; 2020 Kevin Penney. All Rights Reserved</p>
+      </div>
+      <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+      <script src="invoice.js"></script>
    </body>
 </html>

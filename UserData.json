@@ -14,8 +14,16 @@
       "phone": "555-555-5555",
       "email": "joe@sexygardens.com"
     },
-    "numberofInvoices": 118,
+    "numberofInvoices": 119,
     "customers": [
+      {
+        "id": 6,
+        "name": "Super New Guy",
+        "address": {
+          "street": "3215 asdf asdf",
+          "cityStateZip": "asdfasdfasd"
+        }
+      },
       {
         "id": 5,
         "name": "2nd customer",
@@ -103,18 +111,37 @@
     ],
     "invoices": [
       {
-        "id": 116,
+        "id": 119,
         "customer": 5,
-        "total": 460,
+        "total": 400,
         "date": {
           "month": 7,
-          "day": 4,
+          "day": 5,
+          "year": 2020
+        },
+        "owed": 400,
+        "dueDate": {
+          "month": 7,
+          "day": 5,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [],
+        "lineItems": []
+      },
+      {
+        "id": 116,
+        "customer": 3,
+        "total": 460,
+        "date": {
+          "month": 8,
+          "day": 5,
           "year": 2020
         },
         "owed": 360,
         "dueDate": {
-          "month": 7,
-          "day": 24,
+          "month": 8,
+          "day": 6,
           "year": 2020
         },
         "sent": false,

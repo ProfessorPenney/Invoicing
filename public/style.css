@@ -8,6 +8,7 @@ body {
 body #overflow-wrapper {
   position: relative;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 body .container {
@@ -15,7 +16,6 @@ body .container {
           box-sizing: border-box;
   margin: auto;
   width: 900px;
-  min-height: 90vh;
 }
 
 body .dolla-sign:before {
@@ -733,6 +733,14 @@ body hr#phone-only-border {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+}
+
+.modal #edit-invoice {
+  text-align: center;
+}
+
+.modal #edit-invoice input {
+  width: 80%;
 }
 
 .modal .display-none {

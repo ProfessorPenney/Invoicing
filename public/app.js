@@ -125,7 +125,7 @@ function fillcustomerDataList(customers) {
    customerList = customers
    customerDataList.innerHTML = ''
    customers.forEach(customer => {
-      customerOption = document.createElement('option')
+      const customerOption = document.createElement('option')
       customerOption.value = customer.name
       customerDataList.appendChild(customerOption)
    })

@@ -8,6 +8,15 @@ const cancelDeleteInvoiceBtn = document.querySelector('#cancel-delete-btn')
 const menuEditInvoice = document.querySelector('#edit-invoice')
 const menuInfo = document.querySelector('#edit-company-info')
 const menuCustomers = document.querySelector('#edit-customers')
+const modalEditInvoice = document.querySelector('#edit-invoice-modal')
+const cancelEditInvoiceBtn = document.querySelector('#cancel-edit-invoice')
+const editCustomerInput = document.querySelector('#edit-customer')
+const editAddressInput = document.querySelector('#edit-street')
+const editAddress2Input = document.querySelector('#edit-city-state-zip')
+const editDateInput = document.querySelector('#edit-date')
+const editDueInput = document.querySelector('#edit-due')
+const customerDataList = document.querySelector('#customer-list')
+const editInvoiceForm = document.querySelector('form#edit-invoice')
 
 const modalDeleteInvoice = document.querySelector('#delete-invoice-modal')
 
@@ -54,7 +63,7 @@ const today = new Date()
 acceptPayment.addEventListener('click', addPayment)
 
 // Get invoice items and call fillData
-fetch('/api/invoices/' + invoiceId)
+fetch(`/api/invoices/${invoiceId}`)
    .then(res => res.json())
    .then(fillData)
 
@@ -89,8 +98,56 @@ cancelDeleteInvoiceBtn.addEventListener('click', () => {
 })
 
 menuEditInvoice.addEventListener('click', () => {
-   // modal to display invoice info for editing
-   // customer, date, due date
+   menuBlanket.click()
+   modalEditInvoice.classList.remove('display-none')
+
+   fetch(`/api/invoices/${invoiceId}`)
+      .then(res => res.json())
+      .then(invoice => {
+         editCustomerInput.value = invoice.customer.name
+         editAddressInput.value = invoice.customer.address.street
+         editAddress2Input.value = invoice.customer.address.cityStateZip
+         if (invoice.date.month < 10) invoice.date.month = '0' + invoice.date.month
+         if (invoice.date.day < 10) invoice.date.day = '0' + invoice.date.day
+         editDateInput.value = `${invoice.date.year}-${invoice.date.month}-${invoice.date.day}`
+         if (invoice.dueDate.month < 10) invoice.dueDate.month = '0' + invoice.dueDate.month
+         if (invoice.dueDate.day < 10) invoice.dueDate.day = '0' + invoice.dueDate.day
+         editDueInput.value = `${invoice.dueDate.year}-${invoice.dueDate.month}-${invoice.dueDate.day}`
+      })
+
+   fetch('/api/customers')
+      .then(res => res.json())
+      .then(fillcustomerDataList)
+   function fillcustomerDataList(customers) {
+      customerList = customers
+      customerDataList.innerHTML = ''
+      customers.forEach(customer => {
+         const customerOption = document.createElement('option')
+         customerOption.value = customer.name
+         customerDataList.appendChild(customerOption)
+      })
+   }
+})
+
+editInvoiceForm.addEventListener('submit', () => {
+   cancelEditInvoiceBtn.click()
+   fetch(`/api/invoices/${invoiceId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+         name: editCustomerInput.value,
+         address1: editAddressInput.value,
+         address2: editAddress2Input.value,
+         date: editDateInput.value,
+         dueDate: editDueInput.value
+      }),
+      headers: { 'Content-type': 'application/json' }
+   })
+      .then(res => res.json())
+      .then(fillData)
+})
+
+cancelEditInvoiceBtn.addEventListener('click', () => {
+   modalEditInvoice.classList.add('display-none')
 })
 
 addBtn.addEventListener('click', () =>
@@ -127,6 +184,15 @@ cancelPayment.addEventListener('click', () => {
 downloadBtn.addEventListener('click', createAndDownloadPdf)
 
 fetchDataListOptions()
+
+function custInput() {
+   customerList.forEach(customer => {
+      if (editCustomerInput.value === customer.name) {
+         editAddressInput.value = customer.address.street
+         editAddress2Input.value = customer.address.cityStateZip
+      }
+   })
+}
 
 // Open modal to edit a line item
 function editModal() {
@@ -262,7 +328,7 @@ function editLineItem() {
    const body = getAndResetModalValues()
    body.id = itemId
 
-   fetch(`/api/invoices/${invoiceId}`, {
+   fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: { 'Content-type': 'application/json' }
@@ -347,7 +413,7 @@ function drop(e, el) {
    const oldIndex = e.dataTransfer.getData('text')
    const newIndex = this.id
 
-   fetch(`/api/invoices/${invoiceId}`, {
+   fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'PATCH',
       body: JSON.stringify({
          oldIndex,
