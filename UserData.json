@@ -107,27 +107,93 @@
         "description": "great template!",
         "quantity": 1,
         "unitPrice": 50
+      },
+      {
+        "title": "Testing Template",
+        "description": "Template test",
+        "quantity": 3,
+        "unitPrice": 20
       }
     ],
     "invoices": [
       {
         "id": 119,
         "customer": 5,
-        "total": 400,
+        "total": 1372,
         "date": {
           "month": 7,
           "day": 5,
           "year": 2020
         },
-        "owed": 400,
+        "owed": 1272,
         "dueDate": {
           "month": 7,
           "day": 5,
           "year": 2020
         },
         "sent": false,
-        "payment": [],
-        "lineItems": []
+        "payment": [
+          {
+            "amount": 100,
+            "date": {
+              "month": 8,
+              "day": 6,
+              "year": 2020
+            },
+            "note": "check 53"
+          }
+        ],
+        "lineItems": [
+          {
+            "title": "Landscaping Crew - 3 guys",
+            "description": "",
+            "quantity": 1,
+            "unitPrice": 90,
+            "amount": 90
+          },
+          {
+            "title": "Purchase",
+            "description": "Item description",
+            "quantity": 1,
+            "unitPrice": 1,
+            "amount": 1
+          },
+          {
+            "title": "Landscaping Crew - 3 guys",
+            "description": "",
+            "quantity": 5,
+            "unitPrice": 90,
+            "amount": 450
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
+            "unitPrice": 50,
+            "amount": 400
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
+            "unitPrice": 50,
+            "amount": 400
+          },
+          {
+            "title": "Purchase",
+            "description": "Item description",
+            "quantity": 1,
+            "unitPrice": 1,
+            "amount": 1
+          },
+          {
+            "title": "One laborer",
+            "description": "Extra Project",
+            "quantity": 1,
+            "unitPrice": 30,
+            "amount": 30
+          }
+        ]
       },
       {
         "id": 116,
@@ -533,91 +599,6 @@
         ]
       },
       {
-        "id": 109,
-        "customer": {
-          "name": "The Callahan Family",
-          "address": {
-            "street": "123 Dono St",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
-        "total": 760,
-        "date": {
-          "month": 5,
-          "day": 25,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 6,
-          "day": 20,
-          "year": 2020
-        },
-        "sent": true,
-        "payment": [
-          {
-            "amount": 760,
-            "date": {
-              "month": 7,
-              "day": 20,
-              "year": 2020
-            },
-            "note": ""
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Joe's Labor",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 80,
-            "amount": 80
-          },
-          {
-            "title": "Purchase",
-            "description": "fertilizer",
-            "quantity": 1,
-            "unitPrice": 25,
-            "amount": 25
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "",
-            "quantity": 3,
-            "unitPrice": 80,
-            "amount": 240
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "",
-            "quantity": 3,
-            "unitPrice": 40,
-            "amount": 120
-          },
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 120,
-            "amount": 120
-          },
-          {
-            "title": "Purchase",
-            "description": "shovels",
-            "quantity": 3,
-            "unitPrice": 25,
-            "amount": 75
-          },
-          {
-            "title": "Testing Template",
-            "description": "changing to numbers",
-            "quantity": 5,
-            "unitPrice": 20,
-            "amount": 100
-          }
-        ]
-      },
-      {
         "id": 108,
         "customer": {
           "name": "Rich Lawyer Guy",
@@ -977,7 +958,7 @@
           "day": 30,
           "year": 2020
         },
-        "owed": 20,
+        "owed": 0,
         "dueDate": {
           "month": 7,
           "day": 9,
@@ -986,10 +967,10 @@
         "sent": false,
         "payment": [
           {
-            "amount": 20,
+            "amount": 40,
             "date": {
-              "month": 7,
-              "day": 30,
+              "month": 8,
+              "day": 5,
               "year": 2020
             },
             "note": ""

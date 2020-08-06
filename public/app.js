@@ -55,6 +55,7 @@ menuBlanket.addEventListener('click', () => {
 menuInfo.addEventListener('click', () => {
    menuBlanket.click()
    companyModal.classList.remove('display-none')
+   companyNameInput.focus()
    fetch('/api/companyinfo')
       .then(res => res.json())
       .then(data => {

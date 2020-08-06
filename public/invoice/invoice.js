@@ -48,7 +48,7 @@ const modalPrice = document.querySelector('#price')
 const modalDescrip = document.querySelector('#description')
 
 const paymentModal = document.querySelector('#payment-modal')
-const acceptPayment = document.querySelector('#accept-payment-btn')
+const PaymentForm = document.querySelector('#payment-modal form')
 const cancelPayment = document.querySelector('#cancel-payment')
 const paymentAmount = document.querySelector('#payment-amount')
 const paymentDate = document.querySelector('#payment-date')
@@ -60,12 +60,16 @@ let itemTemplates = []
 let itemId = null
 const today = new Date()
 
-acceptPayment.addEventListener('click', addPayment)
+PaymentForm.addEventListener('submit', addPayment)
 
 // Get invoice items and call fillData
 fetch(`/api/invoices/${invoiceId}`)
    .then(res => res.json())
-   .then(fillData)
+   .then(invoice => {
+      fillDetails(invoice)
+      fillPayments(invoice)
+      fillInvoiceItems(invoice)
+   })
 
 fetch('/api/companyinfo')
    .then(res => res.json())
@@ -143,16 +147,17 @@ editInvoiceForm.addEventListener('submit', () => {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillData)
+      .then(fillDetails)
 })
 
 cancelEditInvoiceBtn.addEventListener('click', () => {
    modalEditInvoice.classList.add('display-none')
 })
 
-addBtn.addEventListener('click', () =>
+addBtn.addEventListener('click', () => {
    addModals.forEach(addModal => addModal.classList.remove('display-none'))
-)
+   modalTitle.focus()
+})
 
 cancelModal.addEventListener('click', () => {
    addModals.forEach(addModal => addModal.classList.add('display-none'))
@@ -175,6 +180,7 @@ modalEditBtn.addEventListener('click', () => {
 
 PaymentBtn.addEventListener('click', () => {
    paymentModal.classList.remove('display-none')
+   paymentAmount.focus()
 })
 
 cancelPayment.addEventListener('click', () => {
@@ -205,15 +211,18 @@ function editModal() {
 }
 
 // FIll in data and generate the Line Item list
-function fillData(invoice) {
+function fillDetails(invoice) {
    invoiceNum.textContent = invoiceId
    invoiceCust.textContent = invoice.customer.name
    invoiceAddress.textContent = `${invoice.customer.address.street}
    ${invoice.customer.address.cityStateZip}`
-   // invoiceTotal.textContent = invoice.total.toFixed(2)   Moved to fillInvoiceItems
    invoiceDate.textContent = `${invoice.date.month}/${invoice.date.day}/${invoice.date.year}`
    invoiceDueDate.textContent = `${invoice.dueDate.month}/${invoice.dueDate.day}/${invoice.dueDate.year}`
+   // invoiceTotal.textContent = invoice.total.toFixed(2)   Moved to fillInvoiceItems
    // invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}` Moved to fillInvoiceItems
+}
+
+function fillPayments(invoice) {
    invoiceTotalPayments.textContent = `$` + (invoice.total - invoice.owed).toFixed(2)
 
    const todaysMonth =
@@ -246,7 +255,6 @@ function fillData(invoice) {
          invoicePayments.appendChild(paymentNoteEl)
       }
    })
-   fillInvoiceItems(invoice)
 }
 
 function fillInvoiceItems(invoice) {
@@ -422,7 +430,7 @@ function drop(e, el) {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillData)
+      .then(fillInvoiceItems)
 }
 
 // Delete Line Item
@@ -435,7 +443,7 @@ function deleteItem() {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillData)
+      .then(fillInvoiceItems)
 }
 
 function addPayment() {
@@ -449,6 +457,10 @@ function addPayment() {
       }),
       headers: { 'Content-type': 'application/json' }
    })
+      .then(res => res.json())
+      .then(invoice => {
+         fillPayments(invoice)
+      })
 }
 
 // delete a payment
@@ -461,7 +473,7 @@ function deletePayment() {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillData)
+      .then(fillPayments)
 }
 
 // Creates PDF for download

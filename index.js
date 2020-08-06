@@ -248,8 +248,9 @@ app.delete('/api/invoices/:id', (req, res) => {
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
 
-      const oneInvoice = oneCompany.invoices.forEach((invoice, index) => {
+      oneCompany.invoices.forEach((invoice, index) => {
          if (invoice.id === +req.params.id) {
+            console.log(invoice, index)
             oneCompany.invoices.splice(index, 1)
          }
       })

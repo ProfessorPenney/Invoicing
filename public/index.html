@@ -50,11 +50,12 @@
                      list="customer-list"
                      placeholder="Name"
                      oninput="custInput()"
+                     autofocus
                   />
                   <datalist id="customer-list">
                      <option value="Customers didn't load. hmmm..."></option>
                   </datalist>
-                  <input id="street" type="text" placeholder="Street" />
+                  <input id="street" type="text" placeholder="Street" autofocus />
                   <input id="city-state-zip" type="text" placeholder="City, State Zipcode" />
                   <label for="due">Days Until Due</label>
                   <input id="due" type="number" value="0" />
