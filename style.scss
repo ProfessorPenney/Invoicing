@@ -68,6 +68,7 @@ body {
 
 #company-header {
    box-sizing: border-box;
+   min-height: 130px;
    width: 100%;
    color: #f2f7f2;
    background: #1488cc; /* fallback for old browsers */
@@ -83,6 +84,7 @@ body {
    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
    padding: 10px 20px 10px 20px;
    #company {
+      min-height: 36px;
       text-align: center;
       padding-right: 200px;
       padding-left: 200px;

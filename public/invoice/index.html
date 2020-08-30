@@ -5,6 +5,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Invoice</title>
       <link rel="stylesheet" href="../style.css" />
+      <script defer src="invoice.js"></script>
+      <script async src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
    </head>
 
    <body>
@@ -117,7 +119,7 @@
                <div class="pop-up">
                   <form>
                      <h2>Add payment</h2>
-                     <button class="cancel" id="cancel-payment">x</button>
+                     <button class="cancel" id="cancel-payment" type="button">x</button>
                      <label for="payment-amount">Amount $</label>
                      <input type="text" id="payment-amount" />
                      <label for="payment-date">Date</label>
@@ -188,7 +190,5 @@
       <div id="footer">
          <p>Copyright &copy; 2020 Kevin Penney. All Rights Reserved</p>
       </div>
-      <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
-      <script src="invoice.js"></script>
    </body>
 </html>

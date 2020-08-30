@@ -71,6 +71,7 @@ body hr#phone-only-border {
 #company-header {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  min-height: 130px;
   width: 100%;
   color: #f2f7f2;
   background: #1488cc;
@@ -83,6 +84,7 @@ body hr#phone-only-border {
 }
 
 #company-header #company {
+  min-height: 36px;
   text-align: center;
   padding-right: 200px;
   padding-left: 200px;
