@@ -494,16 +494,14 @@ app.get('/api/invoices/:id/pdf', (req, res) => {
       // puppeteer pdf
       ;(async function () {
          try {
-            // Switch between values for development(top) and production(bottom)
-
-            // Development
-            const browser = await puppeteer.launch()
-
-            // Production
-            // const browser = await puppeteer.launch({
-            //    executablePath: '/usr/bin/chromium-browser',
-            //    args: ['--no-sandbox']
-            // })
+            let browser = null
+            if (process.env.NODE_ENV == 'production') {
+               browser = await puppeteer.launch({
+                  executablePath: '/usr/bin/chromium-browser',
+                  args: ['--no-sandbox']
+               })
+            } // development
+            else browser = await puppeteer.launch()
 
             const page = await browser.newPage()
             await page.setContent(
