@@ -218,8 +218,6 @@ function fillDetails(invoice) {
    ${invoice.customer.address.cityStateZip}`
    invoiceDate.textContent = `${invoice.date.month}/${invoice.date.day}/${invoice.date.year}`
    invoiceDueDate.textContent = `${invoice.dueDate.month}/${invoice.dueDate.day}/${invoice.dueDate.year}`
-   // invoiceTotal.textContent = invoice.total.toFixed(2)   Moved to fillInvoiceItems
-   // invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}` Moved to fillInvoiceItems
 }
 
 function fillPayments(invoice) {
