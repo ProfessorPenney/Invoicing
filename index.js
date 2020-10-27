@@ -43,16 +43,7 @@ app.use('/users', require('./routes/users'))
 
 // get invoice list
 app.get('/api/invoices', (req, res) => {
-   const customerList = req.user.customers
-   let invoiceList = req.user.invoices
-   invoiceList.forEach(invoice => {
-      customerList.forEach(customer => {
-         if (invoice.customer === customer.id) {
-            invoice.customer = customer
-         }
-      })
-   })
-   res.json(invoiceList)
+   res.json(req.user.invoices)
 })
 
 // get customer list
@@ -63,11 +54,6 @@ app.get('/api/customers', (req, res) => {
 // get single invoice
 app.get('/api/invoices/:id', (req, res) => {
    const oneInvoice = req.user.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
-   req.user.customers.forEach(customer => {
-      if (oneInvoice.customer === customer.id) {
-         oneInvoice.customer = customer
-      }
-   })
    res.json(oneInvoice)
 })
 
@@ -167,6 +153,7 @@ app.post('/api/invoices/:id', (req, res) => {
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
       let totalPayments = 0
+      // const totalPayments = oneInvoice.payments.reduce((total, payment) => total + payment.amount, 0)
       oneInvoice.payment.forEach(pay => {
          totalPayments += pay.amount
       })
@@ -198,6 +185,7 @@ app.post('/api/invoices', (req, res) => {
          customerList.forEach(customerFromList => {
             if (customerFromList.name == customer.name) {
                customer.id = customerFromList.id
+               // update customer address in case it changed
                customerFromList.address.street = customer.address.street
                customerFromList.address.cityStateZip = customer.address.cityStateZip
             }
@@ -249,8 +237,8 @@ app.delete('/api/invoices/:id', (req, res) => {
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
 
       oneCompany.invoices.forEach((invoice, index) => {
+         // use oneCompany.invoices.find(invoice => invoice.id === +req.params.id) One of the methods returns the index I think
          if (invoice.id === +req.params.id) {
-            console.log(invoice, index)
             oneCompany.invoices.splice(index, 1)
          }
       })

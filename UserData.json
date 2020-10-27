@@ -1,1057 +1,756 @@
 [
-  {
-    "id": {
-      "id": "91cd173a-2d61-411a-8684-e3718fb29663",
-      "email": "joe@sexygardens.com",
-      "password": "$2a$10$WmAHniBolLVhV5hyOma71.uuvkUx6AFeBlbBIdBUygh.x9BUlE2OG"
-    },
-    "companyInfo": {
-      "name": "Joe's Amazing Gardens",
-      "address": {
-        "street": "21 Merrydale Dr",
-        "cityStateZip": "San Rafael, CA 94903"
+   {
+      "id": {
+         "id": "91cd173a-2d61-411a-8684-e3718fb29663",
+         "email": "joe@sexygardens.com",
+         "password": "$2a$10$WmAHniBolLVhV5hyOma71.uuvkUx6AFeBlbBIdBUygh.x9BUlE2OG"
       },
-      "phone": "555-555-5555",
-      "email": "joe@sexygardens.com"
-    },
-    "numberofInvoices": 121,
-    "customers": [
-      {
-        "id": 6,
-        "name": "Super New Guy",
-        "address": {
-          "street": "3215 asdf asdf",
-          "cityStateZip": "asdfasdfasd"
-        }
+      "companyInfo": {
+         "name": "Joe's Amazing Gardens",
+         "address": {
+            "street": "21 Merrydale Dr",
+            "cityStateZip": "San Rafael, CA 94903"
+         },
+         "phone": "555-555-5555",
+         "email": "joe@sexygardens.com"
       },
-      {
-        "id": 5,
-        "name": "2nd customer",
-        "address": {
-          "street": "3215 asdf asdf",
-          "cityStateZip": "asdfasdfasd"
-        }
-      },
-      {
-        "name": "New Customer",
-        "address": {
-          "street": "12 Stuff St",
-          "cityStateZip": "Place, State Zip"
-        },
-        "id": 4
-      },
-      {
-        "id": 3,
-        "name": "The Callahan Family",
-        "address": {
-          "street": "123 Dono St",
-          "cityStateZip": "Tiburon, CA 94920"
-        }
-      },
-      {
-        "id": 2,
-        "name": "Mrs. Old Lady",
-        "address": {
-          "street": "456 Happy Hill St",
-          "cityStateZip": "Tiburon, CA 94920"
-        }
-      },
-      {
-        "id": 1,
-        "name": "Rich Lawyer Guy",
-        "address": {
-          "street": "789 Ballin' Ave",
-          "cityStateZip": "Tiburon, CA 94920"
-        }
-      }
-    ],
-    "templates": [
-      {
-        "title": "Joe's Labor",
-        "description": "We worked super hard, dude",
-        "quantity": 8,
-        "unitPrice": 50
-      },
-      {
-        "title": "Landscaping Crew - 3 guys",
-        "description": "",
-        "quantity": 1,
-        "unitPrice": 90
-      },
-      {
-        "title": "Purchase",
-        "description": "Item description",
-        "quantity": 1,
-        "unitPrice": 1
-      },
-      {
-        "title": "One laborer",
-        "description": "Extra Project",
-        "quantity": 1,
-        "unitPrice": 30
-      },
-      {
-        "title": "Testing Template",
-        "description": "Template test",
-        "quantity": 3,
-        "unitPrice": 20
-      },
-      {
-        "title": "New Template",
-        "description": "Great!??",
-        "quantity": 5,
-        "unitPrice": 20
-      },
-      {
-        "title": "New Sexy Template",
-        "description": "great template!",
-        "quantity": 1,
-        "unitPrice": 50
-      },
-      {
-        "title": "Testing Template",
-        "description": "Template test",
-        "quantity": 3,
-        "unitPrice": 20
-      }
-    ],
-    "invoices": [
-      {
-        "id": 121,
-        "customer": 2,
-        "total": 90,
-        "date": {
-          "month": 7,
-          "day": 30,
-          "year": 2020
-        },
-        "owed": 40,
-        "dueDate": {
-          "month": 8,
-          "day": 4,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 50,
-            "date": {
-              "month": 8,
-              "day": 30,
-              "year": 2020
+      "numberofInvoices": 121,
+      "customers": [
+         {
+            "id": 6,
+            "name": "Super New Guy",
+            "address": {
+               "street": "3215 asdf asdf",
+               "cityStateZip": "asdfasdfasd"
+            }
+         },
+         {
+            "id": 5,
+            "name": "2nd customer",
+            "address": {
+               "street": "3215 asdf asdf",
+               "cityStateZip": "asdfasdfasd"
+            }
+         },
+         {
+            "name": "New Customer",
+            "address": {
+               "street": "12 Stuff St",
+               "cityStateZip": "Place, State Zip"
             },
-            "note": ""
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 90,
-            "amount": 90
-          }
-        ]
-      },
-      {
-        "id": 120,
-        "customer": 5,
-        "total": 0,
-        "date": {
-          "month": 7,
-          "day": 30,
-          "year": 2020
-        },
-        "owed": -50,
-        "dueDate": {
-          "month": 7,
-          "day": 31,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 50,
-            "date": {
-              "month": 8,
-              "day": 31,
-              "year": 2020
-            },
-            "note": "notes yo"
-          }
-        ],
-        "lineItems": []
-      },
-      {
-        "id": 119,
-        "customer": 5,
-        "total": 1372,
-        "date": {
-          "month": 7,
-          "day": 5,
-          "year": 2020
-        },
-        "owed": 1272,
-        "dueDate": {
-          "month": 7,
-          "day": 5,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 100,
-            "date": {
-              "month": 8,
-              "day": 6,
-              "year": 2020
-            },
-            "note": "check 53"
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 90,
-            "amount": 90
-          },
-          {
-            "title": "Purchase",
-            "description": "Item description",
-            "quantity": 1,
-            "unitPrice": 1,
-            "amount": 1
-          },
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 5,
-            "unitPrice": 90,
-            "amount": 450
-          },
-          {
+            "id": 4
+         },
+         {
+            "id": 3,
+            "name": "The Callahan Family",
+            "address": {
+               "street": "123 Dono St",
+               "cityStateZip": "Tiburon, CA 94920"
+            }
+         },
+         {
+            "id": 2,
+            "name": "Mrs. Old Lady",
+            "address": {
+               "street": "456 Happy Hill St",
+               "cityStateZip": "Tiburon, CA 94920"
+            }
+         },
+         {
+            "id": 1,
+            "name": "Rich Lawyer Guy",
+            "address": {
+               "street": "789 Ballin' Ave",
+               "cityStateZip": "Tiburon, CA 94920"
+            }
+         }
+      ],
+      "templates": [
+         {
             "title": "Joe's Labor",
             "description": "We worked super hard, dude",
             "quantity": 8,
-            "unitPrice": 50,
-            "amount": 400
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 8,
-            "unitPrice": 50,
-            "amount": 400
-          },
-          {
+            "unitPrice": 50
+         },
+         {
+            "title": "Landscaping Crew - 3 guys",
+            "description": "",
+            "quantity": 1,
+            "unitPrice": 90
+         },
+         {
             "title": "Purchase",
             "description": "Item description",
             "quantity": 1,
-            "unitPrice": 1,
-            "amount": 1
-          },
-          {
+            "unitPrice": 1
+         },
+         {
             "title": "One laborer",
             "description": "Extra Project",
             "quantity": 1,
-            "unitPrice": 30,
-            "amount": 30
-          }
-        ]
-      },
-      {
-        "id": 116,
-        "customer": 3,
-        "total": 460,
-        "date": {
-          "month": 8,
-          "day": 5,
-          "year": 2020
-        },
-        "owed": 360,
-        "dueDate": {
-          "month": 8,
-          "day": 6,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 100,
+            "unitPrice": 30
+         }
+      ],
+      "invoices": [
+         {
+            "id": 121,
+            "customer": 2,
+            "total": 90,
             "date": {
-              "month": 8,
-              "day": 4,
-              "year": 2020
+               "month": 7,
+               "day": 30,
+               "year": 2020
             },
-            "note": ""
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Purchase",
-            "description": "Item description",
-            "quantity": 1,
-            "unitPrice": 100,
-            "amount": 100
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 6,
-            "unitPrice": 50,
-            "amount": 300
-          },
-          {
-            "title": "One laborer",
-            "description": "Extra Project",
-            "quantity": 1,
-            "unitPrice": 30,
-            "amount": 30
-          },
-          {
-            "title": "Testing Template",
-            "description": "Template test",
-            "quantity": 3,
-            "unitPrice": 10,
-            "amount": 30
-          }
-        ]
-      },
-      {
-        "id": 115,
-        "customer": 4,
-        "total": 400,
-        "date": {
-          "month": 7,
-          "day": 4,
-          "year": 2020
-        },
-        "owed": 400,
-        "dueDate": {
-          "month": 7,
-          "day": 9,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [],
-        "lineItems": [
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 8,
-            "unitPrice": 50,
-            "amount": 400
-          }
-        ]
-      },
-      {
-        "id": 114,
-        "customer": {
-          "name": "Rich Lawyer Guy",
-          "address": {
-            "street": "789 Ballin' Ave",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
-        "total": 190,
-        "date": {
-          "month": 6,
-          "day": 29,
-          "year": 2020
-        },
-        "owed": 50,
-        "dueDate": {
-          "month": 7,
-          "day": 3,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 100,
+            "owed": 40,
+            "dueDate": {
+               "month": 8,
+               "day": 4,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 50,
+                  "date": {
+                     "month": 8,
+                     "day": 30,
+                     "year": 2020
+                  },
+                  "note": ""
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 90,
+                  "amount": 90
+               }
+            ]
+         },
+         {
+            "id": 120,
+            "customer": 5,
+            "total": 0,
             "date": {
-              "month": 7,
-              "day": 29,
-              "year": 2020
+               "month": 7,
+               "day": 30,
+               "year": 2020
             },
-            "note": "fgh"
-          },
-          {
-            "amount": 40,
+            "owed": -50,
+            "dueDate": {
+               "month": 7,
+               "day": 31,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 50,
+                  "date": {
+                     "month": 8,
+                     "day": 31,
+                     "year": 2020
+                  },
+                  "note": "notes yo"
+               }
+            ],
+            "lineItems": []
+         },
+         {
+            "id": 119,
+            "customer": 5,
+            "total": 1372,
             "date": {
-              "month": 7,
-              "day": 15,
-              "year": 2020
+               "month": 7,
+               "day": 5,
+               "year": 2020
             },
-            "note": "more notes"
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Purchase",
-            "description": "sac o stuff",
-            "quantity": 1,
-            "unitPrice": 50,
-            "amount": 50
-          },
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 90,
-            "amount": 90
-          },
-          {
-            "title": "New Sexy Template",
-            "description": "great template!",
-            "quantity": 1,
-            "unitPrice": 50,
-            "amount": 50
-          }
-        ]
-      },
-      {
-        "id": 113,
-        "customer": 1,
-        "total": 350,
-        "date": {
-          "month": 6,
-          "day": 23,
-          "year": 2020
-        },
-        "owed": -100,
-        "dueDate": {
-          "month": 7,
-          "day": 2,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 350,
+            "owed": 1272,
+            "dueDate": {
+               "month": 7,
+               "day": 5,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 100,
+                  "date": {
+                     "month": 8,
+                     "day": 6,
+                     "year": 2020
+                  },
+                  "note": "check 53"
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 90,
+                  "amount": 90
+               },
+               {
+                  "title": "Purchase",
+                  "description": "Item description",
+                  "quantity": 1,
+                  "unitPrice": 1,
+                  "amount": 1
+               },
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 5,
+                  "unitPrice": 90,
+                  "amount": 450
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 8,
+                  "unitPrice": 50,
+                  "amount": 400
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 8,
+                  "unitPrice": 50,
+                  "amount": 400
+               },
+               {
+                  "title": "Purchase",
+                  "description": "Item description",
+                  "quantity": 1,
+                  "unitPrice": 1,
+                  "amount": 1
+               },
+               {
+                  "title": "One laborer",
+                  "description": "Extra Project",
+                  "quantity": 1,
+                  "unitPrice": 30,
+                  "amount": 30
+               }
+            ]
+         },
+         {
+            "id": 116,
+            "customer": 3,
+            "total": 460,
             "date": {
-              "month": 7,
-              "day": 23,
-              "year": 2020
+               "month": 8,
+               "day": 5,
+               "year": 2020
             },
-            "note": "check 3245"
-          },
-          {
-            "amount": 100,
+            "owed": 360,
+            "dueDate": {
+               "month": 8,
+               "day": 6,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 100,
+                  "date": {
+                     "month": 8,
+                     "day": 4,
+                     "year": 2020
+                  },
+                  "note": ""
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Purchase",
+                  "description": "Item description",
+                  "quantity": 1,
+                  "unitPrice": 100,
+                  "amount": 100
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 6,
+                  "unitPrice": 50,
+                  "amount": 300
+               },
+               {
+                  "title": "One laborer",
+                  "description": "Extra Project",
+                  "quantity": 1,
+                  "unitPrice": 30,
+                  "amount": 30
+               },
+               {
+                  "title": "Testing Template",
+                  "description": "Template test",
+                  "quantity": 3,
+                  "unitPrice": 10,
+                  "amount": 30
+               }
+            ]
+         },
+         {
+            "id": 115,
+            "customer": 4,
+            "total": 400,
             "date": {
-              "month": 7,
-              "day": 23,
-              "year": 2020
+               "month": 7,
+               "day": 4,
+               "year": 2020
             },
-            "note": ""
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 6,
-            "unitPrice": 50,
-            "amount": 300
-          },
-          {
-            "title": "Purchase",
-            "description": "Stuff",
-            "quantity": 1,
-            "unitPrice": 50,
-            "amount": 50
-          }
-        ]
-      },
-      {
-        "id": 111,
-        "customer": 2,
-        "total": 2605,
-        "date": {
-          "month": 6,
-          "day": 18,
-          "year": 2020
-        },
-        "dueDate": {
-          "month": 7,
-          "day": 2,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 500,
+            "owed": 400,
+            "dueDate": {
+               "month": 7,
+               "day": 9,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [],
+            "lineItems": [
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 8,
+                  "unitPrice": 50,
+                  "amount": 400
+               }
+            ]
+         },
+         {
+            "id": 114,
+            "customer": {
+               "name": "Rich Lawyer Guy",
+               "address": {
+                  "street": "789 Ballin' Ave",
+                  "cityStateZip": "Tiburon, CA 94920"
+               }
+            },
+            "total": 190,
             "date": {
-              "month": 7,
-              "day": 23,
-              "year": 2020
+               "month": 6,
+               "day": 29,
+               "year": 2020
             },
-            "note": "check"
-          },
-          {
-            "amount": 500,
+            "owed": 50,
+            "dueDate": {
+               "month": 7,
+               "day": 3,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 100,
+                  "date": {
+                     "month": 7,
+                     "day": 29,
+                     "year": 2020
+                  },
+                  "note": "fgh"
+               },
+               {
+                  "amount": 40,
+                  "date": {
+                     "month": 7,
+                     "day": 15,
+                     "year": 2020
+                  },
+                  "note": "more notes"
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Purchase",
+                  "description": "sac o stuff",
+                  "quantity": 1,
+                  "unitPrice": 50,
+                  "amount": 50
+               },
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 90,
+                  "amount": 90
+               },
+               {
+                  "title": "New Sexy Template",
+                  "description": "great template!",
+                  "quantity": 1,
+                  "unitPrice": 50,
+                  "amount": 50
+               }
+            ]
+         },
+         {
+            "id": 113,
+            "customer": 1,
+            "total": 350,
             "date": {
-              "month": 8,
-              "day": 4,
-              "year": 2020
+               "month": 6,
+               "day": 23,
+               "year": 2020
             },
-            "note": "checking what happens if i add a long note with the new format! Hopefully it's amazing and I'm just wasting my time being thorough"
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "New Template",
-            "description": "Great!??",
-            "quantity": 5,
-            "unitPrice": 20,
-            "amount": 100
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "the usual\n",
-            "quantity": 5,
-            "unitPrice": 80,
-            "amount": 400
-          },
-          {
-            "title": "stuff",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 23,
-            "amount": 23
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 8,
-            "unitPrice": 50,
-            "amount": 400
-          },
-          {
-            "title": "Purchase",
-            "description": "asdfsdfasdfas",
-            "quantity": 1,
-            "unitPrice": 100,
-            "amount": 100
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "the usual\n",
-            "quantity": 6,
-            "unitPrice": 80,
-            "amount": 480
-          },
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 90,
-            "amount": 90
-          },
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "Great guys they are",
-            "quantity": 1,
-            "unitPrice": 90,
-            "amount": 90
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 8,
-            "unitPrice": 50,
-            "amount": 400
-          },
-          {
-            "title": "Purchase",
-            "description": "Item description",
-            "quantity": 1,
-            "unitPrice": 1,
-            "amount": 1
-          },
-          {
-            "title": "Testing Template",
-            "description": "Template test",
-            "quantity": 3,
-            "unitPrice": 20,
-            "amount": 60
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "We worked super hard, dude",
-            "quantity": 8,
-            "unitPrice": 50,
-            "amount": 400
-          },
-          {
-            "title": "Purchase",
-            "description": "Item description",
-            "quantity": 1,
-            "unitPrice": 1,
-            "amount": 1
-          },
-          {
-            "title": "Testing Template",
-            "description": "Template test",
-            "quantity": 3,
-            "unitPrice": 20,
-            "amount": 60
-          }
-        ],
-        "owed": 1605
-      },
-      {
-        "id": 110,
-        "customer": 3,
-        "total": 1380,
-        "date": {
-          "month": 6,
-          "day": 13,
-          "year": 2020
-        },
-        "owed": 1380,
-        "dueDate": {
-          "month": 6,
-          "day": 14,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [],
-        "lineItems": [
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 3,
-            "unitPrice": 100,
-            "amount": 300
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 50,
-            "amount": 50
-          },
-          {
-            "title": "Joe's Labor",
-            "description": "fgj",
-            "quantity": 1,
-            "unitPrice": 500,
-            "amount": 500
-          },
-          {
-            "title": "Purchase",
-            "description": "bag o stuff",
-            "quantity": 1,
-            "unitPrice": 30,
-            "amount": 30
-          },
-          {
-            "title": "Purchase",
-            "description": "test",
-            "quantity": 1,
-            "unitPrice": 500,
-            "amount": 500
-          }
-        ]
-      },
-      {
-        "id": 108,
-        "customer": {
-          "name": "Rich Lawyer Guy",
-          "address": {
-            "street": "789 Ballin' Ave",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
-        "total": 80,
-        "date": {
-          "month": 5,
-          "day": 24,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 6,
-          "day": 19,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 80,
+            "owed": -100,
+            "dueDate": {
+               "month": 7,
+               "day": 2,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 350,
+                  "date": {
+                     "month": 7,
+                     "day": 23,
+                     "year": 2020
+                  },
+                  "note": "check 3245"
+               },
+               {
+                  "amount": 100,
+                  "date": {
+                     "month": 7,
+                     "day": 23,
+                     "year": 2020
+                  },
+                  "note": ""
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 6,
+                  "unitPrice": 50,
+                  "amount": 300
+               },
+               {
+                  "title": "Purchase",
+                  "description": "Stuff",
+                  "quantity": 1,
+                  "unitPrice": 50,
+                  "amount": 50
+               }
+            ]
+         },
+         {
+            "id": 111,
+            "customer": 2,
+            "total": 2605,
             "date": {
-              "month": 7,
-              "day": 20,
-              "year": 2020
+               "month": 6,
+               "day": 18,
+               "year": 2020
             },
-            "note": "check 532"
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Joe's Labor",
-            "description": "",
-            "quantity": 1,
-            "unitPrice": 80,
-            "amount": 80
-          }
-        ]
-      },
-      {
-        "id": 107,
-        "customer": {
-          "name": "Mrs. Old Lady",
-          "address": {
-            "street": "456 Happy Hill St",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
-        "total": 0,
-        "date": {
-          "month": 5,
-          "day": 24,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 6,
-          "day": 4,
-          "year": 2020
-        },
-        "sent": true,
-        "payment": [],
-        "lineItems": []
-      },
-      {
-        "id": 106,
-        "customer": {
-          "name": "The Callahan Family",
-          "address": {
-            "street": "123 Dono St",
-            "cityStateZip": "Tiburon, CA 94920"
-          }
-        },
-        "total": 275,
-        "date": {
-          "month": 5,
-          "day": 24,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 5,
-          "day": 29,
-          "year": 2020
-        },
-        "sent": true,
-        "payment": [
-          {
-            "amount": 275,
+            "dueDate": {
+               "month": 7,
+               "day": 2,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 500,
+                  "date": {
+                     "month": 7,
+                     "day": 23,
+                     "year": 2020
+                  },
+                  "note": "check"
+               },
+               {
+                  "amount": 500,
+                  "date": {
+                     "month": 8,
+                     "day": 4,
+                     "year": 2020
+                  },
+                  "note": "checking what happens if i add a long note with the new format! Hopefully it's amazing and I'm just wasting my time being thorough"
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "New Template",
+                  "description": "Great!??",
+                  "quantity": 5,
+                  "unitPrice": 20,
+                  "amount": 100
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "the usual\n",
+                  "quantity": 5,
+                  "unitPrice": 80,
+                  "amount": 400
+               },
+               {
+                  "title": "stuff",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 23,
+                  "amount": 23
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 8,
+                  "unitPrice": 50,
+                  "amount": 400
+               },
+               {
+                  "title": "Purchase",
+                  "description": "asdfsdfasdfas",
+                  "quantity": 1,
+                  "unitPrice": 100,
+                  "amount": 100
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "the usual\n",
+                  "quantity": 6,
+                  "unitPrice": 80,
+                  "amount": 480
+               },
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 90,
+                  "amount": 90
+               },
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "Great guys they are",
+                  "quantity": 1,
+                  "unitPrice": 90,
+                  "amount": 90
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 8,
+                  "unitPrice": 50,
+                  "amount": 400
+               },
+               {
+                  "title": "Purchase",
+                  "description": "Item description",
+                  "quantity": 1,
+                  "unitPrice": 1,
+                  "amount": 1
+               },
+               {
+                  "title": "Testing Template",
+                  "description": "Template test",
+                  "quantity": 3,
+                  "unitPrice": 20,
+                  "amount": 60
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "We worked super hard, dude",
+                  "quantity": 8,
+                  "unitPrice": 50,
+                  "amount": 400
+               },
+               {
+                  "title": "Purchase",
+                  "description": "Item description",
+                  "quantity": 1,
+                  "unitPrice": 1,
+                  "amount": 1
+               },
+               {
+                  "title": "Testing Template",
+                  "description": "Template test",
+                  "quantity": 3,
+                  "unitPrice": 20,
+                  "amount": 60
+               }
+            ],
+            "owed": 1605
+         },
+         {
+            "id": 110,
+            "customer": 3,
+            "total": 1380,
             "date": {
-              "month": 12,
-              "day": 1,
-              "year": 2019
+               "month": 6,
+               "day": 13,
+               "year": 2020
             },
-            "note": ""
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Joe's Labor",
-            "description": "ghgdh",
-            "quantity": 1,
-            "unitPrice": 50,
-            "amount": 50
-          },
-          {
-            "title": "Landscaping Crew - 3 guys",
-            "description": "",
-            "quantity": 3,
-            "unitPrice": 75,
-            "amount": 225
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": {
-      "id": 1,
-      "email": "2ndcompany@gmail.com"
-    },
-    "companyInfo": {
-      "name": "2nd Company",
-      "address": {
-        "street": "21 Merrydale",
-        "cityStateZip": "San Rafael, CA 94903"
-      },
-      "phone": "555-555-5555",
-      "email": "joe@sexygardens.com"
-    },
-    "numberofInvoices": 113,
-    "customers": [
-      {
-        "name": "Mrs. Old Lady",
-        "address": {
-          "street": "456 Happy Hill St",
-          "cityStateZip": "Tiburon, CA 94920"
-        }
-      }
-    ],
-    "templates": [
-      {
-        "title": "Testing Template",
-        "description": "Template test",
-        "quantity": 3,
-        "unitPrice": 20
-      },
-      {
-        "title": "New Template",
-        "description": "Great!??",
-        "quantity": 5,
-        "unitPrice": 20
-      }
-    ],
-    "invoices": []
-  },
-  {
-    "id": {
-      "id": 3,
-      "email": "kp@gmail.com",
-      "password": "$2a$10$bAdCbbnYCPbi.cOKaY18oOZ7BCHIMjmD2g8hBaAQFAZSiDxNEgCsq"
-    },
-    "companyInfo": {
-      "name": "kp's great company",
-      "email": "kp@gmail.com"
-    }
-  },
-  {
-    "id": {
-      "id": 4,
-      "email": "kelley@gmail.com",
-      "password": "$2a$10$WmAHniBolLVhV5hyOma71.uuvkUx6AFeBlbBIdBUygh.x9BUlE2OG"
-    },
-    "companyInfo": {
-      "name": "kelley",
-      "email": "kelley@gmail.com"
-    }
-  },
-  {
-    "id": {
-      "id": 5,
-      "email": "newguys@gmail.com",
-      "password": "$2a$10$XzrJ2252JSLVfxZXEnsOQubdybHpnVC0NZ65s7iIJ5HM20b4EsMW2"
-    },
-    "companyInfo": {
-      "name": "the new guys",
-      "email": "newguys@gmail.com"
-    }
-  },
-  {
-    "id": {
-      "id": "91cd173a-2d61-411a-8684-e3718fb293",
-      "email": "gc@gmail.com",
-      "password": "$2a$10$se02GkuVrjP/ESzVZRyZKeFkRnTwyplmMupGRwZZhYSCbYvd9Q0fG"
-    },
-    "companyInfo": {
-      "name": "great company",
-      "email": "gc@gmail.com"
-    },
-    "numberofInvoices": 100,
-    "customers": [],
-    "templates": [
-      {
-        "title": "Great stuff",
-        "description": "the best",
-        "quantity": 5,
-        "unitPrice": 50
-      }
-    ],
-    "invoices": [
-      {
-        "id": 1,
-        "customer": {
-          "name": "",
-          "address": {
-            "street": "",
-            "cityStateZip": ""
-          }
-        },
-        "total": 750,
-        "date": {
-          "month": 6,
-          "day": 30,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 6,
-          "day": 30,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 100,
+            "owed": 1380,
+            "dueDate": {
+               "month": 6,
+               "day": 14,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [],
+            "lineItems": [
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 3,
+                  "unitPrice": 100,
+                  "amount": 300
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 50,
+                  "amount": 50
+               },
+               {
+                  "title": "Joe's Labor",
+                  "description": "fgj",
+                  "quantity": 1,
+                  "unitPrice": 500,
+                  "amount": 500
+               },
+               {
+                  "title": "Purchase",
+                  "description": "bag o stuff",
+                  "quantity": 1,
+                  "unitPrice": 30,
+                  "amount": 30
+               },
+               {
+                  "title": "Purchase",
+                  "description": "test",
+                  "quantity": 1,
+                  "unitPrice": 500,
+                  "amount": 500
+               }
+            ]
+         },
+         {
+            "id": 108,
+            "customer": {
+               "name": "Rich Lawyer Guy",
+               "address": {
+                  "street": "789 Ballin' Ave",
+                  "cityStateZip": "Tiburon, CA 94920"
+               }
+            },
+            "total": 80,
             "date": {
-              "month": 7,
-              "day": 30,
-              "year": 2020
+               "month": 5,
+               "day": 24,
+               "year": 2020
             },
-            "note": ""
-          },
-          {
-            "amount": 550,
+            "owed": 0,
+            "dueDate": {
+               "month": 6,
+               "day": 19,
+               "year": 2020
+            },
+            "sent": false,
+            "payment": [
+               {
+                  "amount": 80,
+                  "date": {
+                     "month": 7,
+                     "day": 20,
+                     "year": 2020
+                  },
+                  "note": "check 532"
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Joe's Labor",
+                  "description": "",
+                  "quantity": 1,
+                  "unitPrice": 80,
+                  "amount": 80
+               }
+            ]
+         },
+         {
+            "id": 107,
+            "customer": {
+               "name": "Mrs. Old Lady",
+               "address": {
+                  "street": "456 Happy Hill St",
+                  "cityStateZip": "Tiburon, CA 94920"
+               }
+            },
+            "total": 0,
             "date": {
-              "month": 7,
-              "day": 30,
-              "year": 2020
+               "month": 5,
+               "day": 24,
+               "year": 2020
             },
-            "note": ""
-          },
-          {
-            "amount": 100,
+            "owed": 0,
+            "dueDate": {
+               "month": 6,
+               "day": 4,
+               "year": 2020
+            },
+            "sent": true,
+            "payment": [],
+            "lineItems": []
+         },
+         {
+            "id": 106,
+            "customer": {
+               "name": "The Callahan Family",
+               "address": {
+                  "street": "123 Dono St",
+                  "cityStateZip": "Tiburon, CA 94920"
+               }
+            },
+            "total": 275,
             "date": {
-              "month": 7,
-              "day": 30,
-              "year": 2020
+               "month": 5,
+               "day": 24,
+               "year": 2020
             },
-            "note": "the sky is falling"
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Great stuff",
-            "description": "the best",
-            "quantity": 5,
-            "unitPrice": 50,
-            "amount": 250
-          },
-          {
-            "title": "Great stuff",
-            "description": "the best",
-            "quantity": 5,
-            "unitPrice": 50,
-            "amount": 250
-          },
-          {
-            "title": "Great stuff",
-            "description": "the best",
-            "quantity": 5,
-            "unitPrice": 50,
-            "amount": 250
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": {
-      "id": "80899abf-5319-43c7-9861-dc8b1618cde6",
-      "email": "nc@gmail.com",
-      "password": "$2a$10$sAIgCIKZXrFOhE3rU6RnVOUajXfBqKLTPs4CzPCw2AlodNeUmbp3S"
-    },
-    "companyInfo": {
-      "name": "Cool Guys",
-      "address": {
-        "street": "Great Things Ln",
-        "cityStateZip": ""
-      },
-      "phone": "",
-      "email": "nc@gmail.com"
-    },
-    "numberofInvoices": 102,
-    "customers": [
-      {
-        "id": 1,
-        "name": "New Customers",
-        "address": {
-          "street": "123 Great St",
-          "cityStateZip": "Novato, CA 94945"
-        }
-      }
-    ],
-    "templates": [
-      {
-        "title": "Great stuff",
-        "description": "the best",
-        "quantity": 1,
-        "unitPrice": 20
-      }
-    ],
-    "invoices": [
-      {
-        "id": 102,
-        "customer": 1,
-        "total": 0,
-        "date": {
-          "month": 7,
-          "day": 5,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 7,
-          "day": 15,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [],
-        "lineItems": []
-      },
-      {
-        "id": 101,
-        "customer": {
-          "name": "New Guy",
-          "address": {
-            "street": "123456 Great St",
-            "cityStateZip": "Novato, CA 94947"
-          }
-        },
-        "total": 40,
-        "date": {
-          "month": 6,
-          "day": 30,
-          "year": 2020
-        },
-        "owed": 0,
-        "dueDate": {
-          "month": 7,
-          "day": 9,
-          "year": 2020
-        },
-        "sent": false,
-        "payment": [
-          {
-            "amount": 40,
-            "date": {
-              "month": 8,
-              "day": 5,
-              "year": 2020
+            "owed": 0,
+            "dueDate": {
+               "month": 5,
+               "day": 29,
+               "year": 2020
             },
-            "note": ""
-          }
-        ],
-        "lineItems": [
-          {
-            "title": "Great stuff",
-            "description": "the best",
-            "quantity": 1,
-            "unitPrice": 20,
-            "amount": 20
-          },
-          {
-            "title": "Great stuff",
-            "description": "the best",
-            "quantity": 1,
-            "unitPrice": 20,
-            "amount": 20
-          }
-        ]
-      }
-    ]
-  }
+            "sent": true,
+            "payment": [
+               {
+                  "amount": 275,
+                  "date": {
+                     "month": 12,
+                     "day": 1,
+                     "year": 2019
+                  },
+                  "note": ""
+               }
+            ],
+            "lineItems": [
+               {
+                  "title": "Joe's Labor",
+                  "description": "ghgdh",
+                  "quantity": 1,
+                  "unitPrice": 50,
+                  "amount": 50
+               },
+               {
+                  "title": "Landscaping Crew - 3 guys",
+                  "description": "",
+                  "quantity": 3,
+                  "unitPrice": 75,
+                  "amount": 225
+               }
+            ]
+         }
+      ]
+   }
 ]
