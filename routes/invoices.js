@@ -5,11 +5,8 @@ const fs = require('fs')
 // get invoice list
 router.get('/', (req, res) => {
    const invoices = req.user.invoices.map(invoice => {
-      if (typeof invoice.customer === 'number') {
-         const newinvoice = invoice
-         newinvoice.customer = req.user.customers.find(customer => customer.id === invoice.customer)
-         return newinvoice
-      } else return invoice
+      addCustomerInfo(invoice, req.user.customers)
+      return invoice
    })
    res.json(invoices)
 })
@@ -17,12 +14,13 @@ router.get('/', (req, res) => {
 // get single invoice
 router.get('/:id', (req, res) => {
    const oneInvoice = req.user.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+   addCustomerInfo(oneInvoice, req.user.customers)
    res.json(oneInvoice)
 })
 
 // drag and drop reorder line items
 router.patch('/:id/item', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -37,7 +35,7 @@ router.patch('/:id/item', (req, res) => {
       lineItems.splice(oldIndex, 1)
       lineItems.splice(newIndex, 0, draggedItem)
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
@@ -46,7 +44,7 @@ router.patch('/:id/item', (req, res) => {
 
 // Add new line item
 router.post('/:id', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -73,7 +71,7 @@ router.post('/:id', (req, res) => {
       })
       oneInvoice.owed = oneInvoice.total - totalPayments
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
@@ -82,7 +80,7 @@ router.post('/:id', (req, res) => {
 
 // Add a new invoice
 router.post('/', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
 
@@ -136,7 +134,7 @@ router.post('/', (req, res) => {
       }
       oneCompany.invoices.unshift(newInvoice)
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(newInvoice.id)
       })
@@ -145,7 +143,7 @@ router.post('/', (req, res) => {
 
 // DELETE invoice
 router.delete('/:id', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -157,7 +155,7 @@ router.delete('/:id', (req, res) => {
          }
       })
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.end()
       })
@@ -166,7 +164,7 @@ router.delete('/:id', (req, res) => {
 
 // Edit Invoice Info
 router.patch('/:id', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -211,7 +209,7 @@ router.patch('/:id', (req, res) => {
          year: +dueDate.split('-')[0]
       }
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
@@ -220,7 +218,7 @@ router.patch('/:id', (req, res) => {
 
 // Edit line item
 router.put('/:id/item', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -246,7 +244,7 @@ router.put('/:id/item', (req, res) => {
       })
       oneInvoice.owed = oneInvoice.total - totalPayments
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
@@ -255,7 +253,7 @@ router.put('/:id/item', (req, res) => {
 
 // delete line item
 router.delete('/:id/item', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -273,7 +271,7 @@ router.delete('/:id/item', (req, res) => {
       })
       oneInvoice.owed = oneInvoice.total - totalPayments
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
@@ -282,7 +280,7 @@ router.delete('/:id/item', (req, res) => {
 
 // POST - Add payment
 router.post('/:id/payment', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -310,7 +308,7 @@ router.post('/:id/payment', (req, res) => {
       })
       oneInvoice.owed = oneInvoice.total - totalPayments
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
@@ -319,7 +317,7 @@ router.post('/:id/payment', (req, res) => {
 
 // DELETE payment
 router.delete('/:id/payment', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
       const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
@@ -334,11 +332,15 @@ router.delete('/:id/payment', (req, res) => {
       oneInvoice.payment.forEach(pay => (totalPayments += pay.amount))
       oneInvoice.owed = oneInvoice.total - totalPayments
 
-      fs.writeFile('../UserData.json', JSON.stringify(data, null, 2), err => {
+      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
          res.json(oneInvoice)
       })
    })
 })
+
+function addCustomerInfo(invoice, customerList) {
+   invoice.customer = customerList.find(customer => customer.id === invoice.customer)
+}
 
 module.exports = router
