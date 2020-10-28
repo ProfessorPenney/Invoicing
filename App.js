@@ -43,6 +43,13 @@ app.use('/users', require('./routes/users'))
 
 // get invoice list
 app.get('/api/invoices', (req, res) => {
+   let invoices = req.user.invoices.map(invoice => {
+      if (typeof invoice.customer === 'number') {
+         const newinvoice = invoice
+         newinvoice.customer = req.user.customers.find(customer => customer.id === invoice.customer)
+         return newinvoice
+      } else return invoice
+   })
    res.json(req.user.invoices)
 })
 
