@@ -40,62 +40,17 @@ app.use(compression())
 // Authentification Route
 app.use('/users', require('./routes/users'))
 
-// Invoices API Routes
+// API Routes
+app.use('/api/invoices/pdf', require('./routes/pdf'))
 app.use('/api/invoices', require('./routes/invoices'))
+app.use('/api/templates', require('./routes/templates'))
+app.use('/api/companyinfo', require('./routes/companyinfo'))
 
 // get customer list
 app.get('/api/customers', (req, res) => {
    res.json(req.user.customers)
 })
 
-// get company info
-app.get('/api/companyinfo', (req, res) => {
-   res.json(req.user.companyInfo)
-})
-
-// POST - edit company info
-app.post('/api/companyinfo', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      oneCompany.companyInfo = req.body
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.end()
-      })
-   })
-})
-
-// get templates
-app.get('/api/templates', (req, res) => {
-   res.json(req.user.templates)
-})
-
-// Add new template line item
-app.post('/api/templates', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-
-      const { title, description, quantity, unitPrice } = req.body
-      const newTemplateItem = {
-         title,
-         description,
-         quantity,
-         unitPrice
-      }
-      oneCompany.templates.push(newTemplateItem)
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneCompany.templates)
-      })
-   })
-})
 app.use('./api/invoices/:id/pdf', require('./routes/pdf'))
 
 app.use('/login', express.static(`${__dirname}/public/login`))

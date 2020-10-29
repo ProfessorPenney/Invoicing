@@ -3,23 +3,18 @@ const router = express.Router()
 const fs = require('fs')
 const puppeteer = require('puppeteer')
 
-// GET - PDF generation and fetching of dat
-router.get('/', (req, res) => {
-   fs.readFile('../UserData.json', (err, data) => {
+// GET - PDF generation and fetching of data
+router.get('/:id', (req, res) => {
+   fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
+      oneInvoice.customer = oneCompany.customers.find(
+         customer => customer.id === oneInvoice.customer
+      )
 
       const { name, address, phone, email } = oneCompany.companyInfo
-
-      req.user.customers.forEach(customer => {
-         if (oneInvoice.customer === customer.id) {
-            oneInvoice.customer = customer
-         }
-      })
 
       let companyInfo = ''
       if (address.street != '') companyInfo += `${address.street} <br />`
@@ -41,8 +36,7 @@ router.get('/', (req, res) => {
 				<td>$${item.amount.toFixed(2)}</td>
 				</tr> `
       })
-      let payments = 0
-      payment.forEach(pay => (payments += pay.amount))
+      const totalPayments = payment.reduce((acc, pay) => acc + pay.amount, 0)
 
       const companyName = name
       const custName = customer.name
@@ -51,7 +45,7 @@ router.get('/', (req, res) => {
       const iDate = `${date.month}/${date.day}/${date.year}`
       const iOwed = owed.toFixed(2)
       const iDueDate = `${dueDate.month}/${dueDate.day}/${dueDate.year}`
-      const iPayments = payments.toFixed(2)
+      const iPayments = totalPayments.toFixed(2)
       const iTotal = total.toFixed(2)
       const lineItemsHTML = tableItems
 

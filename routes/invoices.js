@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 // get single invoice
 router.get('/:id', (req, res) => {
-   const oneInvoice = req.user.invoices.filter(invoice => invoice.id === parseInt(req.params.id))[0]
+   const oneInvoice = req.user.invoices.find(invoice => invoice.id === +req.params.id)
    addCustomerInfo(oneInvoice, req.user.customers)
    res.json(oneInvoice)
 })
@@ -23,10 +23,8 @@ router.patch('/:id/item', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
       const lineItems = oneInvoice.lineItems
 
       const { oldIndex, newIndex } = req.body
@@ -47,12 +45,10 @@ router.post('/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
       const { lineItems } = oneInvoice
-      const { title, description, quantity, unitPrice, amount } = req.body
+      const { title, description, quantity, unitPrice } = req.body
 
       const newLineItem = {
          title,
@@ -64,11 +60,7 @@ router.post('/:id', (req, res) => {
       lineItems.push(newLineItem)
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      let totalPayments = 0
-      // const totalPayments = oneInvoice.payments.reduce((total, payment) => total + payment.amount, 0)
-      oneInvoice.payment.forEach(pay => {
-         totalPayments += pay.amount
-      })
+      const totalPayments = oneInvoice.payment.reduce((acc, payment) => acc + payment.amount, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -84,7 +76,7 @@ router.post('/', (req, res) => {
       if (err) throw err
       data = JSON.parse(data)
 
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
       const customerList = oneCompany.customers
       const { customer, daysUntilDue } = req.body
 
@@ -146,14 +138,10 @@ router.delete('/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
 
-      oneCompany.invoices.forEach((invoice, index) => {
-         // use oneCompany.invoices.find(invoice => invoice.id === +req.params.id) One of the methods returns the index I think
-         if (invoice.id === +req.params.id) {
-            oneCompany.invoices.splice(index, 1)
-         }
-      })
+      deleteIndex = oneCompany.invoices.findIndex(invoice => invoice.id === +req.params.id)
+      if (deleteIndex >= 0) oneCompany.invoices.splice(deleteIndex, 1)
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
          if (err) throw err
@@ -167,23 +155,27 @@ router.patch('/:id', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
       const { name, address1, address2, date, dueDate } = req.body
       const customerList = oneCompany.customers
 
       // Add new customer if new
       customerId = null
-      customerList.forEach(customerFromList => {
-         if (customerFromList.name == name) {
-            customerId = customerFromList.id
-            customerFromList.address.street = address1
-            customerFromList.address.cityStateZip = address2
-         }
-      })
-      if (customerId === null) {
+      const customerAlreadyExists = customerList.find(customer => customer.name === name)
+      if (customerAlreadyExists) {
+         customerId = customerAlreadyExists.id
+         customerAlreadyExists.address.street = address1
+         customerAlreadyExists.address.cityStateZip = address2
+      }
+      // customerList.forEach(customerFromList => {
+      //    if (customerFromList.name == name) {
+      //       customerId = customerFromList.id
+      //       customerFromList.address.street = address1
+      //       customerFromList.address.cityStateZip = address2
+      //    }
+      // })
+      if (!customerId) {
          // if New Customer
          customerId = +customerList[0].id + 1
          const customer = {
@@ -221,10 +213,8 @@ router.put('/:id/item', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
       const { lineItems } = oneInvoice
       const { id, title, description, unitPrice, quantity } = req.body
 
@@ -238,10 +228,9 @@ router.put('/:id/item', (req, res) => {
       lineItems[id] = newLineItem
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      let totalPayments = 0
-      oneInvoice.payment.forEach(pay => {
-         totalPayments += pay.amount
-      })
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
+         total + pay.amount
+      }, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -256,19 +245,16 @@ router.delete('/:id/item', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
       const { lineItems } = oneInvoice
 
       lineItems.splice(req.body.index, 1)
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      let totalPayments = 0
-      oneInvoice.payment.forEach(pay => {
-         totalPayments += pay.amount
-      })
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
+         total + pay.amount
+      }, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -283,10 +269,8 @@ router.post('/:id/payment', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
 
       const { payAmount, payDate, payNote } = req.body
 
@@ -301,11 +285,9 @@ router.post('/:id/payment', (req, res) => {
       }
 
       oneInvoice.payment.push(newPayment)
-
-      let totalPayments = 0
-      oneInvoice.payment.forEach(pay => {
-         totalPayments += pay.amount
-      })
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
+         total + pay.amount
+      }, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -320,16 +302,15 @@ router.delete('/:id/payment', (req, res) => {
    fs.readFile('UserData.json', (err, data) => {
       if (err) throw err
       data = JSON.parse(data)
-      const oneCompany = data.filter(company => company.id.id === req.user.id.id)[0]
-      const oneInvoice = oneCompany.invoices.filter(
-         invoice => invoice.id === parseInt(req.params.id)
-      )[0]
+      const oneCompany = data.find(company => company.id.id === req.user.id.id)
+      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
       const { payment } = oneInvoice
 
       payment.splice(req.body.index, 1)
 
-      let totalPayments = 0
-      oneInvoice.payment.forEach(pay => (totalPayments += pay.amount))
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
+         total + pay.amount
+      }, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {

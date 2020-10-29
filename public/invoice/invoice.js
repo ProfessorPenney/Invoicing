@@ -476,7 +476,7 @@ function deletePayment() {
 
 // Creates PDF for download
 function createAndDownloadPdf() {
-   fetch(`/api/invoices/${invoiceId}/pdf`)
+   fetch(`/api/invoices/pdf/${invoiceId}`)
       .then(res => res.blob())
       .then(data => {
          const pdfBlob = new Blob([data], { type: 'application/pdf' })
