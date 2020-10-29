@@ -456,9 +456,7 @@ function addPayment() {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(invoice => {
-         fillPayments(invoice)
-      })
+      .then(fillPayments)
 }
 
 // delete a payment
@@ -471,7 +469,10 @@ function deletePayment() {
       headers: { 'Content-type': 'application/json' }
    })
       .then(res => res.json())
-      .then(fillPayments)
+      .then(invoice => {
+         invoiceOwed.textContent = `$${invoice.owed.toFixed(2)}`
+         fillPayments(invoice)
+      })
 }
 
 // Creates PDF for download

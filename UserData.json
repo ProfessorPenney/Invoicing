@@ -14,8 +14,16 @@
       "phone": "555-555-5555",
       "email": "joe@sexygardens.com"
     },
-    "numberofInvoices": 123,
+    "numberofInvoices": 126,
     "customers": [
+      {
+        "id": 7,
+        "name": "3rd Customer",
+        "address": {
+          "street": "3215 asdf asdf",
+          "cityStateZip": "asdfasdfasd"
+        }
+      },
       {
         "id": 6,
         "name": "Super New Guy",
@@ -89,22 +97,28 @@
         "description": "Extra Project",
         "quantity": 1,
         "unitPrice": 30
+      },
+      {
+        "title": "New Template test",
+        "description": "stuff's happening!",
+        "quantity": 3,
+        "unitPrice": 50
       }
     ],
     "invoices": [
       {
-        "id": 123,
+        "id": 126,
         "customer": 6,
-        "total": 650,
+        "total": 400,
         "date": {
           "month": 10,
-          "day": 28,
+          "day": 29,
           "year": 2020
         },
-        "owed": 650,
+        "owed": 400,
         "dueDate": {
           "month": 10,
-          "day": 17,
+          "day": 29,
           "year": 2020
         },
         "sent": false,
@@ -114,28 +128,62 @@
             "title": "Joe's Labor",
             "description": "We worked super hard, dude",
             "quantity": 8,
-            "unitPrice": 75,
-            "amount": 600
+            "unitPrice": 50,
+            "amount": 400
+          }
+        ]
+      },
+      {
+        "id": 125,
+        "customer": 6,
+        "total": 640,
+        "date": {
+          "month": 10,
+          "day": 29,
+          "year": 2020
+        },
+        "owed": 640,
+        "dueDate": {
+          "month": 12,
+          "day": 13,
+          "year": 2020
+        },
+        "sent": false,
+        "payment": [],
+        "lineItems": [
+          {
+            "title": "Landscaping Crew - 3 guys",
+            "description": "",
+            "quantity": 1,
+            "unitPrice": 90,
+            "amount": 90
           },
           {
-            "title": "Purchase",
-            "description": "Item description",
-            "quantity": 1,
+            "title": "Landscaping Crew - 3 guys",
+            "description": "",
+            "quantity": 2,
+            "unitPrice": 75,
+            "amount": 150
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
             "unitPrice": 50,
-            "amount": 50
+            "amount": 400
           }
         ]
       },
       {
         "id": 122,
-        "customer": 5,
-        "total": 455,
+        "customer": 7,
+        "total": 855,
         "date": {
           "month": 10,
           "day": 27,
           "year": 2020
         },
-        "owed": 305,
+        "owed": 755,
         "dueDate": {
           "month": 10,
           "day": 6,
@@ -143,15 +191,6 @@
         },
         "sent": false,
         "payment": [
-          {
-            "amount": 50,
-            "date": {
-              "month": 10,
-              "day": 26,
-              "year": 2020
-            },
-            "note": "test"
-          },
           {
             "amount": 100,
             "date": {
@@ -183,6 +222,13 @@
             "quantity": 1,
             "unitPrice": 35,
             "amount": 35
+          },
+          {
+            "title": "Joe's Labor",
+            "description": "We worked super hard, dude",
+            "quantity": 8,
+            "unitPrice": 50,
+            "amount": 400
           }
         ]
       },

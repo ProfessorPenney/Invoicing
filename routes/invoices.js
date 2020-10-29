@@ -116,7 +116,7 @@ router.post('/', (req, res) => {
          },
          owed: 0,
          dueDate: {
-            month: dueDate.getMonth(),
+            month: dueDate.getMonth() + 1,
             day: dueDate.getDate(),
             year: dueDate.getFullYear()
          },
@@ -228,9 +228,7 @@ router.put('/:id/item', (req, res) => {
       lineItems[id] = newLineItem
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
-         total + pay.amount
-      }, 0)
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -252,9 +250,7 @@ router.delete('/:id/item', (req, res) => {
       lineItems.splice(req.body.index, 1)
 
       oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
-         total + pay.amount
-      }, 0)
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -283,11 +279,9 @@ router.post('/:id/payment', (req, res) => {
          },
          note: payNote
       }
-
       oneInvoice.payment.push(newPayment)
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
-         total + pay.amount
-      }, 0)
+
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
@@ -308,9 +302,7 @@ router.delete('/:id/payment', (req, res) => {
 
       payment.splice(req.body.index, 1)
 
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => {
-         total + pay.amount
-      }, 0)
+      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
       oneInvoice.owed = oneInvoice.total - totalPayments
 
       fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {

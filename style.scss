@@ -9,6 +9,7 @@ body {
    background-color: $white;
    color: $font-color;
    margin: 0;
+   overflow-y: scroll;
    #overflow-wrapper {
       position: relative;
       overflow-x: hidden;
