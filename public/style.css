@@ -3,6 +3,7 @@ body {
   background-color: #f7f7f7;
   color: #270606;
   margin: 0;
+  overflow-y: scroll;
 }
 
 body #overflow-wrapper {
