@@ -5,7 +5,9 @@ const passport = require('passport')
 const flash = require('connect-flash')
 const compression = require('compression')
 const helmet = require('helmet')
+const mongoose = require('mongoose')
 const { ensureAuthenticated } = require('./config/auth')
+require('dotenv/config')
 
 const app = express()
 
@@ -37,23 +39,15 @@ app.use(flash())
 // Compression
 app.use(compression())
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> master
-//connect to DB
-mongoose.connect(
-   'mongodb+srv://dbuser:I3vrWKNANaRREn8x@cluster0.trsqi.mongodb.net/test?retryWrites=true&w=majority',
-   () => console.log('connected to DB!')
-)
-
-<<<<<<< HEAD
-=======
->>>>>>> mongodb
->>>>>>> master
 // Authentification Route
 app.use('/users', require('./routes/users'))
+
+// Connect to DB
+mongoose.connect(
+   process.env.DB_CONNECTION,
+   { useUnifiedTopology: true, useNewUrlParser: true },
+   () => console.log('connected to MongoDB!')
+)
 
 // API Routes
 app.use('/api/invoices/pdf', require('./routes/pdf'))
@@ -66,14 +60,6 @@ app.get('/api/customers', (req, res) => {
    res.json(req.user.customers)
 })
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-app.use('./api/invoices/:id/pdf', require('./routes/pdf'))
-
-=======
->>>>>>> mongodb
->>>>>>> master
 app.use('/login', express.static(`${__dirname}/public/login`))
 
 app.use('/register', express.static(`${__dirname}/public/register`))
