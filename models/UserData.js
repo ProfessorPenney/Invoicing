@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const UserSchema = mongoose.Schema({
-   id: {
-      id: String,
+   login: {
+      id: String, // remove this later
       email: String,
       password: String
    },
@@ -76,12 +76,3 @@ const UserSchema = mongoose.Schema({
 })
 
 module.exports = mongoose.model('User', UserSchema)
-
-
-/*
-const user = new User({
-   
-})
-
-
-*/

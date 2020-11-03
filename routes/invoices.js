@@ -5,10 +5,13 @@ const User = require('../models/UserData')
 
 // get invoice list
 router.get('/', (req, res) => {
-   const invoices = req.user.invoices.map(invoice => {
-      addCustomerInfo(invoice, req.user.customers)
+   let invoices = [...req.user.invoices]
+   invoices = invoices.map(invoice => {
+      console.log((invoice.customer = addCustomerInfo(invoice, [...req.user.customers])))
+      console.log(invoice.customer)
       return invoice
    })
+   // console.log(invoices)
    res.json(invoices)
 })
 
@@ -314,7 +317,11 @@ router.delete('/:id/payment', (req, res) => {
 })
 
 function addCustomerInfo(invoice, customerList) {
-   invoice.customer = customerList.find(customer => customer.id === invoice.customer)
+   return customerList.find(customer => {
+      // console.log('invoice', invoice.customer)
+      // console.log('customer', customer.id)
+      return customer.id === invoice.customer
+   })
 }
 
 module.exports = router
