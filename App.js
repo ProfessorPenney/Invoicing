@@ -1,5 +1,4 @@
 const express = require('express')
-const fs = require('fs')
 const session = require('express-session')
 const passport = require('passport')
 const flash = require('connect-flash')
@@ -46,7 +45,11 @@ app.use('/users', require('./routes/users'))
 mongoose.connect(
    process.env.DB_CONNECTION,
    { useUnifiedTopology: true, useNewUrlParser: true },
-   () => console.log('connected to MongoDB!')
+   err => {
+      if (err) {
+         console.log('MongoDB error - ', err)
+      } else console.log('connected to MongoDB!')
+   }
 )
 
 // API Routes

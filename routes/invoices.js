@@ -1,15 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const fs = require('fs')
-const User = require('../models/UserData')
+const mongoose = require('mongoose')
+
+const Users = require('../models/UserData')
 
 // get invoice list
 router.get('/', (req, res) => {
    let invoices = [...req.user.invoices]
+   // console.log(invoices)
    invoices = invoices.map(invoice => {
-      console.log((invoice.customer = addCustomerInfo(invoice, [...req.user.customers])))
-      console.log(invoice.customer)
-      return invoice
+      const customer = addCustomerInfo(invoice, [...req.user.customers])
+      const updatedInvoice = invoice
+      updatedInvoice.customer = customer
+      return updatedInvoice
    })
    // console.log(invoices)
    res.json(invoices)
