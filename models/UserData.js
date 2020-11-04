@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+// const InvoiceSchema = require('./Invoice')
 
 const UserSchema = mongoose.Schema({
    login: {
@@ -36,8 +37,41 @@ const UserSchema = mongoose.Schema({
    ],
    invoices: [
       {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'Invoice'
+         invoiceNum: Number,
+         customer: Number,
+         total: Number,
+         date: {
+            month: Number,
+            day: Number,
+            year: Number
+         },
+         owed: Number,
+         dueDate: {
+            month: Number,
+            day: Number,
+            year: Number
+         },
+         sent: Boolean,
+         payment: [
+            {
+               amount: Number,
+               date: {
+                  month: Number,
+                  day: Number,
+                  year: Number
+               },
+               note: String
+            }
+         ],
+         lineItems: [
+            {
+               title: String,
+               description: String,
+               quantity: Number,
+               unitPrice: Number,
+               amount: Number
+            }
+         ]
       }
    ]
 })

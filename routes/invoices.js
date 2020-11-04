@@ -3,27 +3,32 @@ const router = express.Router()
 const fs = require('fs')
 const mongoose = require('mongoose')
 
-const Users = require('../models/UserData')
+const User = require('../models/UserData')
 
 // get invoice list
 router.get('/', (req, res) => {
-   let invoices = [...req.user.invoices]
-   // console.log(invoices)
-   invoices = invoices.map(invoice => {
-      const customer = addCustomerInfo(invoice, [...req.user.customers])
-      const updatedInvoice = invoice
-      updatedInvoice.customer = customer
-      return updatedInvoice
-   })
-   // console.log(invoices)
-   res.json(invoices)
+   User.findById(req.user._id, 'invoices customers')
+      .lean()
+      .exec((err, user) => {
+         if (err) return console.log('get invoice error - ', err)
+         user.invoices.map(invoice => {
+            invoice.customer = user.customers.find(customer => invoice.customer === customer.id)
+            return invoice
+         })
+         res.json(user.invoices)
+      })
 })
 
 // get single invoice
 router.get('/:id', (req, res) => {
-   const oneInvoice = req.user.invoices.find(invoice => invoice.id === +req.params.id)
-   addCustomerInfo(oneInvoice, req.user.customers)
-   res.json(oneInvoice)
+   User.findById(req.user._id, 'invoices customers')
+      .lean()
+      .exec((err, user) => {
+         if (err) return console.log('get invoice error - ', err)
+         const oneInvoice = user.invoices.find(invoice => invoice.id === +req.params.id)
+         oneInvoice.customer = user.customers.find(customer => oneInvoice.customer === customer.id)
+         res.json(oneInvoice)
+      })
 })
 
 // drag and drop reorder line items
@@ -80,65 +85,105 @@ router.post('/:id', (req, res) => {
 
 // Add a new invoice
 router.post('/', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
+   const { daysUntilDue } = req.body
+   var dueDate = new Date()
+   const today = new Date()
+   dueDate.setDate(dueDate.getDate() + +daysUntilDue)
 
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const customerList = oneCompany.customers
-      const { customer, daysUntilDue } = req.body
+   const newInvoice = {
+      invoiceNum: 201,
+      customer: 5,
+      total: 0,
+      date: {
+         month: today.getMonth() + 1,
+         day: today.getDate(),
+         year: today.getFullYear()
+      },
+      owed: 0,
+      dueDate: {
+         month: dueDate.getMonth() + 1,
+         day: dueDate.getDate(),
+         year: dueDate.getFullYear()
+      },
+      sent: false,
+      payment: [],
+      lineItems: []
+   }
 
-      // Add new customer if new
-      if (customerList.length === 0) {
-         // if first customer ever
-         customerList.unshift(customer)
-         customer.id = 1
-      } else {
-         customerList.forEach(customerFromList => {
-            if (customerFromList.name == customer.name) {
-               customer.id = customerFromList.id
-               // update customer address in case it changed
-               customerFromList.address.street = customer.address.street
-               customerFromList.address.cityStateZip = customer.address.cityStateZip
-            }
-         })
-         if (!customer.id) {
-            // if New Customer
-            customer.id = +customerList[0].id + 1
-            customerList.unshift(customer)
-         }
-      }
-
-      var dueDate = new Date()
-      const today = new Date()
-      dueDate.setDate(dueDate.getDate() + +daysUntilDue)
-
-      const newInvoice = {
-         id: ++oneCompany.numberofInvoices,
-         customer: customer.id,
-         total: 0,
-         date: {
-            month: today.getMonth() + 1,
-            day: today.getDate(),
-            year: today.getFullYear()
-         },
-         owed: 0,
-         dueDate: {
-            month: dueDate.getMonth() + 1,
-            day: dueDate.getDate(),
-            year: dueDate.getFullYear()
-         },
-         sent: false,
-         payment: [],
-         lineItems: []
-      }
-      oneCompany.invoices.unshift(newInvoice)
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(newInvoice.id)
+   db.Invoice.create(newInvoice)
+      .then(newInvoice => {
+         return db.User.findOneAndUpdate(
+            { _id: req.user._id },
+            { $push: { invoices: newInvoice._id } }
+         )
       })
-   })
+      .then(() => {
+         console.log(newInvoice._id)
+         res.json(newInvoice._id)
+      })
+      .catch(err => {
+         console.log(err)
+      })
+
+   // fs.readFile('UserData.json', (err, data) => {
+   //    if (err) throw err
+   //    data = JSON.parse(data)
+
+   //    const oneCompany = data.find(company => company.id.id === req.user.id.id)
+   //    const customerList = oneCompany.customers
+   //    const { customer, daysUntilDue } = req.body
+
+   //    // Add new customer if new
+   //    if (customerList.length === 0) {
+   //       // if first customer ever
+   //       customerList.unshift(customer)
+   //       customer.id = 1
+   //    } else {
+   //       customerList.forEach(customerFromList => {
+   //          if (customerFromList.name == customer.name) {
+   //             customer.id = customerFromList.id
+   //             // update customer address in case it changed
+   //             customerFromList.address.street = customer.address.street
+   //             customerFromList.address.cityStateZip = customer.address.cityStateZip
+   //          }
+   //       })
+   //       if (!customer.id) {
+   //          // if New Customer
+   //          customer.id = +customerList[0].id + 1
+   //          customerList.unshift(customer)
+   //       }
+   //    }
+
+   //    var dueDate = new Date()
+   //    const today = new Date()
+   //    dueDate.setDate(dueDate.getDate() + +daysUntilDue)
+
+   //    const newInvoice = {
+   //       id: ++oneCompany.numberofInvoices,
+   //       customer: customer.id,
+   //       total: 0,
+   //       date: {
+   //          month: today.getMonth() + 1,
+   //          day: today.getDate(),
+   //          year: today.getFullYear()
+   //       },
+   //       owed: 0,
+   //       dueDate: {
+   //          month: dueDate.getMonth() + 1,
+   //          day: dueDate.getDate(),
+   //          year: dueDate.getFullYear()
+   //       },
+   //       sent: false,
+   //       payment: [],
+   //       lineItems: []
+   //    }
+   //    oneCompany.invoices.unshift(newInvoice)
+
+   //    fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+   //       if (err) throw err
+   //       res.json(newInvoice.id)
+   //    })
+   // })
 })
 
 // DELETE invoice

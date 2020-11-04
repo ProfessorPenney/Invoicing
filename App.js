@@ -44,7 +44,7 @@ app.use('/users', require('./routes/users'))
 // Connect to DB
 mongoose.connect(
    process.env.DB_CONNECTION,
-   { useUnifiedTopology: true, useNewUrlParser: true },
+   { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false },
    err => {
       if (err) {
          console.log('MongoDB error - ', err)
