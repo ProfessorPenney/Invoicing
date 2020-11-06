@@ -30,8 +30,8 @@ let customerList = null
 
 fetch('/api/companyinfo')
    .then(res => res.json())
-   .then(data => {
-      companyName.textContent = data.name
+   .then(company => {
+      companyName.textContent = company.name
    })
 
 fetch('/api/invoices')
@@ -165,9 +165,9 @@ function fillData(invoiceList) {
 
       const invoiceRow = document.createElement('tr')
 
-      const id = document.createElement('td')
-      id.textContent = invoice.id
-      invoiceRow.appendChild(id)
+      const invoiceNum = document.createElement('td')
+      invoiceNum.textContent = invoice.invoiceNum
+      invoiceRow.appendChild(invoiceNum)
 
       const customer = document.createElement('td')
       customer.textContent = invoice.customer.name
@@ -196,7 +196,7 @@ function fillData(invoiceList) {
       invoiceRow.appendChild(dueDate)
 
       invoiceRow.addEventListener('click', () => {
-         sessionStorage.setItem('id', invoice.id)
+         sessionStorage.setItem('id', invoice.invoiceNum)
          window.location = './invoice'
       })
 

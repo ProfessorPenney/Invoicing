@@ -47,7 +47,7 @@ mongoose.connect(
    { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false },
    err => {
       if (err) {
-         console.log('MongoDB error - ', err)
+         return console.log('MongoDB error - ', err)
       } else console.log('connected to MongoDB!')
    }
 )

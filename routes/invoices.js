@@ -10,77 +10,100 @@ router.get('/', (req, res) => {
    User.findById(req.user._id, 'invoices customers')
       .lean()
       .exec((err, user) => {
-         if (err) return console.log('get invoice error - ', err)
-         user.invoices.map(invoice => {
-            invoice.customer = user.customers.find(customer => invoice.customer === customer.id)
+         if (err) return handleError(err)
+         const invoiceList = user.invoices.map(invoice => {
+            invoice.customer = user.customers.find(customer => {
+               if (invoice.customer === undefined) return (invoice.customer = { name: '' })
+               return invoice.customer.equals(customer._id)
+            })
             return invoice
          })
-         res.json(user.invoices)
+         res.json(invoiceList)
       })
 })
 
 // get single invoice
 router.get('/:id', (req, res) => {
-   User.findById(req.user._id, 'invoices customers')
+   User.findById(req.user._id, { invoices: { $elemMatch: { invoiceNum: +req.params.id } } })
       .lean()
       .exec((err, user) => {
-         if (err) return console.log('get invoice error - ', err)
-         const oneInvoice = user.invoices.find(invoice => invoice.id === +req.params.id)
-         oneInvoice.customer = user.customers.find(customer => oneInvoice.customer === customer.id)
-         res.json(oneInvoice)
+         if (err) return handleError(err)
+         const oneInvoice = user.invoices[0]
+         User.findById(req.user._id, {
+            customers: { $elemMatch: { _id: oneInvoice.customer } }
+         })
+            .lean()
+            .exec((err, user2) => {
+               if (err) return handleError(err)
+               if (user2.customers[0] === undefined) {
+                  // remove later
+                  oneInvoice.customer = ''
+               } else {
+                  oneInvoice.customer = user2.customers[0]
+               }
+               res.json(oneInvoice)
+            })
       })
 })
 
 // drag and drop reorder line items
 router.patch('/:id/item', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      const lineItems = oneInvoice.lineItems
+   User.findById(req.user._id, { invoices: { $elemMatch: { invoiceNum: +req.params.id } } })
+      .lean()
+      .exec((err, user) => {
+         if (err) return handleError(err)
+         const oneInvoice = user.invoices[0]
+         const { lineItems } = oneInvoice
+         const { oldIndex, newIndex } = req.body
 
-      const { oldIndex, newIndex } = req.body
-
-      const draggedItem = lineItems.slice(oldIndex, oldIndex + 1)[0] // unnecessary? dragged item = first splice?
-      lineItems.splice(oldIndex, 1)
-      lineItems.splice(newIndex, 0, draggedItem)
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
+         const draggedItem = lineItems.splice(oldIndex, 1)[0]
+         lineItems.splice(newIndex, 0, draggedItem)
+         User.updateOne(
+            { _id: user._id, 'invoices.invoiceNum': +req.params.id },
+            { $set: { 'invoices.$.lineItems': lineItems } }
+         ).exec(err => {
+            if (err) return handleError(err)
+            res.json(oneInvoice)
+         })
       })
-   })
 })
 
 // Add new line item
 router.post('/:id', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      const { lineItems } = oneInvoice
-      const { title, description, quantity, unitPrice } = req.body
+   User.findById(req.user._id, { invoices: { $elemMatch: { invoiceNum: +req.params.id } } })
+      .lean()
+      .exec((err, user) => {
+         if (err) return handleError(err)
 
-      const newLineItem = {
-         title,
-         description,
-         quantity,
-         unitPrice,
-         amount: quantity * unitPrice
-      }
-      lineItems.push(newLineItem)
+         const { title, description, quantity, unitPrice } = req.body
+         const newLineItem = {
+            title,
+            description,
+            quantity,
+            unitPrice,
+            amount: quantity * unitPrice
+         }
+         const oneInvoice = user.invoices[0]
+         const { lineItems } = oneInvoice
+         lineItems.push(newLineItem)
 
-      oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      const totalPayments = oneInvoice.payment.reduce((acc, payment) => acc + payment.amount, 0)
-      oneInvoice.owed = oneInvoice.total - totalPayments
+         oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
+         const totalPayments = oneInvoice.payment.reduce((acc, payment) => acc + payment.amount, 0)
+         oneInvoice.owed = oneInvoice.total - totalPayments
 
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
+         User.findOneAndUpdate(
+            { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+            { $set: { 'invoices.$': oneInvoice } },
+            {
+               fields: { invoices: { $elemMatch: { invoiceNum: oneInvoice.invoiceNum } } },
+               new: true
+            }
+         ).exec((err, user) => {
+            if (err) return handleError(err)
+            console.log(user)
+            res.json(user.invoices[0])
+         })
       })
-   })
 })
 
 // Add a new invoice
@@ -89,101 +112,65 @@ router.post('/', (req, res) => {
    var dueDate = new Date()
    const today = new Date()
    dueDate.setDate(dueDate.getDate() + +daysUntilDue)
+   User.findByIdAndUpdate(
+      req.user._id,
+      { $inc: { numberofInvoices: 1 } },
+      {
+         fields: {
+            numberofInvoices: 1,
+            customers: { $elemMatch: { name: req.body.customer.name } }
+         }
+      }
+   ).exec((err, user) => {
+      if (err) return handleError(err)
 
-   const newInvoice = {
-      invoiceNum: 201,
-      customer: 5,
-      total: 0,
-      date: {
-         month: today.getMonth() + 1,
-         day: today.getDate(),
-         year: today.getFullYear()
-      },
-      owed: 0,
-      dueDate: {
-         month: dueDate.getMonth() + 1,
-         day: dueDate.getDate(),
-         year: dueDate.getFullYear()
-      },
-      sent: false,
-      payment: [],
-      lineItems: []
-   }
+      const newInvoice = {
+         invoiceNum: ++user.numberofInvoices,
+         total: 0,
+         date: {
+            month: today.getMonth() + 1,
+            day: today.getDate(),
+            year: today.getFullYear()
+         },
+         owed: 0,
+         dueDate: {
+            month: dueDate.getMonth() + 1,
+            day: dueDate.getDate(),
+            year: dueDate.getFullYear()
+         },
+         sent: false,
+         payment: [],
+         lineItems: []
+      }
 
-   db.Invoice.create(newInvoice)
-      .then(newInvoice => {
-         return db.User.findOneAndUpdate(
+      if (user.customers[0]) {
+         // if existing customer
+         newInvoice.customer = user.customers[0]._id
+         addNewInvoice()
+      } else {
+         User.findOneAndUpdate(
             { _id: req.user._id },
-            { $push: { invoices: newInvoice._id } }
+            { $push: { customers: { $each: [req.body.customer], $position: 0 } } },
+            { fields: { customers: { $elemMatch: { name: req.body.customer.name } } }, new: true }
          )
-      })
-      .then(() => {
-         console.log(newInvoice._id)
-         res.json(newInvoice._id)
-      })
-      .catch(err => {
-         console.log(err)
-      })
-
-   // fs.readFile('UserData.json', (err, data) => {
-   //    if (err) throw err
-   //    data = JSON.parse(data)
-
-   //    const oneCompany = data.find(company => company.id.id === req.user.id.id)
-   //    const customerList = oneCompany.customers
-   //    const { customer, daysUntilDue } = req.body
-
-   //    // Add new customer if new
-   //    if (customerList.length === 0) {
-   //       // if first customer ever
-   //       customerList.unshift(customer)
-   //       customer.id = 1
-   //    } else {
-   //       customerList.forEach(customerFromList => {
-   //          if (customerFromList.name == customer.name) {
-   //             customer.id = customerFromList.id
-   //             // update customer address in case it changed
-   //             customerFromList.address.street = customer.address.street
-   //             customerFromList.address.cityStateZip = customer.address.cityStateZip
-   //          }
-   //       })
-   //       if (!customer.id) {
-   //          // if New Customer
-   //          customer.id = +customerList[0].id + 1
-   //          customerList.unshift(customer)
-   //       }
-   //    }
-
-   //    var dueDate = new Date()
-   //    const today = new Date()
-   //    dueDate.setDate(dueDate.getDate() + +daysUntilDue)
-
-   //    const newInvoice = {
-   //       id: ++oneCompany.numberofInvoices,
-   //       customer: customer.id,
-   //       total: 0,
-   //       date: {
-   //          month: today.getMonth() + 1,
-   //          day: today.getDate(),
-   //          year: today.getFullYear()
-   //       },
-   //       owed: 0,
-   //       dueDate: {
-   //          month: dueDate.getMonth() + 1,
-   //          day: dueDate.getDate(),
-   //          year: dueDate.getFullYear()
-   //       },
-   //       sent: false,
-   //       payment: [],
-   //       lineItems: []
-   //    }
-   //    oneCompany.invoices.unshift(newInvoice)
-
-   //    fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-   //       if (err) throw err
-   //       res.json(newInvoice.id)
-   //    })
-   // })
+            .lean()
+            .exec((err, user2) => {
+               if (err) return handleError(err)
+               console.log('user2 - ', user2)
+               newInvoice.customer = user2.customers[0]._id
+               addNewInvoice()
+            })
+      }
+      function addNewInvoice() {
+         User.updateOne(
+            { _id: req.user._id },
+            { $push: { invoices: { $each: [newInvoice], $position: 0 } } }
+         ).exec(err => {
+            if (err) return handleError(err)
+            res.json(newInvoice.invoiceNum)
+         })
+      }
+   })
 })
 
 // DELETE invoice
@@ -371,6 +358,9 @@ function addCustomerInfo(invoice, customerList) {
       // console.log('customer', customer.id)
       return customer.id === invoice.customer
    })
+}
+function handleError(err) {
+   console.log('error handler says ', err)
 }
 
 module.exports = router

@@ -1,9 +1,7 @@
 const mongoose = require('mongoose')
-// const InvoiceSchema = require('./Invoice')
 
 const UserSchema = mongoose.Schema({
    login: {
-      id: String, // remove this later
       email: String,
       password: String
    },
@@ -19,7 +17,6 @@ const UserSchema = mongoose.Schema({
    numberofInvoices: Number,
    customers: [
       {
-         id: Number,
          name: String,
          address: {
             street: String,
@@ -29,6 +26,7 @@ const UserSchema = mongoose.Schema({
    ],
    templates: [
       {
+         _id: false,
          title: String,
          description: String,
          quantity: Number,
@@ -37,8 +35,9 @@ const UserSchema = mongoose.Schema({
    ],
    invoices: [
       {
+         _id: false,
          invoiceNum: Number,
-         customer: Number,
+         customer: mongoose.Schema.Types.ObjectId,
          total: Number,
          date: {
             month: Number,
@@ -54,6 +53,7 @@ const UserSchema = mongoose.Schema({
          sent: Boolean,
          payment: [
             {
+               _id: false,
                amount: Number,
                date: {
                   month: Number,
@@ -65,6 +65,7 @@ const UserSchema = mongoose.Schema({
          ],
          lineItems: [
             {
+               _id: false,
                title: String,
                description: String,
                quantity: Number,
