@@ -156,7 +156,6 @@ router.post('/', (req, res) => {
             .lean()
             .exec((err, user2) => {
                if (err) return handleError(err)
-               console.log('user2 - ', user2)
                newInvoice.customer = user2.customers[0]._id
                addNewInvoice()
             })
@@ -175,77 +174,134 @@ router.post('/', (req, res) => {
 
 // DELETE invoice
 router.delete('/:id', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-
-      deleteIndex = oneCompany.invoices.findIndex(invoice => invoice.id === +req.params.id)
-      if (deleteIndex >= 0) oneCompany.invoices.splice(deleteIndex, 1)
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.end()
-      })
+   User.updateOne(
+      { _id: req.user._id },
+      { $pull: { invoices: { invoiceNum: +req.params.id } } }
+   ).exec(err => {
+      if (err) return handleError(err)
+      res.end()
    })
 })
 
 // Edit Invoice Info
 router.patch('/:id', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      const { name, address1, address2, date, dueDate } = req.body
-      const customerList = oneCompany.customers
+   const { name, address1, address2, date, dueDate } = req.body
 
-      // Add new customer if new
-      customerId = null
-      const customerAlreadyExists = customerList.find(customer => customer.name === name)
-      if (customerAlreadyExists) {
-         customerId = customerAlreadyExists.id
-         customerAlreadyExists.address.street = address1
-         customerAlreadyExists.address.cityStateZip = address2
-      }
-      // customerList.forEach(customerFromList => {
-      //    if (customerFromList.name == name) {
-      //       customerId = customerFromList.id
-      //       customerFromList.address.street = address1
-      //       customerFromList.address.cityStateZip = address2
-      //    }
-      // })
-      if (!customerId) {
-         // if New Customer
-         customerId = +customerList[0].id + 1
-         const customer = {
-            id: customerId,
+   const newDate = {
+      month: +date.split('-')[1],
+      day: +date.split('-')[2],
+      year: +date.split('-')[0]
+   }
+   const newDueDate = {
+      month: +dueDate.split('-')[1],
+      day: +dueDate.split('-')[2],
+      year: +dueDate.split('-')[0]
+   }
+
+   // Updates address if current customer
+   User.updateOne(
+      { _id: req.user._id, 'customers.name': name },
+      { $set: { 'customers.$.address': { street: address1, cityStateZip: address2 } } }
+   ).exec((err, result) => {
+      if (err) return handleError(err)
+      if (result.nModified === 1) {
+         // update invoice date and due date
+         User.findOneAndUpdate(
+            { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+            { $set: { 'invoices.$.dueDate': newDueDate, 'invoices.$.date': newDate } },
+            { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } } }
+         ).exec((err, user) => {
+            if (err) return handleError(err)
+            res.json(user.invoices[0])
+         })
+      } else {
+         // create new customer
+         const newCustomer = {
+            _id: new mongoose.Types.ObjectId(),
             name,
             address: {
                street: address1,
                cityStateZip: address2
             }
          }
-         customerList.unshift(customer)
-      }
 
-      oneInvoice.customer = customerId
-      oneInvoice.date = {
-         month: +date.split('-')[1],
-         day: +date.split('-')[2],
-         year: +date.split('-')[0]
+         User.findOneAndUpdate(
+            { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+            {
+               $push: { customers: newCustomer },
+               $set: {
+                  'invoices.$.dueDate': newDueDate,
+                  'invoices.$.customer': newCustomer._id,
+                  'invoices.$.date': newDate
+               }
+            },
+            { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } } }
+         ).exec((err, user) => {
+            if (err) return handleError(err)
+            res.json(user.invoices[0])
+         })
       }
-      oneInvoice.dueDate = {
-         month: +dueDate.split('-')[1],
-         day: +dueDate.split('-')[2],
-         year: +dueDate.split('-')[0]
-      }
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
-      })
    })
+   // User.findOneAndUpdate({ _id: req.user._id, 'invoices.invoiceNum': +req.params.id }, {}).exec(
+   //    (err, user) => {
+   //       if (err) return handleError(err)
+   //       console.log(user)
+   //    }
+   // )
+   // fs.readFile('UserData.json', (err, data) => {
+   //    if (err) throw err
+   //    data = JSON.parse(data)
+   //    const oneCompany = data.find(company => company.id.id === req.user.id.id)
+   //    const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
+   //    const { name, address1, address2, date, dueDate } = req.body
+   //    const customerList = oneCompany.customers
+
+   //    // Add new customer if new
+   //    customerId = null
+   //    const customerAlreadyExists = customerList.find(customer => customer.name === name)
+   //    if (customerAlreadyExists) {
+   //       customerId = customerAlreadyExists.id
+   //       customerAlreadyExists.address.street = address1
+   //       customerAlreadyExists.address.cityStateZip = address2
+   //    }
+   //    // customerList.forEach(customerFromList => {
+   //    //    if (customerFromList.name == name) {
+   //    //       customerId = customerFromList.id
+   //    //       customerFromList.address.street = address1
+   //    //       customerFromList.address.cityStateZip = address2
+   //    //    }
+   //    // })
+   //    if (!customerId) {
+   //       // if New Customer
+   //       customerId = +customerList[0].id + 1
+   //       const customer = {
+   //          id: customerId,
+   //          name,
+   //          address: {
+   //             street: address1,
+   //             cityStateZip: address2
+   //          }
+   //       }
+   //       customerList.unshift(customer)
+   //    }
+
+   //    oneInvoice.customer = customerId
+   //    oneInvoice.date = {
+   //       month: +date.split('-')[1],
+   //       day: +date.split('-')[2],
+   //       year: +date.split('-')[0]
+   //    }
+   //    oneInvoice.dueDate = {
+   //       month: +dueDate.split('-')[1],
+   //       day: +dueDate.split('-')[2],
+   //       year: +dueDate.split('-')[0]
+   //    }
+
+   //    fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
+   //       if (err) throw err
+   //       res.json(oneInvoice)
+   //    })
+   // })
 })
 
 // Edit line item
@@ -352,13 +408,6 @@ router.delete('/:id/payment', (req, res) => {
    })
 })
 
-function addCustomerInfo(invoice, customerList) {
-   return customerList.find(customer => {
-      // console.log('invoice', invoice.customer)
-      // console.log('customer', customer.id)
-      return customer.id === invoice.customer
-   })
-}
 function handleError(err) {
    console.log('error handler says ', err)
 }
