@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs')
 const mongoose = require('mongoose')
 
 const User = require('../models/UserData')
