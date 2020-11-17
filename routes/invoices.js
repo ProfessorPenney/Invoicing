@@ -340,21 +340,23 @@ router.post('/:id/payment', (req, res) => {
 
 // DELETE payment
 router.delete('/:id/payment', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      const { payment } = oneInvoice
+   const { index, payAmt } = req.body
 
-      payment.splice(req.body.index, 1)
-
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
-      oneInvoice.owed = oneInvoice.total - totalPayments
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
+   User.updateOne(
+      { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+      {
+         $unset: { [`invoices.$.payment.${index}`]: '' },
+         $inc: { 'invoices.$.owed': payAmt }
+      }
+   ).exec(err => {
+      if (err) return handleError(err)
+      User.findOneAndUpdate(
+         { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+         { $pull: { 'invoices.$.payment': null } },
+         { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
+      ).exec((err, user) => {
+         if (err) return handleError(err)
+         res.json(user.invoices[0])
       })
    })
 })

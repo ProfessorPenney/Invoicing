@@ -447,6 +447,7 @@ function deleteItem() {
       .then(fillInvoiceItems)
 }
 
+// Add a payment
 function addPayment() {
    cancelPayment.click()
    fetch(`/api/invoices/${invoiceId}/payment`, {
@@ -467,7 +468,8 @@ function deletePayment() {
    fetch(`/api/invoices/${invoiceId}/payment`, {
       method: 'DELETE',
       body: JSON.stringify({
-         index: +this.parentNode.id.substring(7)
+         index: +this.parentNode.id.substring(7),
+         payAmt: +this.parentNode.firstChild.textContent.slice(1)
       }),
       headers: { 'Content-type': 'application/json' }
    })
