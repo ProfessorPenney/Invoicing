@@ -12,7 +12,14 @@ router.get('/', (req, res) => {
          if (err) return handleError(err)
          const invoiceList = user.invoices.map(invoice => {
             invoice.customer = user.customers.find(customer => {
-               if (invoice.customer === undefined) return (invoice.customer = { name: '' })
+               if (invoice.customer === undefined)
+                  return (invoice.customer = {
+                     name: 'Customer not found',
+                     address: {
+                        street: 'none',
+                        cityStateZip: 'none'
+                     }
+                  })
                return invoice.customer.equals(customer._id)
             })
             return invoice
