@@ -1,33 +1,42 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs')
+const mongoose = require('mongoose')
+
+const User = require('../models/UserData')
 
 // get templates
 router.get('/', (req, res) => {
-   res.json(req.user.templates)
+   User.findById(req.user._id, 'templates')
+      .lean()
+      .exec((err, user) => {
+         if (err) return handleError(err)
+         res.json(user.templates)
+      })
 })
 
 // Add new template line item
 router.post('/', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-
-      const { title, description, quantity, unitPrice } = req.body
-      const newTemplateItem = {
-         title,
-         description,
-         quantity,
-         unitPrice
-      }
-      oneCompany.templates.push(newTemplateItem)
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneCompany.templates)
+   const { title, description, quantity, unitPrice } = req.body
+   const newTemplateItem = {
+      title,
+      description,
+      quantity,
+      unitPrice
+   }
+   User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $push: { templates: newTemplateItem } },
+      { fields: 'templates', new: true }
+   )
+      .lean()
+      .exec((err, user) => {
+         if (err) return handleError(err)
+         res.json(user.templates)
       })
-   })
 })
+
+function handleError(err) {
+   console.log('error handler says ', err)
+}
 
 module.exports = router
