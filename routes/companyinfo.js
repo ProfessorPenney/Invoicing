@@ -1,26 +1,30 @@
 const express = require('express')
 const router = express.Router()
 const fs = require('fs')
+const mongoose = require('mongoose')
+
+const User = require('../models/UserData')
 
 // get company info
 router.get('/', (req, res) => {
-   res.json(req.user.companyInfo)
+   User.findById(req.user._id, 'companyInfo').exec((err, user) => {
+      if (err) return handleError(err)
+      res.json(user.companyInfo)
+   })
 })
 
 // POST - edit company info
 router.post('/', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
+   const companyInfo = req.body
 
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      oneCompany.companyInfo = req.body
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.end()
-      })
+   User.updateOne({ _id: req.user._id }, { $set: { companyInfo: companyInfo } }).exec(err => {
+      if (err) return handleError(err)
+      res.end()
    })
 })
+
+function handleError(err) {
+   console.log('error handler says ', err)
+}
 
 module.exports = router
