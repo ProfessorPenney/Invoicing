@@ -302,41 +302,26 @@ router.put('/:id/item', (req, res) => {
 // delete line item
 router.delete('/:id/item', (req, res) => {
    const { index, itemTotal, invoiceTotal, invoiceOwed } = req.body
-   console.log(index, itemTotal, invoiceTotal, invoiceOwed)
    const total = invoiceTotal - itemTotal
    const owed = invoiceOwed - itemTotal
 
-   User.findOneAndUpdate(
+   User.updateOne(
       { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
       {
-         $pull: [`invoices.$.lineItems.${index}`],
+         $unset: { [`invoices.$.lineItems.${index}`]: '' },
          $set: { 'invoices.$.total': total, 'invoices.$.owed': owed }
-      },
-      { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
-   ).exec((err, user) => {
+      }
+   ).exec(err => {
       if (err) return handleError(err)
-      console.log(user)
-      res.json(user.invoices[0])
+      User.findOneAndUpdate(
+         { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+         { $pull: { 'invoices.$.lineItems': null } },
+         { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
+      ).exec((err, user) => {
+         if (err) return handleError(err)
+         res.json(user.invoices[0])
+      })
    })
-
-   // fs.readFile('UserData.json', (err, data) => {
-   //    if (err) throw err
-   //    data = JSON.parse(data)
-   //    const oneCompany = data.find(company => company.id.id === req.user.id.id)
-   //    const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-   //    const { lineItems } = oneInvoice
-
-   //    lineItems.splice(req.body.index, 1)
-
-   //    oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-   //    const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
-   //    oneInvoice.owed = oneInvoice.total - totalPayments
-
-   //    fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-   //       if (err) throw err
-   //       res.json(oneInvoice)
-   //    })
-   // })
 })
 
 // POST - Add payment

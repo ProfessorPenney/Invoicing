@@ -319,10 +319,7 @@ function getAndResetModalValues() {
       title: modalTitle.value,
       quantity: +modalQty.value,
       unitPrice: +modalPrice.value,
-      description: modalDescrip.value,
-      itemTotal: +document.querySelector(`#item-${itemId}`).children[4].textContent,
-      invoiceTotal: +invoiceTotal.textContent,
-      invoiceOwed: +invoiceOwed.textContent.slice(1)
+      description: modalDescrip.value
    }
    modalTitle.value = ''
    modalQty.value = '1'
@@ -336,6 +333,9 @@ function getAndResetModalValues() {
 function editLineItem() {
    const body = getAndResetModalValues()
    body.index = itemId
+   body.itemTotal = +document.querySelector(`#item-${itemId}`).children[4].textContent
+   body.invoiceTotal = +invoiceTotal.textContent
+   body.invoiceOwed = +invoiceOwed.textContent.slice(1)
 
    fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'PUT',
