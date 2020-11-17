@@ -258,16 +258,7 @@ router.patch('/:id', (req, res) => {
 
 // Edit line item
 router.put('/:id/item', (req, res) => {
-   const {
-      index,
-      title,
-      description,
-      unitPrice,
-      quantity,
-      itemTotal,
-      invoiceTotal,
-      invoiceOwed
-   } = req.body
+   const { index, title, description, unitPrice, quantity, itemTotal } = req.body
 
    const newLineItem = {
       title,
@@ -277,8 +268,7 @@ router.put('/:id/item', (req, res) => {
       amount: quantity * unitPrice
    }
 
-   const total = invoiceTotal + newLineItem.amount - itemTotal
-   const owed = invoiceOwed + newLineItem.amount - itemTotal
+   const addToTotal = newLineItem.amount - itemTotal
 
    User.findOneAndUpdate(
       {
@@ -287,9 +277,11 @@ router.put('/:id/item', (req, res) => {
       },
       {
          $set: {
-            [`invoices.$.lineItems.${index}`]: newLineItem,
-            'invoices.$.total': total,
-            'invoices.$.owed': owed
+            [`invoices.$.lineItems.${index}`]: newLineItem
+         },
+         $inc: {
+            'invoices.$.total': addToTotal,
+            'invoices.$.owed': addToTotal
          }
       },
       { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
@@ -301,15 +293,13 @@ router.put('/:id/item', (req, res) => {
 
 // delete line item
 router.delete('/:id/item', (req, res) => {
-   const { index, itemTotal, invoiceTotal, invoiceOwed } = req.body
-   const total = invoiceTotal - itemTotal
-   const owed = invoiceOwed - itemTotal
+   const { index, itemTotal } = req.body
 
    User.updateOne(
       { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
       {
          $unset: { [`invoices.$.lineItems.${index}`]: '' },
-         $set: { 'invoices.$.total': total, 'invoices.$.owed': owed }
+         $inc: { 'invoices.$.total': -itemTotal, 'invoices.$.owed': -itemTotal }
       }
    ).exec(err => {
       if (err) return handleError(err)
@@ -326,32 +316,25 @@ router.delete('/:id/item', (req, res) => {
 
 // POST - Add payment
 router.post('/:id/payment', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
+   const { payAmount, payDate, payNote } = req.body
 
-      const { payAmount, payDate, payNote } = req.body
+   const newPayment = {
+      amount: +payAmount,
+      date: {
+         month: +payDate.split('-')[1],
+         day: +payDate.split('-')[2],
+         year: +payDate.split('-')[0]
+      },
+      note: payNote
+   }
 
-      const newPayment = {
-         amount: +payAmount,
-         date: {
-            month: +payDate.split('-')[1],
-            day: +payDate.split('-')[2],
-            year: +payDate.split('-')[0]
-         },
-         note: payNote
-      }
-      oneInvoice.payment.push(newPayment)
-
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
-      oneInvoice.owed = oneInvoice.total - totalPayments
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
-      })
+   User.findOneAndUpdate(
+      { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+      { $push: { 'invoices.$.payment': newPayment }, $inc: { 'invoices.$.owed': -payAmount } },
+      { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
+   ).exec((err, user) => {
+      if (err) return handleError(err)
+      res.json(user.invoices[0])
    })
 })
 

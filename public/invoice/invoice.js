@@ -334,8 +334,6 @@ function editLineItem() {
    const body = getAndResetModalValues()
    body.index = itemId
    body.itemTotal = +document.querySelector(`#item-${itemId}`).children[4].textContent
-   body.invoiceTotal = +invoiceTotal.textContent
-   body.invoiceOwed = +invoiceOwed.textContent.slice(1)
 
    fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'PUT',
@@ -441,9 +439,7 @@ function deleteItem() {
       method: 'DELETE',
       body: JSON.stringify({
          index,
-         itemTotal: +document.querySelector(`#item-${index}`).children[4].textContent,
-         invoiceTotal: +invoiceTotal.textContent,
-         invoiceOwed: +invoiceOwed.textContent.slice(1)
+         itemTotal: +document.querySelector(`#item-${index}`).children[4].textContent
       }),
       headers: { 'Content-type': 'application/json' }
    })
