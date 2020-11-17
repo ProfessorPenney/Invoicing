@@ -1,28 +1,22 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
-const { v4: uuid } = require('uuid')
+const mongoose = require('mongoose')
 
+const User = require('../models/UserData')
 // Validation passed
 router.post('/register', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
+   const { name, email, password } = req.body
 
-      const { name, email, password } = req.body
-
-      let companyData = data.find(company => company.id.email === email)
-
-      if (companyData) {
-         res.end()
-      } else {
-         let newUser = {
-            id: {
-               id: uuid(),
-               email,
-               password
+   User.findOne({ 'login.email': email }, 'login')
+      .lean()
+      .exec((err, user) => {
+         if (err) return handleError(err)
+         if (user) res.end()
+         const newUser = {
+            login: {
+               email
             },
             companyInfo: {
                name,
@@ -39,20 +33,18 @@ router.post('/register', (req, res) => {
             invoices: []
          }
 
-         // Hash Password
          bcrypt.genSalt(10, (error, salt) => {
             bcrypt.hash(password, salt, (err, hash) => {
                if (err) throw err
-               newUser.id.password = hash
-               data.push(newUser)
-               fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-                  if (err) throw err
+               newUser.login.password = hash
+               const user = new User(newUser)
+               user.save(err => {
+                  if (err) console.log('error - ', err)
                   res.end()
                })
             })
          })
-      }
-   })
+      })
 })
 
 //Login Handle
