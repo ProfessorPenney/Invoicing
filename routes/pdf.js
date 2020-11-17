@@ -307,7 +307,10 @@ router.get('/:id', (req, res) => {
                })()
             })
       })
-   // })
 })
+
+function handleError(err) {
+   console.log('error handler says ', err)
+}
 
 module.exports = router
