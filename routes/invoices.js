@@ -29,20 +29,33 @@ router.get('/:id', (req, res) => {
       .exec((err, user) => {
          if (err) return handleError(err)
          const oneInvoice = user.invoices[0]
-         User.findById(req.user._id, {
-            customers: { $elemMatch: { _id: oneInvoice.customer } }
-         })
-            .lean()
-            .exec((err, user2) => {
+         const newTotal = oneInvoice.lineItems.reduce((total, item) => total + item.amount, 0)
+         const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
+         const newOwed = oneInvoice.total - totalPayments
+         if (newTotal !== oneInvoice.total || newOwed !== oneInvoice.owed) {
+            User.updateOne(
+               { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+               { $set: { 'invoices.$.total': newTotal, 'invoices.$.owed': newOwed } }
+            ).exec(err => {
                if (err) return handleError(err)
-               if (user2.customers[0] === undefined) {
-                  // remove later
-                  oneInvoice.customer = ''
-               } else {
-                  oneInvoice.customer = user2.customers[0]
-               }
-               res.json(oneInvoice)
+               matchCustomer()
             })
+         } else matchCustomer()
+         function matchCustomer() {
+            User.findById(req.user._id, {
+               customers: { $elemMatch: { _id: oneInvoice.customer } }
+            })
+               .lean()
+               .exec((err, user2) => {
+                  if (err) return handleError(err)
+                  if (user2.customers[0] === undefined) {
+                     oneInvoice.customer = 'Customer not found'
+                  } else {
+                     oneInvoice.customer = user2.customers[0]
+                  }
+                  res.json(oneInvoice)
+               })
+         }
       })
 })
 
@@ -100,7 +113,6 @@ router.post('/:id', (req, res) => {
             }
          ).exec((err, user) => {
             if (err) return handleError(err)
-            console.log(user)
             res.json(user.invoices[0])
          })
       })
@@ -198,14 +210,14 @@ router.patch('/:id', (req, res) => {
       year: +dueDate.split('-')[0]
    }
 
-   // Updates address if current customer
+   // Update address if current customer
    User.updateOne(
       { _id: req.user._id, 'customers.name': name },
       { $set: { 'customers.$.address': { street: address1, cityStateZip: address2 } } }
    ).exec((err, result) => {
       if (err) return handleError(err)
       if (result.nModified === 1) {
-         // update invoice date and due date
+         // update invoice date and due date if customer was found
          User.findOneAndUpdate(
             { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
             { $set: { 'invoices.$.dueDate': newDueDate, 'invoices.$.date': newDate } },
@@ -242,118 +254,89 @@ router.patch('/:id', (req, res) => {
          })
       }
    })
-   // User.findOneAndUpdate({ _id: req.user._id, 'invoices.invoiceNum': +req.params.id }, {}).exec(
-   //    (err, user) => {
-   //       if (err) return handleError(err)
-   //       console.log(user)
-   //    }
-   // )
+})
+
+// Edit line item
+router.put('/:id/item', (req, res) => {
+   const {
+      index,
+      title,
+      description,
+      unitPrice,
+      quantity,
+      itemTotal,
+      invoiceTotal,
+      invoiceOwed
+   } = req.body
+
+   const newLineItem = {
+      title,
+      description,
+      quantity,
+      unitPrice,
+      amount: quantity * unitPrice
+   }
+
+   const total = invoiceTotal + newLineItem.amount - itemTotal
+   const owed = invoiceOwed + newLineItem.amount - itemTotal
+
+   User.findOneAndUpdate(
+      {
+         _id: req.user._id,
+         'invoices.invoiceNum': +req.params.id
+      },
+      {
+         $set: {
+            [`invoices.$.lineItems.${index}`]: newLineItem,
+            'invoices.$.total': total,
+            'invoices.$.owed': owed
+         }
+      },
+      { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
+   ).exec((err, user) => {
+      if (err) return handleError(err)
+      res.json(user.invoices[0])
+   })
+})
+
+// delete line item
+router.delete('/:id/item', (req, res) => {
+   const { index, itemTotal, invoiceTotal, invoiceOwed } = req.body
+   console.log(index, itemTotal, invoiceTotal, invoiceOwed)
+   const total = invoiceTotal - itemTotal
+   const owed = invoiceOwed - itemTotal
+
+   User.findOneAndUpdate(
+      { _id: req.user._id, 'invoices.invoiceNum': +req.params.id },
+      {
+         $pull: [`invoices.$.lineItems.${index}`],
+         $set: { 'invoices.$.total': total, 'invoices.$.owed': owed }
+      },
+      { fields: { invoices: { $elemMatch: { invoiceNum: +req.params.id } } }, new: true }
+   ).exec((err, user) => {
+      if (err) return handleError(err)
+      console.log(user)
+      res.json(user.invoices[0])
+   })
+
    // fs.readFile('UserData.json', (err, data) => {
    //    if (err) throw err
    //    data = JSON.parse(data)
    //    const oneCompany = data.find(company => company.id.id === req.user.id.id)
    //    const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-   //    const { name, address1, address2, date, dueDate } = req.body
-   //    const customerList = oneCompany.customers
+   //    const { lineItems } = oneInvoice
 
-   //    // Add new customer if new
-   //    customerId = null
-   //    const customerAlreadyExists = customerList.find(customer => customer.name === name)
-   //    if (customerAlreadyExists) {
-   //       customerId = customerAlreadyExists.id
-   //       customerAlreadyExists.address.street = address1
-   //       customerAlreadyExists.address.cityStateZip = address2
-   //    }
-   //    // customerList.forEach(customerFromList => {
-   //    //    if (customerFromList.name == name) {
-   //    //       customerId = customerFromList.id
-   //    //       customerFromList.address.street = address1
-   //    //       customerFromList.address.cityStateZip = address2
-   //    //    }
-   //    // })
-   //    if (!customerId) {
-   //       // if New Customer
-   //       customerId = +customerList[0].id + 1
-   //       const customer = {
-   //          id: customerId,
-   //          name,
-   //          address: {
-   //             street: address1,
-   //             cityStateZip: address2
-   //          }
-   //       }
-   //       customerList.unshift(customer)
-   //    }
+   //    lineItems.splice(req.body.index, 1)
 
-   //    oneInvoice.customer = customerId
-   //    oneInvoice.date = {
-   //       month: +date.split('-')[1],
-   //       day: +date.split('-')[2],
-   //       year: +date.split('-')[0]
-   //    }
-   //    oneInvoice.dueDate = {
-   //       month: +dueDate.split('-')[1],
-   //       day: +dueDate.split('-')[2],
-   //       year: +dueDate.split('-')[0]
-   //    }
+   //    oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
+   //    const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
+   //    oneInvoice.owed = oneInvoice.total - totalPayments
 
    //    fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
    //       if (err) throw err
    //       res.json(oneInvoice)
    //    })
    // })
-})
-
-// Edit line item
-router.put('/:id/item', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      const { lineItems } = oneInvoice
-      const { id, title, description, unitPrice, quantity } = req.body
-
-      const newLineItem = {
-         title,
-         description,
-         quantity,
-         unitPrice,
-         amount: quantity * unitPrice
-      }
-      lineItems[id] = newLineItem
-
-      oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
-      oneInvoice.owed = oneInvoice.total - totalPayments
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
-      })
-   })
-})
-
-// delete line item
-router.delete('/:id/item', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      const { lineItems } = oneInvoice
-
-      lineItems.splice(req.body.index, 1)
-
-      oneInvoice.total = lineItems.reduce((total, item) => total + item.amount, 0)
-      const totalPayments = oneInvoice.payment.reduce((total, pay) => total + pay.amount, 0)
-      oneInvoice.owed = oneInvoice.total - totalPayments
-
-      fs.writeFile('UserData.json', JSON.stringify(data, null, 2), err => {
-         if (err) throw err
-         res.json(oneInvoice)
-      })
-   })
 })
 
 // POST - Add payment

@@ -174,8 +174,8 @@ modalAddAndQuit.addEventListener('click', () => {
 modalTemplateBtn.addEventListener('click', saveTemplateItem)
 
 modalEditBtn.addEventListener('click', () => {
-   editLineItem()
    cancelModal.click()
+   editLineItem()
 })
 
 PaymentBtn.addEventListener('click', () => {
@@ -207,7 +207,7 @@ function editModal() {
    modalPrice.value = this.children[3].textContent
    modalDescrip.value = this.children[1].textContent.slice(3)
    editModals.forEach(editModal => editModal.classList.remove('display-none'))
-   itemId = this.id
+   itemId = this.id.slice(5)
 }
 
 // FIll in data and generate the Line Item list
@@ -296,7 +296,7 @@ function fillInvoiceItems(invoice) {
       quitBtn.appendChild(deleteTip)
 
       oneItem = document.createElement('li')
-      oneItem.id = index
+      oneItem.id = 'item-' + index
       oneItem.addEventListener('click', editModal)
       oneItem.draggable = 'true'
       oneItem.addEventListener('dragstart', dragStart)
@@ -319,7 +319,10 @@ function getAndResetModalValues() {
       title: modalTitle.value,
       quantity: +modalQty.value,
       unitPrice: +modalPrice.value,
-      description: modalDescrip.value
+      description: modalDescrip.value,
+      itemTotal: +document.querySelector(`#item-${itemId}`).children[4].textContent,
+      invoiceTotal: +invoiceTotal.textContent,
+      invoiceOwed: +invoiceOwed.textContent.slice(1)
    }
    modalTitle.value = ''
    modalQty.value = '1'
@@ -332,7 +335,7 @@ function getAndResetModalValues() {
 // edit an existing line item
 function editLineItem() {
    const body = getAndResetModalValues()
-   body.id = itemId
+   body.index = itemId
 
    fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'PUT',
@@ -433,10 +436,14 @@ function drop(e, el) {
 
 // Delete Line Item
 function deleteItem() {
+   const index = this.previousSibling.id.slice(5)
    fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'DELETE',
       body: JSON.stringify({
-         index: this.previousSibling.id
+         index,
+         itemTotal: +document.querySelector(`#item-${index}`).children[4].textContent,
+         invoiceTotal: +invoiceTotal.textContent,
+         invoiceOwed: +invoiceOwed.textContent.slice(1)
       }),
       headers: { 'Content-type': 'application/json' }
    })
