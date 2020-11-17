@@ -1,69 +1,97 @@
 const express = require('express')
 const router = express.Router()
-const fs = require('fs')
 const puppeteer = require('puppeteer')
+const mongoose = require('mongoose')
+
+const User = require('../models/UserData')
 
 // GET - PDF generation and fetching of data
 router.get('/:id', (req, res) => {
-   fs.readFile('UserData.json', (err, data) => {
-      if (err) throw err
-      data = JSON.parse(data)
-      const oneCompany = data.find(company => company.id.id === req.user.id.id)
-      const oneInvoice = oneCompany.invoices.find(invoice => invoice.id === +req.params.id)
-      oneInvoice.customer = oneCompany.customers.find(
-         customer => customer.id === oneInvoice.customer
-      )
+   User.findById(req.user._id, {
+      invoices: { $elemMatch: { invoiceNum: +req.params.id } },
+      companyInfo: 1
+   })
+      .lean()
+      .exec((err, user) => {
+         if (err) return handleError(err)
+         User.findById(req.user._id, {
+            customers: { $elemMatch: { _id: user.invoices[0].customer } }
+         })
+            .lean()
+            .exec((err, user2) => {
+               if (err) return handleError(err)
+               if (user2.customers[0] === undefined) {
+                  user.invoice[0].customer = {
+                     name: 'Customer not found',
+                     address: {
+                        street: 'none',
+                        cityStateZip: 'none'
+                     }
+                  }
+               } else {
+                  user.invoices[0].customer = user2.customers[0]
+               }
 
-      const { name, address, phone, email } = oneCompany.companyInfo
+               const { name, address, phone, email } = user.companyInfo
 
-      let companyInfo = ''
-      if (address.street != '') companyInfo += `${address.street} <br />`
-      if (address.cityStateZip != '') companyInfo += `${address.cityStateZip} <br />`
-      if (phone != '') companyInfo += `${phone} <br />`
-      if (email != '') companyInfo += `${email} <br />`
+               let companyInfo = ''
+               if (address.street != '') companyInfo += `${address.street} <br />`
+               if (address.cityStateZip != '') companyInfo += `${address.cityStateZip} <br />`
+               if (phone != '') companyInfo += `${phone} <br />`
+               if (email != '') companyInfo += `${email} <br />`
 
-      const { id, customer, total, date, owed, dueDate, payment, lineItems } = oneInvoice
-      let tableItems = ''
-      lineItems.forEach(item => {
-         tableItems += `<tr class="items">`
-         if (item.description === '') {
-            tableItems += `<td>${item.title}</td>`
-         } else {
-            tableItems += `<td>${item.title} <br> &nbsp&nbsp&nbsp&nbsp -&nbsp${item.description}</td>`
-         }
-         tableItems += `<td>${item.quantity}</td>
+               const {
+                  id,
+                  customer,
+                  total,
+                  date,
+                  owed,
+                  dueDate,
+                  payment,
+                  lineItems
+               } = user.invoices[0]
+
+               let tableItems = ''
+               lineItems.forEach(item => {
+                  tableItems += `<tr class="items">`
+                  if (item.description === '') {
+                     tableItems += `<td>${item.title}</td>`
+                  } else {
+                     tableItems += `<td>${item.title} <br> &nbsp&nbsp&nbsp&nbsp -&nbsp${item.description}</td>`
+                  }
+                  tableItems += `<td>${item.quantity}</td>
 				<td>${item.unitPrice.toFixed(2)}</td>
 				<td>$${item.amount.toFixed(2)}</td>
 				</tr> `
-      })
-      const totalPayments = payment.reduce((acc, pay) => acc + pay.amount, 0)
-
-      const companyName = name
-      const custName = customer.name
-      const custStreet = customer.address.street
-      const custCityStateZip = customer.address.cityStateZip
-      const iDate = `${date.month}/${date.day}/${date.year}`
-      const iOwed = owed.toFixed(2)
-      const iDueDate = `${dueDate.month}/${dueDate.day}/${dueDate.year}`
-      const iPayments = totalPayments.toFixed(2)
-      const iTotal = total.toFixed(2)
-      const lineItemsHTML = tableItems
-
-      // puppeteer pdf
-      ;(async function () {
-         try {
-            let browser = null
-            if (process.env.NODE_ENV == 'production') {
-               browser = await puppeteer.launch({
-                  executablePath: '/usr/bin/chromium-browser',
-                  args: ['--no-sandbox']
                })
-            } // development
-            else browser = await puppeteer.launch()
+               const totalPayments = payment.reduce((acc, pay) => acc + pay.amount, 0)
 
-            const page = await browser.newPage()
-            await page.setContent(
-               `
+               const companyName = name
+               const custName = customer.name
+               const custStreet = customer.address.street
+               const custCityStateZip = customer.address.cityStateZip
+               const iDate = `${date.month}/${date.day}/${date.year}`
+               const iOwed = owed.toFixed(2)
+               const iDueDate = `${dueDate.month}/${dueDate.day}/${dueDate.year}`
+               const iPayments = totalPayments.toFixed(2)
+               const iTotal = total.toFixed(2)
+               const lineItemsHTML = tableItems
+
+               // puppeteer pdf
+               ;(async function () {
+                  try {
+                     let browser = null
+                     if (process.env.NODE_ENV == 'production') {
+                        browser = await puppeteer.launch({
+                           executablePath: '/usr/bin/chromium-browser',
+                           args: ['--no-sandbox']
+                        })
+                     } // development
+                     else browser = await puppeteer.launch()
+
+                     const page = await browser.newPage()
+                     await page.setContent(
+                        `
                <!DOCTYPE html>
                <html>
                   <head>
@@ -259,25 +287,27 @@ router.get('/:id', (req, res) => {
                   </body>
                </html>
                `
-            )
-            const newPDF = await page.pdf({
-               printBackground: true,
-               displayHeaderFooter: true,
-               footerTemplate: `<div style="font-size: 12px; text-align: center; margin: auto; width: 750px;">
+                     )
+                     const newPDF = await page.pdf({
+                        printBackground: true,
+                        displayHeaderFooter: true,
+                        footerTemplate: `<div style="font-size: 12px; text-align: center; margin: auto; width: 750px;">
                   <span class="pageNumber"></span><span>/</span><span class="totalPages"></span>
                   </div>`,
-               headerTemplate: `<div>`,
-               margin: { bottom: 100, top: 80, right: 20, left: 20 }
-            })
+                        headerTemplate: `<div>`,
+                        margin: { bottom: 100, top: 80, right: 20, left: 20 }
+                     })
 
-            await browser.close()
-            res.type('pdf')
-            res.end(newPDF, 'binary')
-         } catch (e) {
-            console.log('our error', e)
-         }
-      })()
-   })
+                     await browser.close()
+                     res.type('pdf')
+                     res.end(newPDF, 'binary')
+                  } catch (e) {
+                     console.log('error', e)
+                  }
+               })()
+            })
+      })
+   // })
 })
 
 module.exports = router
