@@ -409,7 +409,7 @@ function saveTemplateItem() {
 
 // Drag & Drop Functions to reorder Line Item
 function dragStart(e) {
-   e.dataTransfer.setData('text', e.target.id)
+   e.dataTransfer.setData('text', e.target.id.slice(5))
    e.dataTransfer.dropEffect = 'move'
 }
 
@@ -421,7 +421,7 @@ function dragOver(e) {
 function drop(e, el) {
    e.preventDefault()
    const oldIndex = e.dataTransfer.getData('text')
-   const newIndex = this.id
+   const newIndex = this.id.slice(5)
 
    fetch(`/api/invoices/${invoiceId}/item`, {
       method: 'PATCH',
