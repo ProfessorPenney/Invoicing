@@ -449,7 +449,6 @@ function deleteItem() {
 
 // Add a payment
 function addPayment() {
-   cancelPayment.click()
    fetch(`/api/invoices/${invoiceId}/payment`, {
       method: 'POST',
       body: JSON.stringify({
@@ -458,9 +457,9 @@ function addPayment() {
          payNote: paymentNote.value
       }),
       headers: { 'Content-type': 'application/json' }
-   })
-      .then(res => res.json())
-      .then(fillPayments)
+   }).then(res => res.json())
+   // .then(fillPayments)
+   cancelPayment.click()
 }
 
 // delete a payment

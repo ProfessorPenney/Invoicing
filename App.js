@@ -6,7 +6,7 @@ const compression = require('compression')
 const helmet = require('helmet')
 const mongoose = require('mongoose')
 const { ensureAuthenticated } = require('./config/auth')
-require('dotenv/config')
+require('dotenv').config({ path: '.env' })
 
 const app = express()
 
@@ -43,7 +43,7 @@ app.use('/users', require('./routes/users'))
 
 // Connect to DB
 mongoose.connect(
-   process.env.DB_CONNECTION,
+   process.env.NODE_ENV === 'production' ? process.env.DB_CONNECT_PROD : process.env.DB_CONNECT_DEV,
    { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false },
    err => {
       if (err) {
