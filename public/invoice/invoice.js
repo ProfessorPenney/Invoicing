@@ -60,9 +60,12 @@ let itemTemplates = []
 let itemId = null
 const today = new Date()
 
-PaymentForm.addEventListener('submit', addPayment)
+PaymentForm.addEventListener('submit', e => {
+   addPayment(e)
+   cancelPayment.click()
+})
 
-// Get invoice items and call fillData
+// Get invoice items and fill data
 fetch(`/api/invoices/${invoiceId}`)
    .then(res => res.json())
    .then(invoice => {
@@ -93,7 +96,6 @@ menuDeleteInvoice.addEventListener('click', () => {
 
 deleteInvoiceBtn.addEventListener('click', () => {
    fetch(`/api/invoices/${invoiceId}`, { method: 'DELETE' }).then(() => (window.location = '/'))
-
    modalDeleteInvoice.classList.add('display-none')
 })
 
@@ -133,7 +135,8 @@ menuEditInvoice.addEventListener('click', () => {
    }
 })
 
-editInvoiceForm.addEventListener('submit', () => {
+editInvoiceForm.addEventListener('submit', e => {
+   e.preventDefault()
    cancelEditInvoiceBtn.click()
    fetch(`/api/invoices/${invoiceId}`, {
       method: 'PATCH',
@@ -448,7 +451,7 @@ function deleteItem() {
 }
 
 // Add a payment
-function addPayment() {
+function addPayment(e) {
    fetch(`/api/invoices/${invoiceId}/payment`, {
       method: 'POST',
       body: JSON.stringify({
@@ -457,9 +460,10 @@ function addPayment() {
          payNote: paymentNote.value
       }),
       headers: { 'Content-type': 'application/json' }
-   }).then(res => res.json())
-   // .then(fillPayments)
-   cancelPayment.click()
+   })
+      .then(res => res.json())
+      .then(fillPayments)
+   e.preventDefault()
 }
 
 // delete a payment
@@ -481,10 +485,12 @@ function deletePayment() {
 
 // Creates PDF for download
 function createAndDownloadPdf() {
+   document.querySelector('#loading').style.display = 'flex'
    fetch(`/api/invoices/pdf/${invoiceId}`)
       .then(res => res.blob())
       .then(data => {
          const pdfBlob = new Blob([data], { type: 'application/pdf' })
          saveAs(pdfBlob, `Invoice${invoiceId}.pdf`)
+         document.querySelector('#loading').style.display = 'none'
       })
 }

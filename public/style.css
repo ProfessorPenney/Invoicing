@@ -760,6 +760,16 @@ body hr#phone-only-border {
   margin-right: auto;
 }
 
+#loading {
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 @media only screen and (max-width: 900px) {
   body #company-header #company {
     padding-left: 10px;

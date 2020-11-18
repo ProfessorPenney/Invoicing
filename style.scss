@@ -674,6 +674,12 @@ body {
    }
 }
 
+#loading {
+   display: none;
+   justify-content: center;
+   align-items: center;
+}
+
 @media only screen and (max-width: 900px) {
    body {
       #company-header {
